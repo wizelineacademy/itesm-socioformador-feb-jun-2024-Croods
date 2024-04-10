@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Form
 from pydantic import BaseModel
 import os
 from dotenv import load_dotenv
@@ -26,13 +26,9 @@ app.add_middleware(
 def read_root():
   return {"Hello": "World"}
 
-
-class SearchTopic(BaseModel):
-  topic: str
-
 @app.post("/search")
-async def knowx_search(topic: SearchTopic):
-  results = await getResults(topic.topic)
+async def knowx_search(topic: str = Form(...)):
+  results = await getResults(topic)
   return results
 
 # Start server with "uvicorn main:app --reload"
