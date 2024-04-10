@@ -10,3 +10,5 @@ bs4
 html2text
 gspread
 oauth2client
+uvicorn
+langchain_mistralai
