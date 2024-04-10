@@ -2,11 +2,12 @@ import asyncio
 import json
 import time
 from web_scraper import scrape_links_to_documents
-from document_processor import resize_documents #create_vectorstore
-# from .openai_interaction import run_chain_on
+from document_processor import resize_documents, create_vectorstore
+from openai_interaction import run_chain_on
 from google_serper import get_relevant_links
 # from langchain_openai import OpenAIEmbeddings
-# from langchain.vectorstores import FAISS
+from langchain_mistralai import MistralAIEmbeddings
+from langchain.vectorstores import FAISS
 import logging
 from config.config import CHUNK_SIZE, CHUNK_OVERLAP
 
@@ -28,10 +29,11 @@ async def main_process(event):
         print(f"Split documents: {len(documents)}")
 
         # embeddings = OpenAIEmbeddings(disallowed_special=())
-        # vectorstore = await create_vectorstore(FAISS, embeddings, documents)
+        embeddings = MistralAIEmbeddings(base_url="http://localhost:1234/v1", api_key="lm-studio")
+        vectorstore = await create_vectorstore(FAISS, embeddings, documents)
         # print("Vector store created")
 
-        # response = await run_chain_on(message, vectorstore)
+        response = await run_chain_on(message, vectorstore)
         # print(f"Response: {response}")
 
     except Exception as e:

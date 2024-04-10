@@ -23,7 +23,7 @@ def get_relevant_links(tool_name: str) -> list[str]:
     """Executes a Google search to get relevant urls for the tool."""
     try:
         search = GoogleSerperAPIWrapper(k=NUM_GEN_LINKS)
-        links = get_organic_links(search, f"top {tool_name}")
+        links = get_organic_links(search, f"{tool_name}")
 
         # search = GoogleSerperAPIWrapper(k=NUM_NEWS_LINKS, type="news")
         # links += get_news_links(search, f"What is {tool_name} AI?")
