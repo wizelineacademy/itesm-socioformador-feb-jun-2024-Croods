@@ -1,0 +1,13 @@
+from .config import (
+    OPENAI_MODEL_NAME, 
+    CHUNK_OVERLAP, 
+    CHUNK_SIZE, 
+    NUM_GEN_LINKS, 
+    NUM_NEWS_LINKS, 
+    INDEX_K,
+    MAX_TOKENS,
+    TEMPERATURE,
+    SCRAPE_TIMEOUT,
+    SPREADSHEET_NAME,
+    WORKSHEET,
+    MAIN_COLUMN)
