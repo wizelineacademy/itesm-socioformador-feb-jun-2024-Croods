@@ -12,3 +12,4 @@ gspread
 oauth2client
 uvicorn
 langchain_mistralai
+python-multipart
