@@ -1,15 +1,32 @@
-/* login.tsx */
+/* src/app/login/page.tsx */
+
 "use client";
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
-  const handleLogin = async () => {
-    console.log("Login with:", email, password);
-    // Implement your login logic here, e.g., API call to your authentication service
+  const apiLogin = async () => {
+    const response = await fetch('/api/login', { // URL relative to the site's domain and not a path in your file system
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Login success:", data);
+      // Redirect
+      router.push('/dashboard'); 
+    } else {
+      console.error("Login failed:", await response.text());
+    }
   };
 
   return (
@@ -39,7 +56,7 @@ export default function Login() {
           />
           <button
             className="h-20 w-30 rounded-lg bg-blue-500 text-white px-4 text-lg"
-            onClick={handleLogin}
+            onClick={apiLogin}
           >
             Login
           </button>
