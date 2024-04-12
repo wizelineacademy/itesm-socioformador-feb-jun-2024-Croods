@@ -1,33 +1,14 @@
-/* src/app/signup/page.tsx */
-
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import { useRouter } from 'next/navigation';
 
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
 
-
-  const apiSignup = async () => {
-    const response = await fetch('/api/signup', { // URL relative to the site's domain and not a path in your file system
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log("Signup success:", data);
-      // Redirect
-      router.push('/dashboard'); 
-    } else {
-      console.error("Signup failed:", await response.text());
-    }
+  const handleSignup = async () => {
+    console.log("Signup with:", email, password);
+    // Implement your signup logic here, e.g., API call to your authentication service
   };
 
   return (
@@ -57,15 +38,9 @@ export default function Signup() {
           />
           <button
             className="h-20 w-30 rounded-lg bg-blue-500 text-white px-4 text-lg"
-            onClick={apiSignup}
+            onClick={handleSignup}
           >
             Sign Up
-          </button>
-          <button
-            className="h-20 w-30 rounded-lg bg-blue-500 text-white px-4 text-lg"
-            onClick={() => router.push('/dashboard')}
-          >
-            Sign Up prueba
           </button>
         </div>
       </div>
