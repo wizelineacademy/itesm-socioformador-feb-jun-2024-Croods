@@ -93,3 +93,16 @@ def get_prompts(tool):
         ("Licensing Type", get_license_template(tool)),
     ]
     return prompts
+
+
+def get_sub_topics_prompt(tool):
+    """
+    Returns a list of tuples containing prompt keys and their respective templates for a given tool.
+
+    :param tool: The tool to generate sub-topic for.
+    :return: promt(str)
+    """
+    prompt = f"""We are talking about {tool}. Based on what it is, what it offers and the given information, please 
+    return the top results or tools that best fits this category. Strictly return ONLY a list with the different sub-topic/tool names."""
+    
+    return prompt
