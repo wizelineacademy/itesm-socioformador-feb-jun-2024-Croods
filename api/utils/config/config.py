@@ -7,4 +7,9 @@ CHUNK_OVERLAP = 50
 INDEX_K = 10
 
 NUM_GEN_LINKS = 10
-SCRAPE_TIMEOUT = 10
+SCRAPE_TIMEOUT = 5
+LINK_SEARCH_PROVIDER = 0 # 0: DuckDuckGo, 1: Serper (Google)
+PROHIBITED_LINKS = [
+  r"youtube\.com",
+  r"wikipedia\.org"
+]
