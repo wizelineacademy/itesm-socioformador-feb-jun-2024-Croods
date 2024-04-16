@@ -2,24 +2,76 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react'; // Import signIn function
+import { signIn } from 'next-auth/react';
+import { useState } from 'react';
 
 export default function Signup() {
   const router = useRouter();
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   // Function to handle signing in with GitHub using a popup
-  const handleSignIn = async (providerId) => {
-    const result = await signIn(providerId, { 
-      callbackUrl: '/dashboard', 
-      redirect: false, // Prevent redirection
-      windowFeatures: "width=800,height=600" // Use popup for authentication
+  const handleSignInGithub = async (providerId) => {
+    const result = await signIn(providerId, {
+      callbackUrl: '/dashboard',
+      redirect: false,
+      windowFeatures: "width=800,height=600"
     });
 
     if (result?.url) {
-      // Open GitHub login in a popup window
       window.open(result.url, 'GitHubLogin', 'width=800,height=600');
     }
 
+    if (result?.error) {
+      console.error("Authentication failed:", result.error);
+    }
+  };
+
+  const handleSignInGoogle = async (providerId) => {
+    const result = await signIn(providerId, {
+      callbackUrl: '/dashboard',
+      redirect: false,
+      windowFeatures: "width=800,height=600"
+    });
+
+    if (result?.url) {
+      window.open(result.url, 'GoogleLogin', 'width=800,height=600');
+    }
+
+    if (result?.error) {
+      console.error("Authentication failed:", result.error);
+    }
+  };
+
+  const handleSignInSlack = async (providerId) => {
+    const result = await signIn(providerId, {
+      callbackUrl: '/dashboard',
+      redirect: false,
+      windowFeatures: "width=800,height=600"
+    });
+
+    if (result?.url) {
+      window.open(result.url, 'SlackLogin', 'width=800,height=600');
+    }
+
+    if (result?.error) {
+      console.error("Authentication failed:", result.error);
+    }
+  }
+
+  const handleSignInEmail = async () => {
+    const result = await signIn('credentials', {
+      redirect: false,
+      email,
+      password,
+      callbackUrl: '/dashboard'
+    });
+  
+    if (result?.url) {
+      router.push(result.url);
+    }
+  
     if (result?.error) {
       console.error("Authentication failed:", result.error);
     }
@@ -37,12 +89,46 @@ export default function Signup() {
             priority
           />
         </section>
-        <div className="w-5/6 relative mt-20">
+        <div className="mt-20 space-y-4">
+
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            className="flex items-center justify-center w-64 h-16 rounded-lg bg-black text-white px-4"
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            className="flex items-center justify-center w-64 h-16 rounded-lg bg-black text-white px-4"
+          />
           <button
-            className="h-20 w-full rounded-lg bg-blue-500 text-white px-4 text-lg"
-            onClick={() => handleSignIn('github')}
+            onClick={handleSignInEmail}
+            className="flex items-center justify-center w-32 h-10 rounded-lg bg-black text-textGray px-8 text-lg ml-16 " 
+          >
+            Next
+          </button>
+
+          <button
+            className="flex items-center justify-center h-16 w-64 rounded-lg bg-black text-textGray px-8 text-lg"
+            onClick={() => handleSignInGithub('github')}
           >
             Sign Up with GitHub
+          </button>
+          <button
+            className="flex items-center justify-center h-16 w-64 rounded-lg bg-black text-textGray px-8 text-lg"
+            onClick={() => handleSignInGoogle('google')}
+          >
+            Sign Up with Google
+          </button>
+          <button
+            className="flex items-center justify-center h-16 w-64 rounded-lg bg-black text-textGray px-8 text-lg mt-4"
+            onClick={() => handleSignInSlack('slack')}
+          >
+             Sign Up with Slack
           </button>
         </div>
       </div>

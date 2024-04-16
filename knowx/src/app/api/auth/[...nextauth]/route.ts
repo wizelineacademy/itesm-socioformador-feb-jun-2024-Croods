@@ -1,6 +1,8 @@
-// src/app/api/aith([...nextauth]/route.ts)
 import NextAuth from 'next-auth';
 import GitHubProvider from 'next-auth/providers/github';
+import GoogleProvider from 'next-auth/providers/google';
+import SlackProvider from 'next-auth/providers/slack';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
 export const authOptions = {
   providers: [
@@ -8,6 +10,26 @@ export const authOptions = {
       clientId: process.env.GITHUB_ID ?? "",
       clientSecret: process.env.GITHUB_SECRET ?? "",
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+    }),
+    SlackProvider({
+      clientId: process.env.SLACK_CLIENT_ID ?? "",
+      clientSecret: process.env.SLACK_CLIENT_SECRET ?? "",
+    }),
+    CredentialsProvider({ 
+      name: 'Email',
+      credentials: {
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" }
+      },
+      authorize: async (credentials) => {
+        // Aqui se pone para verificar si el usuario y contraseña son correctos
+        return null; 
+      }
+    })
+  
   ],
 };
 
