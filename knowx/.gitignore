@@ -35,5 +35,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# sst
+.sst
+
+# open-next
+.open-next
 /.sst/
 .sst/
