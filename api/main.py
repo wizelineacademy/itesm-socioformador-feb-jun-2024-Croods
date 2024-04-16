@@ -1,9 +1,7 @@
 from fastapi import FastAPI, Form
-from pydantic import BaseModel
-import os
 from dotenv import load_dotenv
 
-from utils.combinator import getResults
+from utils.combinator import getDevResults, getTopicSubTopics, getCategories, getToolsInfoWithPlx
 from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
@@ -26,9 +24,22 @@ app.add_middleware(
 def read_root():
   return {"Hello": "World"}
 
-@app.post("/search")
-async def knowx_search(topic: str = Form(...)):
-  results = await getResults(topic)
+@app.post("/search/initial")
+async def knowx_initial_search(topic: str = Form(...)):
+  results = await getTopicSubTopics(topic)
   return results
 
-# Start server with "uvicorn main:app --reload"
+@app.post("/search/categories")
+async def knowx_categories_search(topic: str = Form(...)):
+  results = await getCategories(topic)
+  return results
+
+@app.post("/search")
+async def knowx_search(topic: str = Form(...), tools: list = Form(...), categories: list = Form(...)):
+  results = await getToolsInfoWithPlx(topic, tools, categories)
+  return results
+
+@app.post("/dev/search")
+async def knowx_search(topic: str = Form(...)):
+  results = await getDevResults(topic)
+  return results

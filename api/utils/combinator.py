@@ -1,6 +1,6 @@
 from .web_scraper import scrape_links_to_documents
 from .document_processor import resize_documents, create_vectorstore
-from .openai_interaction import run_chain_on
+from .openai_interaction import run_chain_on, run_plx
 from .google_serper import get_relevant_links
 from langchain_community.vectorstores import faiss
 from langchain_openai.embeddings import OpenAIEmbeddings
@@ -12,7 +12,7 @@ from sentence_transformers import SentenceTransformer, util
 from .url_scraper import ddg_url_search
 
 # Returns final results
-async def getResults(givenTopic):
+async def getDevResults(givenTopic):
 	# LAYER 1 --> Get sub-topic list
 	relevantSubTopics = await getTopicSubTopics(givenTopic)
 
@@ -20,12 +20,12 @@ async def getResults(givenTopic):
 
 	# LAYER 3 --> Info loop for each result
 	# finalAnswer = await getToolsInfo(relevantSubTopics['response'][0], "Price, Content Type, Devices")
+	finalAnswer = await run_plx(givenTopic, relevantSubTopics, "Description, Price, Ai Category, Licence type, Enterprise Category")
  
 	return {
-		"subTopics": relevantSubTopics['response'][0],
-		# "finalAnswer": finalAnswer
+		"subTopics": relevantSubTopics,
+		"finalAnswer": finalAnswer
 	}
-
 
 # PHASE 1: Scrape and find top tools of the given topic
 # Returns: List[str] of names of top tools
@@ -47,21 +47,18 @@ async def getTopicSubTopics(givenTopic):
 
 	response = await run_chain_on(givenTopic, vectorstore, 1)
  
-	return {
-		"links": links,
-		"response": response
-	}
+	return response[0]
 
 
 # PHASE 2: Get the categories of the given tool
 # Returns: List[str] of categories to search for
-async def getCategories(tool, vectorstore):
+async def getCategories(tool):
 	return ["Foundation Models", "Cloud Services", "Mashup Tools", "Applications", "Data and Integration Services", "Infrastructure"]
 
 
-# PHASE 3: Get the information loop for the given tool
+# PHASE 3: Get the information loop for the given tool with OpenAI
 # Returns: [{}]
-async def getToolsInfo(tools, categories):
+async def getToolsInfoWithOpenAI(tools, categories):
 	toolsInfo = []
 	
 	for tool in tools:
@@ -85,3 +82,9 @@ async def getToolsInfo(tools, categories):
 		toolsInfo.append(response)
 
 	return toolsInfo
+
+
+# PHASE 3: Get the information loop for the given tool with Perplexity
+async def getToolsInfoWithPlx(givenTopic, tools, categories):
+	finalAnswer = await run_plx(givenTopic, tools, categories)
+	return finalAnswer
