@@ -1,32 +1,27 @@
-/* src/app/signup/page.tsx */
-
+// src/app/signup/page.tsx
 "use client";
 import Image from "next/image";
-import { useState } from "react";
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react'; // Import signIn function
 
 export default function Signup() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const router = useRouter();
 
-
-  const apiSignup = async () => {
-    const response = await fetch('/api/signup', { // URL relative to the site's domain and not a path in your file system
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
+  // Function to handle signing in with GitHub using a popup
+  const handleSignIn = async (providerId) => {
+    const result = await signIn(providerId, { 
+      callbackUrl: '/dashboard', 
+      redirect: false, // Prevent redirection
+      windowFeatures: "width=800,height=600" // Use popup for authentication
     });
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log("Signup success:", data);
-      // Redirect
-      router.push('/dashboard'); 
-    } else {
-      console.error("Signup failed:", await response.text());
+    if (result?.url) {
+      // Open GitHub login in a popup window
+      window.open(result.url, 'GitHubLogin', 'width=800,height=600');
+    }
+
+    if (result?.error) {
+      console.error("Authentication failed:", result.error);
     }
   };
 
@@ -43,29 +38,11 @@ export default function Signup() {
           />
         </section>
         <div className="w-5/6 relative mt-20">
-          <input
-            type="email"
-            placeholder="Email"
-            className="bg-black mb-4 h-20 w-full rounded-lg text-white px-8 text-lg"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className="bg-black mb-4 h-20 w-full rounded-lg text-white px-8 text-lg"
-            onChange={(e) => setPassword(e.target.value)}
-          />
           <button
-            className="h-20 w-30 rounded-lg bg-blue-500 text-white px-4 text-lg"
-            onClick={apiSignup}
+            className="h-20 w-full rounded-lg bg-blue-500 text-white px-4 text-lg"
+            onClick={() => handleSignIn('github')}
           >
-            Sign Up
-          </button>
-          <button
-            className="h-20 w-30 rounded-lg bg-blue-500 text-white px-4 text-lg"
-            onClick={() => router.push('/dashboard')}
-          >
-            Sign Up prueba
+            Sign Up with GitHub
           </button>
         </div>
       </div>
