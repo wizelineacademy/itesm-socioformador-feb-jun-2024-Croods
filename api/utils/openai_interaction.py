@@ -2,24 +2,22 @@ import asyncio
 import time
 import openai
 from openai import OpenAI
-from .config.config import OPENAI_MODEL_NAME, MAX_TOKENS, TEMPERATURE, INDEX_K, MAIN_COLUMN
-from .prompt_repo import rag, get_prompts
+from .config.config import OPENAI_MODEL_NAME, MAX_TOKENS, TEMPERATURE, INDEX_K
+from .prompt_repo import rag, get_prompts, get_sub_topics_prompt, get_final_categories_prompt
 import os
 
 
 async def run_prompt(vectorstore, prompt, key):
-    # openai.api_key = os.getenv("OPENAI_API_KEY")
-
+    openai.api_key = os.getenv("OPENAI_API_KEY")
     docs = await vectorstore.asimilarity_search(prompt, k=INDEX_K)
     context = "".join(doc.page_content for doc in docs)
 
     full_prompt = rag.format(context=context, question=prompt)
-    # client = openai.AsyncClient()
 
-    client = OpenAI(base_url="http://localhost:1234/v1", api_key="lm-studio")
+    client = OpenAI()
     
     try:
-        response = await client.chat.completions.create(
+        response = client.chat.completions.create(
             model=OPENAI_MODEL_NAME,
             temperature=TEMPERATURE,
             messages=[
@@ -27,27 +25,33 @@ async def run_prompt(vectorstore, prompt, key):
                 {"role": "user", "content": full_prompt},
             ],
         )
-        return key, response.choices[0].message.content.replace("\n", "")
+        return response.choices[0].message.content.replace("\n", "").split(",")
     except Exception as e:
         print(f"Error in OpenAI API call: {e}")
         return key, "Error"
 
 
-async def run_chain_on(tool, vectorstore):
+# Runs the chain of prompts on the given tool
+# phase: 1 = Sub-Topics, 2 = Categories, 3 = Info Loop
+async def run_chain_on(tool, vectorstore, phase, categories=""):
     start = time.perf_counter()
-
-    prompts = get_prompts(tool)
+    if phase == 1:
+        prompts = get_sub_topics_prompt(tool)
+    elif phase == 2:
+        prompts = get_prompts(tool)
+    else:
+        prompts = get_final_categories_prompt(tool, categories)
 
     try:
         tasks = [run_prompt(vectorstore, prompt, key) for key, prompt in prompts]
         responses = await asyncio.gather(*tasks)
 
-        result = {MAIN_COLUMN: tool}
-        for key, value in responses:
-            result[key] = value
+        # result = {MAIN_COLUMN: tool}
+        # for key, value in responses:
+        #     result[key] = value
 
         print("LLM a-calls took: %s seconds", time.perf_counter() - start)
-        return result
+        return responses
     except Exception as e:
         print("Error in run_chain_on: %s", e)
-        return {MAIN_COLUMN: tool, "Error": str(e)}
+        # return {MAIN_COLUMN: tool, "Error": str(e)}
