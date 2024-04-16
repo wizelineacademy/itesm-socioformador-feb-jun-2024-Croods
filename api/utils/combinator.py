@@ -1,6 +1,6 @@
 from .web_scraper import scrape_links_to_documents
 from .document_processor import resize_documents, create_vectorstore
-from .openai_interaction import run_chain_on
+from .openai_interaction import run_chain_on, run_plx
 from .google_serper import get_relevant_links
 from langchain_community.vectorstores import faiss
 from langchain_openai.embeddings import OpenAIEmbeddings
@@ -20,10 +20,11 @@ async def getResults(givenTopic):
 
 	# LAYER 3 --> Info loop for each result
 	# finalAnswer = await getToolsInfo(relevantSubTopics['response'][0], "Price, Content Type, Devices")
+	finalAnswer = await run_plx(givenTopic, relevantSubTopics['response'][0], "Description, Price, Ai Category, Licence type, Enterprise Category")
  
 	return {
 		"subTopics": relevantSubTopics['response'][0],
-		# "finalAnswer": finalAnswer
+		"finalAnswer": finalAnswer
 	}
 
 

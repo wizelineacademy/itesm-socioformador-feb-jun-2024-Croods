@@ -105,7 +105,7 @@ def get_sub_topics_prompt(tool):
     prompts = [
         ("Top tools extractions", f"""We are talking about {tool}. Based on what it is, what it offers and the given information, please 
         return the top results or tools that best fits this category. Strictly return ONLY a comma separated list WITH NO numeration with the different sub-topic/tool names.
-        Try to extract as many tools as possible. If you can't find any, return an empty list"""),
+        Try to extract as many tools as possible with a LIMIT of 10 results. If you can't find any, return an empty list"""),
     ]
     
     return prompts

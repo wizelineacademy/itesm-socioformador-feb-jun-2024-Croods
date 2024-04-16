@@ -1,11 +1,49 @@
 import asyncio
+import requests
 import time
 import openai
 from openai import OpenAI
 from .config.config import OPENAI_MODEL_NAME, MAX_TOKENS, TEMPERATURE, INDEX_K
 from .prompt_repo import rag, get_prompts, get_sub_topics_prompt, get_final_categories_prompt
 import os
+import re
+import json
 
+async def run_plx(initialPromt, tools, categories):
+    url = "https://api.perplexity.ai/chat/completions"
+
+    payload = {
+        "model": "sonar-medium-online",
+        "messages": [
+            {
+                "role": "system",
+                "content": "Be precise and concise. Return a dictionary ONLY with the category name as a key."
+            },
+            {
+                "role": "user",
+                "content": f"""We are talking about the following tools: {tools}. Based on what each of them are in the context of '{initialPromt}', what they offer and the given information, please 
+                            return a dictionary a description of the tool and the answers to following categories for EACH of the tools: {categories}. 
+                            If no information is found on a category, retun NULL on that key.
+                            Strictly return ONLY a dictionary."""
+            }
+        ]
+    }
+
+    headers = {
+        "accept": "application/json",
+        "content-type": "application/json",
+        "Authorization": "Bearer " + os.getenv("PERPLEXITY_API_KEY")
+    }
+
+    response = requests.post(url, json=payload, headers=headers)
+    prev_response = response.json()['choices'][0]['message']['content'].replace("\n", "")
+
+    try:
+        finalAnswer = json.loads(prev_response)
+        return finalAnswer
+    except:
+        print("Error in JSON parsing")
+        return prev_response
 
 async def run_prompt(vectorstore, prompt, key):
     openai.api_key = os.getenv("OPENAI_API_KEY")
