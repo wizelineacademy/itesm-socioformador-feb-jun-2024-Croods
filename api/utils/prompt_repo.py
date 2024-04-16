@@ -102,7 +102,26 @@ def get_sub_topics_prompt(tool):
     :param tool: The tool to generate sub-topic for.
     :return: promt(str)
     """
-    prompt = f"""We are talking about {tool}. Based on what it is, what it offers and the given information, please 
-    return the top results or tools that best fits this category. Strictly return ONLY a list with the different sub-topic/tool names."""
+    prompts = [
+        ("Top tools extractions", f"""We are talking about {tool}. Based on what it is, what it offers and the given information, please 
+        return the top results or tools that best fits this category. Strictly return ONLY a comma separated list WITH NO numeration with the different sub-topic/tool names.
+        Try to extract as many tools as possible. If you can't find any, return an empty list"""),
+    ]
     
-    return prompt
+    return prompts
+
+
+def get_final_categories_prompt(tool, categories):
+    """
+    Returns a list of tuples containing prompt keys and their respective templates for a given tool.
+
+    :param tool: The tool to generate sub-topic for.
+    :return: promt(str)
+    """
+    prompts = [
+        ("Top tools extractions", f"""We are talking about {tool}. Based on what it is, what it offers and the given information, please 
+        return a disctionary with a description of the tool and the following categories: {categories}. If no information is found on the tool on that category, retun Null on that key.
+        Strictly return ONLY a dictionary with the category name as a key."""),
+    ]
+    
+    return prompts

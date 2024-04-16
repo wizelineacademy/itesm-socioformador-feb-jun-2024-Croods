@@ -3,7 +3,7 @@ import time
 import openai
 from openai import OpenAI
 from .config.config import OPENAI_MODEL_NAME, MAX_TOKENS, TEMPERATURE, INDEX_K
-from .prompt_repo import rag, get_prompts, get_sub_topics_prompt
+from .prompt_repo import rag, get_prompts, get_sub_topics_prompt, get_final_categories_prompt
 import os
 
 
@@ -17,7 +17,7 @@ async def run_prompt(vectorstore, prompt, key):
     client = OpenAI()
     
     try:
-        response = await client.chat.completions.create(
+        response = client.chat.completions.create(
             model=OPENAI_MODEL_NAME,
             temperature=TEMPERATURE,
             messages=[
@@ -25,7 +25,7 @@ async def run_prompt(vectorstore, prompt, key):
                 {"role": "user", "content": full_prompt},
             ],
         )
-        return key, response.choices[0].message.content.replace("\n", "")
+        return response.choices[0].message.content.replace("\n", "").split(",")
     except Exception as e:
         print(f"Error in OpenAI API call: {e}")
         return key, "Error"
@@ -40,7 +40,7 @@ async def run_chain_on(tool, vectorstore, phase, categories=""):
     elif phase == 2:
         prompts = get_prompts(tool)
     else:
-        prompts = get_prompts(tool)
+        prompts = get_final_categories_prompt(tool, categories)
 
     try:
         tasks = [run_prompt(vectorstore, prompt, key) for key, prompt in prompts]

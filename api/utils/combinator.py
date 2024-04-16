@@ -3,6 +3,7 @@ from .document_processor import resize_documents, create_vectorstore
 from .openai_interaction import run_chain_on
 from .google_serper import get_relevant_links
 from langchain_community.vectorstores import faiss
+from langchain_openai.embeddings import OpenAIEmbeddings
 from openai import OpenAI
 from .config.config import CHUNK_SIZE, CHUNK_OVERLAP, LINK_SEARCH_PROVIDER
 
@@ -18,9 +19,11 @@ async def getResults(givenTopic):
 	# LAYER 2 --> Categories List
 
 	# LAYER 3 --> Info loop for each result
+	# finalAnswer = await getToolsInfo(relevantSubTopics['response'][0], "Price, Content Type, Devices")
  
 	return {
-		"subTopics": relevantSubTopics
+		"subTopics": relevantSubTopics['response'][0],
+		# "finalAnswer": finalAnswer
 	}
 
 
@@ -39,15 +42,14 @@ async def getTopicSubTopics(givenTopic):
 	# Get the documents in chunks from the information provided
 	documents = await resize_documents(raw_documents, CHUNK_SIZE, CHUNK_OVERLAP)
  
-	# embeddings = OpenAIEmbeddings()
-	# vectorstore = await create_vectorstore(faiss.FAISS, embeddings, documents)
+	embeddings = OpenAIEmbeddings(disallowed_special=())
+	vectorstore = await create_vectorstore(faiss.FAISS, embeddings, documents)
 
-	# response = await run_chain_on(givenTopic, vectorstore, 1)
+	response = await run_chain_on(givenTopic, vectorstore, 1)
  
 	return {
 		"links": links,
-		"raw_documents": raw_documents,
-		"documents": documents
+		"response": response
 	}
 
 
@@ -76,11 +78,10 @@ async def getToolsInfo(tools, categories):
 		# Get the documents in chunks from the information provided
 		documents = await resize_documents(raw_documents, CHUNK_SIZE, CHUNK_OVERLAP)
 
-		# embeddings = OpenAIEmbeddings()
-		# vectorstore = await create_vectorstore(faiss.FAISS, embeddings, documents)
+		embeddings = OpenAIEmbeddings()
+		vectorstore = await create_vectorstore(faiss.FAISS, embeddings, documents)
 
-		# response = await run_chain_on(givenTopic, vectorstore, 3, categories)
-		# toolsInfo.append(response)
-		pass
+		response = await run_chain_on(tool, vectorstore, 3, categories)
+		toolsInfo.append(response)
 
 	return toolsInfo
