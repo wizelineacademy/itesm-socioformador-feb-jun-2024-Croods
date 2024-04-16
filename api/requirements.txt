@@ -10,5 +10,8 @@ bs4
 html2text
 gspread
 oauth2client
+duckduckgo-search
+unittest2
 uvicorn
 langchain_mistralai
+python-multipart

@@ -176,3 +176,4 @@ functions/agent_lambda/headless-chromium
 .cdk.staging
 cdk.out
 
+.sst/

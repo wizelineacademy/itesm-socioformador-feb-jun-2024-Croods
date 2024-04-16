@@ -7,10 +7,13 @@ export default function Home() {
 
   const callSearchAPI = async (query: string) => {
     console.log(query);
+    const u = new URLSearchParams({ topic: query });
     const response = await fetch("http://127.0.0.1:8000/search", {
       method: "POST",
-      body: JSON.stringify({ query }),
+      body: u,
     });
+    const data = await response.json();
+    console.log(data);
   };
 
   return (
