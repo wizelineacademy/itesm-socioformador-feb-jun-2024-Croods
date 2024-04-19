@@ -12,7 +12,7 @@ export default function Signup() {
   const [password, setPassword] = useState('');
 
   // Function to handle signing in with GitHub using a popup
-  const handleSignInGithub = async (providerId) => {
+  const handleSignInGithub = async (providerId: string) => {
     const result = await signIn(providerId, {
       callbackUrl: '/dashboard',
       redirect: false,
@@ -28,7 +28,7 @@ export default function Signup() {
     }
   };
 
-  const handleSignInGoogle = async (providerId) => {
+  const handleSignInGoogle = async (providerId: string) => {
     const result = await signIn(providerId, {
       callbackUrl: '/dashboard',
       redirect: false,
@@ -44,7 +44,7 @@ export default function Signup() {
     }
   };
 
-  const handleSignInSlack = async (providerId) => {
+  const handleSignInSlack = async (providerId: string) => {
     const result = await signIn(providerId, {
       callbackUrl: '/dashboard',
       redirect: false,
