@@ -15,6 +15,7 @@ const config: Config = {
       },
       colors: {
         backgroundLight: "#E9E9E9",
+        backgroundDark: '#0c0c0c',
         textGray: '#8F8F8F',
         bottonGray: "373737",
       },
