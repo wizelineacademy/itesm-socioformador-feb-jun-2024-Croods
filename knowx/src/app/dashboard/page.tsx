@@ -4,6 +4,9 @@ import Image from "next/image";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { useTheme } from "next-themes"
+
+import UserMenu from "../components/UserMenu";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -12,6 +15,7 @@ export default function Home() {
     redirect('/auth');
   }
 
+  const { resolvedTheme } = useTheme()
   const [query, setQuery] = useState<string>("");
 
   const callSearchAPI = async (query: string) => {
@@ -26,22 +30,24 @@ export default function Home() {
   };
 
   return (
-    <main className="bg-backgroundLight">
+    <main className="bg-backgroundLight dark:bg-backgroundDark">
       <div className="mx-auto px-6 max-w-6xl h-screen text-gray-600 flex flex-wrap content-center justify-center">
-        <section className="fixed top-0 left-0 right-0 py-3 flex justify-center">
+        <header className="fixed top-0 left-0 right-0 py-3 flex justify-center">
           <Image
             className="relative top-0 left-0 right-0"
-            src="/Logo.svg"
+            src={resolvedTheme === 'light' ? "/Logo.svg" : "/LogoDark.svg"}
             alt="Next.js Logo"
-            width={100}
-            height={100}
+            width={50}
+            height={50}
             priority
           />
-        </section>
+
+          <UserMenu className="absolute right-0 mr-3" />
+        </header>
         <div className="w-5/6 relative">
           <input
             name=""
-            className="bg-black left-20 right-20 h-20 w-full rounded-lg text-white px-8 text-lg"
+            className="bg-black dark:bg-backgroundLight left-20 right-20 h-20 w-full rounded-lg text-white dark:text-black px-8 text-lg"
             onChange={(e) => setQuery(e.target.value)}
           ></input>
           <button
