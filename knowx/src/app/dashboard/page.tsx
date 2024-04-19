@@ -1,5 +1,5 @@
 /* src/app/dashboard/page.tsx */
-
+"use client"
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
