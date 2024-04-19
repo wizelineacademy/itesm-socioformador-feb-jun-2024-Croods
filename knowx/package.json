@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "sst dev next dev",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "dev": "next dev",
+    "sst": "sst dev next dev"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.5.0",
