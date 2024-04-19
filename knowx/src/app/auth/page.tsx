@@ -4,8 +4,16 @@ import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function Signup() {
+  const { data: session } = useSession();
+
+  if (session) {
+    redirect('/dashboard');
+  }
+
   const router = useRouter();
 
   const [email, setEmail] = useState('');
