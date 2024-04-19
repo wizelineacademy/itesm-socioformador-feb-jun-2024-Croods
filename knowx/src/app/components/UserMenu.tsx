@@ -12,9 +12,9 @@ function MyDropdown() {
               aria-hidden="true"
             />
       </Menu.Button>
-      <Menu.Items className="absolute right-0 mt-32 w-full origin-top-right divide-y bg-[#4040401a] divide-gray-100 rounded-md shadow-lg ring-1 ring-black/5 focus:outline-none">
+      <Menu.Items className="absolute right-0 mt-32 w-full origin-top-right divide-y bg-[#4040401a] dark:bg-[#d9d9d91a] divide-gray-100 rounded-md shadow-lg ring-1 ring-black/5 focus:outline-none">
         <Menu.Item>
-            <button onClick={() => signOut()} className="p-3 rounded-lg w-full font-semibold ">
+            <button onClick={() => signOut()} className="p-3 rounded-lg w-full font-semibold text-gray-600 dark:text-white">
               Logout
           </button>
         </Menu.Item>
