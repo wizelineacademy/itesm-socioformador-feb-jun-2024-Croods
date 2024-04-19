@@ -22,14 +22,14 @@ export default function Home() {
       const nextList = searchList.map((l: string, i: number) => {
         if (i === index) {
           // Increment the clicked counter
-          return content;
+          return `${index === 0 ? content : ", " + content}`;
         } else {
           // The rest haven't changed
           return l;
         }
       });
       // searchList[index] = ` ${index}${content}`;
-      // console.log(nextList);
+      console.log(nextList.join(""));
       setSearchList(nextList);
       setSearchAmount(searchAmount + 1);
     } else {
@@ -44,7 +44,7 @@ export default function Home() {
       });
       // searchList[index] = ` ${index}${content}`;
       setSearchList(nextList);
-      // console.log(nextList);
+      console.log(nextList.join(""));
       setSearchAmount(searchAmount - 1);
     }
     // console.log(searchList);
