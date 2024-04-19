@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      animation: {
+        fade: 'fadeOut 5s ease-in-out',
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -18,6 +21,12 @@ const config: Config = {
         backgroundDark: '#0c0c0c',
         textGray: '#8F8F8F',
         bottonGray: "373737",
+      },
+      keyframes: {
+        fadeOut: {
+          "0%": { opacity: "1" },
+          "100%": { opacity: "0" },
+        },
       },
     },
   },
