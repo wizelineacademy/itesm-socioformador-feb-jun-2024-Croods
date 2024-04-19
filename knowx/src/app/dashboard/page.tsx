@@ -36,7 +36,7 @@ export default function Home() {
           <Image
             className="relative top-0 left-0 right-0"
             src={resolvedTheme === 'light' ? "/Logo.svg" : "/LogoDark.svg"}
-            alt="Next.js Logo"
+            alt="KnowX Logo"
             width={50}
             height={50}
             priority
@@ -57,7 +57,7 @@ export default function Home() {
             <Image
               className="relative top-0 left-0 right-0"
               src="/arrow-right.svg"
-              alt="Search Arrow"
+              alt="Search Arrow Right"
               width={40}
               height={30}
               priority
