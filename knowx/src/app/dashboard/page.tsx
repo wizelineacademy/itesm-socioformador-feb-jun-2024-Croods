@@ -1,6 +1,7 @@
 /* src/app/dashboard/page.tsx */
 "use client"
 import Image from "next/image";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
@@ -10,6 +11,19 @@ export default function Home() {
   if (!session) {
     redirect('/auth');
   }
+
+  const [query, setQuery] = useState<string>("");
+
+  const callSearchAPI = async (query: string) => {
+    console.log(query);
+    const u = new URLSearchParams({ topic: query });
+    const response = await fetch("http://127.0.0.1:8000/search", {
+      method: "POST",
+      body: u,
+    });
+    const data = await response.json();
+    console.log(data);
+  };
 
   return (
     <main className="bg-backgroundLight">
@@ -25,8 +39,15 @@ export default function Home() {
           />
         </section>
         <div className="w-5/6 relative">
-          <input className="bg-black left-20 right-20 h-20 w-full rounded-lg text-white px-8 text-lg"></input>
-          <button className="absolute h-20 w-30 rounded-lg text-gray px-4 text-lg right-0">
+          <input
+            name=""
+            className="bg-black left-20 right-20 h-20 w-full rounded-lg text-white px-8 text-lg"
+            onChange={(e) => setQuery(e.target.value)}
+          ></input>
+          <button
+            className="absolute h-20 w-30 rounded-lg text-gray px-4 text-lg right-0"
+            onClick={() => callSearchAPI(query)}
+          >
             <Image
               className="relative top-0 left-0 right-0"
               src="/arrow-right.svg"

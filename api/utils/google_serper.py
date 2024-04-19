@@ -1,6 +1,6 @@
 import os
 from langchain_community.utilities import GoogleSerperAPIWrapper
-from .config.config import NUM_GEN_LINKS, NUM_NEWS_LINKS
+from .config.config import NUM_GEN_LINKS
 
 def get_organic_links(search, query):
     organic_links = []
@@ -24,9 +24,6 @@ def get_relevant_links(tool_name: str) -> list[str]:
     try:
         search = GoogleSerperAPIWrapper(k=NUM_GEN_LINKS)
         links = get_organic_links(search, f"{tool_name}")
-
-        # search = GoogleSerperAPIWrapper(k=NUM_NEWS_LINKS, type="news")
-        # links += get_news_links(search, f"What is {tool_name} AI?")
 
         return links
     except Exception as e:

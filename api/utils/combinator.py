@@ -1,48 +1,90 @@
-import asyncio
-import json
-import time
 from .web_scraper import scrape_links_to_documents
 from .document_processor import resize_documents, create_vectorstore
-from .openai_interaction import run_chain_on
+from .openai_interaction import run_chain_on, run_plx
 from .google_serper import get_relevant_links
-# from langchain_openai import OpenAIEmbeddings
-from langchain_mistralai import MistralAIEmbeddings
 from langchain_community.vectorstores import faiss
-# from langchain_community.embeddings import self_hosted_hugging_face
-from langchain_community.embeddings import self_hosted, huggingface
-import logging
+from langchain_openai.embeddings import OpenAIEmbeddings
 from openai import OpenAI
-from .config.config import CHUNK_SIZE, CHUNK_OVERLAP
+from .config.config import CHUNK_SIZE, CHUNK_OVERLAP, LINK_SEARCH_PROVIDER
+
+from sentence_transformers import SentenceTransformer, util
+
+from .url_scraper import ddg_url_search
+
+# Returns final results
+async def getDevResults(givenTopic):
+	# LAYER 1 --> Get sub-topic list
+	relevantSubTopics = await getTopicSubTopics(givenTopic)
+
+	# LAYER 2 --> Categories List
+
+	# LAYER 3 --> Info loop for each result
+	# finalAnswer = await getToolsInfo(relevantSubTopics['response'][0], "Price, Content Type, Devices")
+	finalAnswer = await run_plx(givenTopic, relevantSubTopics, "Description, Price, Ai Category, Licence type, Enterprise Category")
+ 
+	return {
+		"subTopics": relevantSubTopics,
+		"finalAnswer": finalAnswer
+	}
+
+# PHASE 1: Scrape and find top tools of the given topic
+# Returns: List[str] of names of top tools
+async def getTopicSubTopics(givenTopic):
+	# Get relevant links
+	if (LINK_SEARCH_PROVIDER == 0):
+		links = await ddg_url_search(givenTopic)
+	else:
+		links = set(get_relevant_links(givenTopic))
+
+	# Get raw information from the links provided
+	raw_documents = await scrape_links_to_documents(list(links))
+
+	# Get the documents in chunks from the information provided
+	documents = await resize_documents(raw_documents, CHUNK_SIZE, CHUNK_OVERLAP)
+ 
+	embeddings = OpenAIEmbeddings(disallowed_special=())
+	vectorstore = await create_vectorstore(faiss.FAISS, embeddings, documents)
+
+	response = await run_chain_on(givenTopic, vectorstore, 1)
+ 
+	return response[0]
 
 
-async def getResults(givenTopic):
-# try:
-       # LAYER 1 --> Top Results
-       links = set(get_relevant_links(givenTopic))
-       raw_documents = await scrape_links_to_documents(list(links))
-       documents = await resize_documents(raw_documents, CHUNK_SIZE, CHUNK_OVERLAP)
-              # embeddings = OpenAIEmbeddings(disallowed_special=(), basePath="http://localhost:1234/v1")
-              # embeddings = MistralAIEmbeddings(model="TheBloke/Mistral-7B-v0.1-GGUF/mistral-7b-v0.1.Q5_K_M.gguf")
-              # client = huggingface.HuggingFaceEmbeddings
-              # embeddings = self_hosted.SelfHostedEmbeddings(client=client, allow_dangerous_deserialization=True)
-              # vectorstore = await create_vectorstore(faiss.FAISS, embeddings, documents)
-              # vectorstore = await create_vectorstore(FAISS, embeddings, documents)
-              # response = await run_chain_on(givenTopic, vectorstore)
+# PHASE 2: Get the categories of the given tool
+# Returns: List[str] of categories to search for
+async def getCategories(tool):
+	return ["Foundation Models", "Cloud Services", "Mashup Tools", "Applications", "Data and Integration Services", "Infrastructure"]
 
 
-              # LAYER 2 --> Categories List
+# PHASE 3: Get the information loop for the given tool with OpenAI
+# Returns: [{}]
+async def getToolsInfoWithOpenAI(tools, categories):
+	toolsInfo = []
+	
+	for tool in tools:
+		# Get relevant links
+		if (LINK_SEARCH_PROVIDER == 0):
+			links = await ddg_url_search(tool)
+		else:
+			links = set(get_relevant_links(tool))
 
 
-              # LAYER 3 --> Info loop for each result
-       # except:
-       #        return {
-       #             "error": "Something went wrong"  
-       #        }
+		# Get raw information from the links provided
+		raw_documents = await scrape_links_to_documents(list(links))
+
+		# Get the documents in chunks from the information provided
+		documents = await resize_documents(raw_documents, CHUNK_SIZE, CHUNK_OVERLAP)
+
+		embeddings = OpenAIEmbeddings()
+		vectorstore = await create_vectorstore(faiss.FAISS, embeddings, documents)
+
+		response = await run_chain_on(tool, vectorstore, 3, categories)
+		toolsInfo.append(response)
+
+	return toolsInfo
 
 
-
-       return {
-              "links": links,
-              "raw_documents": raw_documents,
-              "documents": documents
-       }
+# PHASE 3: Get the information loop for the given tool with Perplexity
+async def getToolsInfoWithPlx(givenTopic, tools, categories):
+	finalAnswer = await run_plx(givenTopic, tools, categories)
+	return finalAnswer
