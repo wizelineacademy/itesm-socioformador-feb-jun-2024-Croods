@@ -1,29 +1,35 @@
 /* src/app/dashboard/page.tsx */
-"use client"
+"use client";
 import Image from "next/image";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { navigate } from "@/app/actions/redirect";
 
 export default function Home() {
   const { data: session } = useSession();
 
   if (!session) {
-    redirect('/auth');
+    redirect("/auth");
+  }
+
+  function startPhase1(query: string) {
+    console.log("running");
+    navigate(query);
   }
 
   const [query, setQuery] = useState<string>("");
 
-  const callSearchAPI = async (query: string) => {
-    console.log(query);
-    const u = new URLSearchParams({ topic: query });
-    const response = await fetch("http://127.0.0.1:8000/search", {
-      method: "POST",
-      body: u,
-    });
-    const data = await response.json();
-    console.log(data);
-  };
+  // const callSearchAPI = async (query: string) => {
+  //   console.log(query);
+  //   const u = new URLSearchParams({ topic: query });
+  //   const response = await fetch("http://127.0.0.1:8000/search", {
+  //     method: "POST",
+  //     body: u,
+  //   });
+  //   const data = await response.json();
+  //   console.log(data);
+  // };
 
   return (
     <main className="bg-backgroundLight">
@@ -46,7 +52,7 @@ export default function Home() {
           ></input>
           <button
             className="absolute h-20 w-30 rounded-lg text-gray px-4 text-lg right-0"
-            onClick={() => callSearchAPI(query)}
+            onClick={() => startPhase1(query)}
           >
             <Image
               className="relative top-0 left-0 right-0"

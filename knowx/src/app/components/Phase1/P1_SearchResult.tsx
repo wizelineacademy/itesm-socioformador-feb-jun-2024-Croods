@@ -12,6 +12,7 @@ const P1_SearchResult = (props: P1_SearchResultProps) => {
 
   return (
     <div
+      key={`${props.index}`}
       className={` w-[250px] h-[100px] rounded-lg m-10 p-10 ${
         !selected
           ? "bg-white hover:bg-purple-300 transition duration-100 ease-in-out"

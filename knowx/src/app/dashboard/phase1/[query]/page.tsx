@@ -1,19 +1,49 @@
 /* src/app/dashboard/page.tsx */
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import P1_SearchResult from "../../components/Phase1/P1_SearchResult";
+import { useRouter } from "next/navigation";
+import P1_SearchResult from "../../../components/Phase1/P1_SearchResult";
 import P1_ResultsWrapper from "@/app/components/Phase1/P1_ResultsWrapper";
 
-export default function Home() {
+export default function Home({ params }: { params: { query: string } }) {
   const { data: session } = useSession();
+  // const router = useRouter();
   if (!session) {
     redirect("/auth");
   }
 
-  let initialSearchList = new Array(5).fill("");
+  const [resultData, setData] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("../../api/phase1", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ topic: decodeURI(params.query) }),
+        });
+        const responseData = await response.json();
+        console.log(responseData);
+        setData(responseData.data);
+      } catch (error) {
+        console.error("Error fetching resultData:", error);
+      }
+    };
+
+    fetchData();
+
+    // Clean-up function if needed
+    return () => {
+      // Any clean-up code here
+    };
+  }, []);
+
+  let initialSearchList = new Array(resultData.length).fill("");
   const [searchAmount, setSearchAmount] = useState(0);
   const [searchList, setSearchList] = useState(initialSearchList);
 
@@ -56,11 +86,19 @@ export default function Home() {
         Choose search items
       </h1>
       <P1_ResultsWrapper>
-        <P1_SearchResult content="Smtn" index={0} willSearch={toggleSelect} />
+        {resultData.map((item: string, index: number) => (
+          <P1_SearchResult
+            content={item}
+            index={index}
+            willSearch={toggleSelect}
+            key={index}
+          />
+        ))}
+        {/* <P1_SearchResult content="Smtn" index={0} willSearch={toggleSelect} />
         <P1_SearchResult content="Smtn" index={1} willSearch={toggleSelect} />
         <P1_SearchResult content="Smtn" index={2} willSearch={toggleSelect} />
         <P1_SearchResult content="Smtn" index={3} willSearch={toggleSelect} />
-        <P1_SearchResult content="Smtn" index={4} willSearch={toggleSelect} />
+        <P1_SearchResult content="Smtn" index={4} willSearch={toggleSelect} /> */}
       </P1_ResultsWrapper>
       {searchAmount === 0 ? (
         <div className="text-center mx-auto">ALL</div>
