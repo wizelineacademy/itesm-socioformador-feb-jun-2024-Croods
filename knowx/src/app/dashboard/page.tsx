@@ -4,10 +4,11 @@ import Image from "next/image";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { useTheme } from "next-themes"
+import { useTheme } from "next-themes";
 
 import UserMenu from "../components/UserMenu";
 import { navigate } from "@/app/actions/redirect";
+import { logSearch, getUserId } from "../../../db/schema";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -18,10 +19,13 @@ export default function Home() {
 
   function startPhase1(query: string) {
     console.log("running");
+    getUserId({ email: session?.user?.email || "" }).then((id) => {
+      logSearch({ userId: id, search: query, feedback: false });
+    });
     navigate(query);
   }
 
-  const { resolvedTheme } = useTheme()
+  const { resolvedTheme } = useTheme();
   const [query, setQuery] = useState<string>("");
 
   // const callSearchAPI = async (query: string) => {
@@ -41,7 +45,7 @@ export default function Home() {
         <header className="fixed top-0 left-0 right-0 py-3 flex justify-center">
           <Image
             className="relative top-0 left-0 right-0"
-            src={resolvedTheme === 'light' ? "/Logo.svg" : "/LogoDark.svg"}
+            src={resolvedTheme === "light" ? "/Logo.svg" : "/LogoDark.svg"}
             alt="KnowX Logo"
             width={50}
             height={50}
