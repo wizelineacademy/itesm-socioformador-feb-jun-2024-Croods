@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { logSearch, getUserId, handleLogin } from "@/app/api/schema";
 import P1_SearchResult from "../../../components/Phase1/P1_SearchResult";
 import P1_ResultsWrapper from "@/app/components/Phase1/P1_ResultsWrapper";
 
@@ -20,6 +21,17 @@ export default function Home({ params }: { params: { query: string } }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // handleLogin({ profile: session?.user });
+        await fetch("../../api/phase1", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            session: session,
+            query: decodeURI(params.query),
+          }),
+        });
         const response = await fetch("../../api/phase1", {
           method: "POST",
           headers: {
@@ -37,10 +49,10 @@ export default function Home({ params }: { params: { query: string } }) {
 
     fetchData();
 
-    // Clean-up function if needed
-    return () => {
-      // Any clean-up code here
-    };
+    // // Clean-up function if needed
+    // return () => {
+    //   // Any clean-up code here
+    // };
   }, []);
 
   let initialSearchList = new Array(resultData.length).fill("");

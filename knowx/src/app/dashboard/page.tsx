@@ -19,9 +19,6 @@ export default function Home() {
 
   function startPhase1(query: string) {
     console.log("running");
-    getUserId({ email: session?.user?.email || "" }).then((id) => {
-      logSearch({ userId: id, search: query, feedback: false });
-    });
     navigate(query);
   }
 

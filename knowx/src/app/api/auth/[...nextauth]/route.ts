@@ -1,9 +1,9 @@
-import NextAuth from 'next-auth';
-import GitHubProvider from 'next-auth/providers/github';
-import GoogleProvider from 'next-auth/providers/google';
-import SlackProvider from 'next-auth/providers/slack';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import { handleLogin } from '../../../../../db/schema';
+import NextAuth from "next-auth";
+import GitHubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
+import SlackProvider from "next-auth/providers/slack";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { handleLogin } from "../../../../../db/schema";
 
 export const authOptions = {
   providers: [
@@ -19,7 +19,7 @@ export const authOptions = {
       clientId: process.env.SLACK_CLIENT_ID ?? "",
       clientSecret: process.env.SLACK_CLIENT_SECRET ?? "",
     }),
-    // CredentialsProvider({ 
+    // CredentialsProvider({
     //   name: 'Email',
     //   credentials: {
     //     email: { label: "Email", type: "text" },
@@ -27,7 +27,7 @@ export const authOptions = {
     //   },
     //   authorize: async (credentials) => {
     //     // Aqui se pone para verificar si el usuario y contraseña son correctos
-    //     return null; 
+    //     return null;
     //   }
     // })
   ],
