@@ -1,23 +1,28 @@
-// src/app/signup/page.tsx
+// src/app/auth/page.tsx
 "use client";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useState } from 'react';
-import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
+
 export default function Signup() {
-  const { data: session } = useSession();
+  //const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const router = useRouter(); 
+  const [email, setEmail] = useState('');
+  //const [password, setPassword] = useState('');
 
   if (session) {
     redirect('/dashboard');
   }
+  /*
+  if (session) {
+    router.push('/dashboard');  // Use `router.push` for navigation
+  }
+  */
 
-  const router = useRouter();
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   // Function to handle signing in with GitHub using a popup
   const handleSignInGithub = async (providerId: string) => {
@@ -69,20 +74,15 @@ export default function Signup() {
   }
 
   const handleSignInEmail = async () => {
-    const result = await signIn('credentials', {
-      redirect: false,
-      email,
-      password,
-      callbackUrl: '/dashboard'
-    });
-  
-    if (result?.url) {
-      router.push(result.url);
-    }
-  
-    if (result?.error) {
-      console.error("Authentication failed:", result.error);
-    }
+    await signIn('email', { email, redirect: false, callbackUrl: '/dashboard' })
+      .then((result) => {
+        if (result?.url) {
+          router.push(result.url);
+        }
+      })
+      .catch((error) => {
+        console.error("Authentication failed:", error.message);
+      });
   };
 
   return (
@@ -110,7 +110,7 @@ export default function Signup() {
               onClick={handleSignInEmail}
               className="flex items-center justify-center w-30 h-8 rounded-lg shadow text-black px-8 text-md mb-10 border-[#0000001a] border-2 transition ease-in-out hover:bg-backgroundLight" 
             >
-              Sign in
+              Sign in with Email
             </button>
 
           </div>
