@@ -49,7 +49,9 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
 
       - name: Deploy
-        run: sst deploy
+        run: |
+          npm install
+          sst deploy
         id: deploy
         working-directory: knowx
 
