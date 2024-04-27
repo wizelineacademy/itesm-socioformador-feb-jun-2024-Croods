@@ -49,10 +49,10 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
 
       - name: Deploy
+        id: deploy
         run: |
           npm install
           sst deploy
-        id: deploy
         working-directory: knowx
 
       - name: Send Deploy Failure Message
@@ -63,4 +63,4 @@ jobs:
         if: success()
         run: |
           curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=✅ Deploy Passed"
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployed to ${{ steps.deploy.outcome }}"
+          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployed Successful: \n ${{ steps.deploy.outputs }}"
