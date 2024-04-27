@@ -26,11 +26,10 @@ jobs:
           wget https://github.com/sst/ion/releases/download/v0.0.193/sst-linux-amd64.deb
           sudo dpkg -i sst-linux-amd64.deb
           sst version
-        # working-directory: /knowx
 
       - name: Copy Secrets
         run: |
-          ls
+          cd knowx
           sst secret set APIRootRoute $API_ROOT_ROUTE
           sst secret set DBUrl $DB_URL
           sst secret set NextAuthUrl $NEXTAUTH_URL
@@ -39,7 +38,6 @@ jobs:
           sst secret set GithubSecret $GITHUB_SECRET
           sst secret set GoogleClientId $GOOGLE_CLIENT_ID
           sst secret set GoogleClientSecret $GOOGLE_CLIENT_SECRET
-        # working-directory: /knowx
         env:
           API_ROOT_ROUTE: ${{ secrets.API_ROOT_ROUTE }}
           DB_URL: ${{ secrets.DB_URL }}
