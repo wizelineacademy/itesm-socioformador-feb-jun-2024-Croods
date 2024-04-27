@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { logSearch, getUserId, handleLogin } from "@/app/api/schema";
 import P1_SearchResult from "../../../components/Phase1/P1_SearchResult";
 import P1_ResultsWrapper from "@/app/components/Phase1/P1_ResultsWrapper";
 

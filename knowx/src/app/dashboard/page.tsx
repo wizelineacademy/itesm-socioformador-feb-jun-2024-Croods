@@ -8,7 +8,7 @@ import { useTheme } from "next-themes";
 
 import UserMenu from "../components/UserMenu";
 import { navigate } from "@/app/actions/redirect";
-import { logSearch, getUserId } from "../../../db/schema";
+import { logSearch, getUserId } from "../../../db/dbActions";
 
 export default function Home() {
   const { data: session } = useSession();
