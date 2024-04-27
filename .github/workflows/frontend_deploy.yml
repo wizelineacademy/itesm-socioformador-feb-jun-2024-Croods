@@ -65,4 +65,4 @@ jobs:
           curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=✅ Deploy Passed"
           curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=$DEPLOY_MESSAGE"
         env:
-          DEPLOY_MESSAGE: ${{ join(steps.deploy.outputs.*, '\n') }}
+          DEPLOY_MESSAGE: ${{ join(steps.deploy.outcome.*, '\n') }}
