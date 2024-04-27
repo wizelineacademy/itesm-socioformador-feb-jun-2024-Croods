@@ -29,7 +29,6 @@ jobs:
 
       - name: Copy Secrets
         run: |
-          cd knowx
           sst secret set APIRootRoute $API_ROOT_ROUTE
           sst secret set DBUrl $DB_URL
           sst secret set NextAuthUrl $NEXTAUTH_URL
@@ -38,6 +37,7 @@ jobs:
           sst secret set GithubSecret $GITHUB_SECRET
           sst secret set GoogleClientId $GOOGLE_CLIENT_ID
           sst secret set GoogleClientSecret $GOOGLE_CLIENT_SECRET
+        working-directory: knowx
         env:
           API_ROOT_ROUTE: ${{ secrets.API_ROOT_ROUTE }}
           DB_URL: ${{ secrets.DB_URL }}
@@ -51,7 +51,7 @@ jobs:
       - name: Deploy
         run: sst deploy
         id: deploy
-        working-directory: /knowx
+        working-directory: knowx
 
       - name: Send Deploy Failure Message
         if: failure()
