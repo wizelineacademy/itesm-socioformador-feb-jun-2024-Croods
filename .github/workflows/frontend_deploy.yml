@@ -53,7 +53,7 @@ jobs:
         run: |
           npm install
           sst deploy > deployment_output.txt
-          echo "::set-output name=deployment_output_path::deployment_output.txt"
+          echo "{deployment_output_path}={deployment_output.txt}" >> $GITHUB_OUTPUT
         working-directory: knowx
 
       - name: Extract URL from Deployment Output
@@ -61,7 +61,13 @@ jobs:
         run: |
           output=$(cat ${{ steps.deploy.outputs.deployment_output_path }})
           url=$(echo "$output" | grep -oE 'https?://[^ ]+')
-          echo "::set-output name=url::$url"
+          echo "{url}={$url}" >> $GITHUB_OUTPUT
+
+          output=$(cat ${{ steps.deploy.outputs.deployment_output_path }})
+          urls=$(echo "$output" | grep -oE 'https?://[^ ]+')
+          # Extract the last URL
+          last_url=$(echo "$urls" | tail -n1)
+          echo "{url}={$last_url}" >> $GITHUB_OUTPUT
         working-directory: knowx
 
       - name: Send Deploy Failure Message
