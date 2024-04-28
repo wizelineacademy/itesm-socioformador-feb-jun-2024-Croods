@@ -52,8 +52,8 @@ jobs:
         id: deploy
         run: |
           npm install
-          sst deploy
-          echo "::set-output name=KnowXApp::$(sst describe -j | jq -r '.[0].outputs.KnowXApp')"
+          output=$(sst deploy)
+          echo "::set-output name=deployment_output::$output"
         working-directory: knowx
 
       - name: Send Deploy Failure Message
@@ -64,4 +64,4 @@ jobs:
         if: success()
         run: |
           curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=✅ Deploy Passed"
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployed Successful: ${{ steps.deploy.outputs.KnowXApp }}"
+          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployed Successful: ${{ steps.deploy.outputs.deployment_output }}"
