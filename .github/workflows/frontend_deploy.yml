@@ -56,6 +56,14 @@ jobs:
           echo "::set-output name=deployment_output_path::deployment_output.txt"
         working-directory: knowx
 
+      - name: Extract URL from Deployment Output
+        id: extract_url
+        run: |
+          output=$(cat ${{ steps.deploy.outputs.deployment_output_path }})
+          url=$(echo "$output" | grep -oE 'https?://[^ ]+')
+          echo "::set-output name=url::$url"
+        working-directory: knowx
+
       - name: Send Deploy Failure Message
         if: failure()
         run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚨 Deploy Failed"
@@ -63,6 +71,6 @@ jobs:
       - name: Send Deploy Success Message
         if: success()
         run: |
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=✅ Deploy Passed"
-          output=$(cat ${{ steps.deploy.outputs.deployment_output_path }})
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployed Successful: $output"
+          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=✅ Deploy Successful"
+          url=${{ steps.extract_url.outputs.url }}
+          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployment URL: $url"
