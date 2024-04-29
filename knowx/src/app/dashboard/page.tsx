@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { navigateToFeatures } from "../navigation";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -46,7 +47,7 @@ export default function Home() {
           ></input>
           <button
             className="absolute h-20 w-30 rounded-lg text-gray px-4 text-lg right-0"
-            onClick={() => callSearchAPI(query)}
+            onClick={() => {callSearchAPI(query); navigateToFeatures();}}
           >
             <Image
               className="relative top-0 left-0 right-0"
