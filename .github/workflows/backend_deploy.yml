@@ -14,9 +14,9 @@ jobs:
 
       - name: Send Deploy Failure Message
         if: failure()
-        run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚨 Deploy Failed"
+        run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚨 Back Deploy Failed"
 
       - name: Send Deploy Success Message
         if: success()
         run: |
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=✅ Deploy Successful"
+          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=✅ Back Deploy Successful"
