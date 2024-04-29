@@ -5,8 +5,8 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "sst": "sst dev next dev",
     "lint": "next lint",
+    "sst": "sst dev next dev",
     "start": "next start"
   },
   "dependencies": {
@@ -30,6 +30,7 @@
     "postgres": "^3.4.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "sst": "ion",
     "tls": "^0.0.1"
   },
   "devDependencies": {
