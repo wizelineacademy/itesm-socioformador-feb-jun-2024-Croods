@@ -66,11 +66,10 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         
-
       - name: Install SST
         run: |
           ls
-          wget https://github.com/sst/ion/releases/download/v0.0.193/sst-linux-amd64.deb
+          wget https://github.com/sst/ion/releases/download/v0.0.288/sst-linux-amd64.deb
           sudo dpkg -i sst-linux-amd64.deb
           sst version
 
