@@ -100,6 +100,7 @@ jobs:
         run: |
           npm install
           sudo sst deploy > deployment_output.txt
+          cat deployment_output.txt
           echo "deployment_output_path=deployment_output.txt" >> $GITHUB_OUTPUT
         working-directory: knowx
 
