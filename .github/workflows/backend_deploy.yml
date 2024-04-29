@@ -1,0 +1,22 @@
+name: KnowX Backend Deploy
+on:
+  push:
+    branches:
+      - I002-ConfigureDeployment
+
+jobs:
+  deploy:
+    name: "Deploy to Render"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Send Deploy Failure Message
+        if: failure()
+        run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚨 Deploy Failed"
+
+      - name: Send Deploy Success Message
+        if: success()
+        run: |
+          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=✅ Deploy Successful"
