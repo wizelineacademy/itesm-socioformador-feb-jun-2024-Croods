@@ -16,9 +16,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '14'
+          working-directory: knowx
 
       - name: Install Dependencies
         run: npm install
+        working-directory: knowx
 
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v2.0
@@ -38,6 +40,7 @@ jobs:
         with:
           build: npm run build
           start: npm start
+          working-directory: knowx
 
       - name: Send Deploy Failure Message
         if: failure()
