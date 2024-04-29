@@ -99,27 +99,25 @@ jobs:
         id: deploy
         run: |
           npm install
-          sudo sst deploy > deployment_output.txt
-          cat deployment_output.txt
-          echo "deployment_output_path=deployment_output.txt" >> $GITHUB_OUTPUT
+          sudo sst deploy
         working-directory: knowx
 
-      - name: Extract URL from Deployment Output
-        id: extract_url
-        run: |
-          output=$(cat ${{ steps.deploy.outputs.deployment_output_path }})
-          urls=$(echo "$output" | grep -oE 'https?://[^ ]+')
-          last_url=$(echo "$urls" | tail -n1)
-          echo "url=$last_url" >> $GITHUB_OUTPUT
-        working-directory: knowx
+      # - name: Extract URL from Deployment Output
+      #   id: extract_url
+      #   run: |
+      #     output=$(cat ${{ steps.deploy.outputs.deployment_output_path }})
+      #     urls=$(echo "$output" | grep -oE 'https?://[^ ]+')
+      #     last_url=$(echo "$urls" | tail -n1)
+      #     echo "url=$last_url" >> $GITHUB_OUTPUT
+      #   working-directory: knowx
 
       - name: Send Deploy Failure Message
         if: failure()
         run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚨 Front Deploy Failed"
 
-      - name: Send Deploy Success Message
-        if: success()
-        run: |
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=✅ Front Deploy Successful"
-          url=${{ steps.extract_url.outputs.url }}
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployment URL: $url"
+      # - name: Send Deploy Success Message
+      #   if: success()
+      #   run: |
+      #     curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=✅ Front Deploy Successful"
+      #     url=${{ steps.extract_url.outputs.url }}
+      #     curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployment URL: $url"
