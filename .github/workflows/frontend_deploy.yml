@@ -99,7 +99,7 @@ jobs:
         id: deploy
         run: |
           npm install
-          sst deploy > deployment_output.txt
+          sudo sst deploy > deployment_output.txt
           echo "deployment_output_path=deployment_output.txt" >> $GITHUB_OUTPUT
         working-directory: knowx
 
