@@ -5,53 +5,54 @@ on:
       - I002-ConfigureDeployment
 
 jobs:
-  # test:
-  #   name: "Frontend Tests"
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
+  test:
+    name: "Frontend Tests"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  #     - name: Install Node
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: '20'
-  #         working-directory: knowx
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          working-directory: knowx
 
-  #     - name: Install Dependencies
-  #       run: npm install
-  #       working-directory: knowx
+      - name: Install Dependencies
+        run: npm install
+        working-directory: knowx
 
-  #     - name: Make envfile
-  #       uses: SpicyPizza/create-envfile@v2.0
-  #       with:
-  #         envkey_API_ROOT_ROUTE: ${{ secrets.API_ROOT_ROUTE }}
-  #         envkey_DB_URL: ${{ secrets.DB_URL }}
-  #         envkey_NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
-  #         envkey_NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-  #         envkey_GITHUB_ID: ${{ secrets.NEXTAUTH_GITHUB_ID }}
-  #         envkey_GITHUB_SECRET: ${{ secrets.NEXTAUTH_GITHUB_SECRET }}
-  #         envkey_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-  #         envkey_GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-  #         directory: knowx
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_API_ROOT_ROUTE: ${{ secrets.API_ROOT_ROUTE }}
+          envkey_DB_URL: ${{ secrets.DB_URL }}
+          envkey_NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+          envkey_NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          envkey_GITHUB_ID: ${{ secrets.NEXTAUTH_GITHUB_ID }}
+          envkey_GITHUB_SECRET: ${{ secrets.NEXTAUTH_GITHUB_SECRET }}
+          envkey_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          envkey_GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          directory: knowx
 
-  #     - name: Run Tests
-  #       uses: cypress-io/github-action@v6
-  #       with:
-  #         build: npm run build
-  #         start: npm start
-  #         working-directory: knowx
+      - name: Run Tests
+        uses: cypress-io/github-action@v6
+        with:
+          build: npm run build
+          start: npm start
+          working-directory: knowx
 
-  #     - name: Send Deploy Failure Message
-  #       if: failure()
-  #       run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=💥 Front Testing Failed"
+      - name: Send Deploy Failure Message
+        if: failure()
+        run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=💥 Front Testing Failed"
 
-  #     - name: Send Deploy Success Message
-  #       if: success()
-  #       run: |
-  #         curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🧪 Front Testing Successful"
+      - name: Send Deploy Success Message
+        if: success()
+        run: |
+          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🧪 Front Testing Successful"
 
   deploy:
+    needs: test
     name: "Deploy to AWS"
     runs-on: ubuntu-latest
     steps:
@@ -65,13 +66,13 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         
-
       - name: Install SST
         run: |
           ls
           wget https://github.com/sst/ion/releases/download/v0.0.193/sst-linux-amd64.deb
           sudo dpkg -i sst-linux-amd64.deb
           sst version
+
       - name: Copy Secrets
         run: |
           sst secret set APIRootRoute $API_ROOT_ROUTE
@@ -112,11 +113,11 @@ jobs:
 
       - name: Send Deploy Failure Message
         if: failure()
-        run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚨 Deploy Failed"
+        run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚨 Frontend Deploy Failed"
 
       - name: Send Deploy Success Message
         if: success()
         run: |
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=✅ Deploy Successful"
+          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=✅ Frontend Deploy Successful"
           url=${{ steps.extract_url.outputs.url }}
           curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployment URL: $url"
