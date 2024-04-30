@@ -52,12 +52,8 @@ jobs:
   #         curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🧪 Front Testing Successful"
 
   deploy:
-    # needs: test
     name: "Deploy to AWS"
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -65,24 +61,17 @@ jobs:
       - name: Cofigure AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          role-session-name: GitHubActionsRoleSession
-          role-duration-seconds: 900
           aws-region: us-east-1
-
-      - name: Install node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.10.0'
-          working-directory: knowx
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         
+
       - name: Install SST
         run: |
           ls
-          wget https://github.com/sst/ion/releases/download/v0.0.288/sst-linux-amd64.deb
+          wget https://github.com/sst/ion/releases/download/v0.0.193/sst-linux-amd64.deb
           sudo dpkg -i sst-linux-amd64.deb
           sst version
-
       - name: Copy Secrets
         run: |
           sst secret set APIRootRoute $API_ROOT_ROUTE
@@ -104,37 +93,30 @@ jobs:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
 
-      - name: npm Install
-        run: npm ci
-        working-directory: knowx
-
-      - name: SST config
-        run: |
-          sudo sst unlock
-          sudo sst install
-        working-directory: knowx
-
       - name: Deploy
         id: deploy
-        run: sudo sst deploy
+        run: |
+          npm install
+          sst deploy > deployment_output.txt
+          echo "deployment_output_path=deployment_output.txt" >> $GITHUB_OUTPUT
         working-directory: knowx
 
-      # - name: Extract URL from Deployment Output
-      #   id: extract_url
-      #   run: |
-      #     output=$(cat ${{ steps.deploy.outputs.deployment_output_path }})
-      #     urls=$(echo "$output" | grep -oE 'https?://[^ ]+')
-      #     last_url=$(echo "$urls" | tail -n1)
-      #     echo "url=$last_url" >> $GITHUB_OUTPUT
-      #   working-directory: knowx
+      - name: Extract URL from Deployment Output
+        id: extract_url
+        run: |
+          output=$(cat ${{ steps.deploy.outputs.deployment_output_path }})
+          urls=$(echo "$output" | grep -oE 'https?://[^ ]+')
+          last_url=$(echo "$urls" | tail -n1)
+          echo "url=$last_url" >> $GITHUB_OUTPUT
+        working-directory: knowx
 
       - name: Send Deploy Failure Message
         if: failure()
-        run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚨 Front Deploy Failed"
+        run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚨 Deploy Failed"
 
       - name: Send Deploy Success Message
         if: success()
         run: |
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=✅ Front Deploy Successful"
-      #     url=${{ steps.extract_url.outputs.url }}
-      #     curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployment URL: $url"
+          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=✅ Deploy Successful"
+          url=${{ steps.extract_url.outputs.url }}
+          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployment URL: $url"
