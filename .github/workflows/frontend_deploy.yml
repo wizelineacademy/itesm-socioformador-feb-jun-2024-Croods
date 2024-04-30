@@ -100,17 +100,20 @@ jobs:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
 
-      - name: Deploy
-        id: deploy
-        run: |
-          npm install
-          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-          sudo sst deploy
+      - name: npm Install
+        run: npm install
         working-directory: knowx
+
+      - name: Configure AWS
+        run: aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID && aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Deploy
+        id: deploy
+        run: sudo sst deploy
+        working-directory: knowx
 
       # - name: Extract URL from Deployment Output
       #   id: extract_url
