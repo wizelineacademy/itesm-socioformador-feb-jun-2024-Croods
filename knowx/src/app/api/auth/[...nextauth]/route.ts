@@ -1,22 +1,11 @@
-/* src/app/api/auth/[...nextauth]/route.ts*/
-import NextAuth from 'next-auth';
-
-import GitHubProvider from 'next-auth/providers/github';
-import GoogleProvider from 'next-auth/providers/google';
-import SlackProvider from 'next-auth/providers/slack';
+import NextAuth, { NextAuthOptions } from "next-auth";
+import GitHubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
+import SlackProvider from "next-auth/providers/slack";
 import EmailProvider from 'next-auth/providers/email';
-
 import PostgresAdapter from "@auth/pg-adapter";
 import { Pool } from "pg";
-//import pg from "pg";
-//const { Pool } = pg;
-//import PostgresAdapter from "../../../lib/adapter";
-//import Adapter from "@next-auth/prisma-adapter";
-//import { PrismaClient } from "@prisma/client";
-
-//const prisma = new PrismaClient();
-//http://localhost:3000/auth
-//sofia.cantuu@protonmail.com
+import { handleLogin } from "../../../../../db/dbActions";
 
 const pool = new Pool({
   host: process.env.DATABASE_HOST,
@@ -28,8 +17,7 @@ const pool = new Pool({
   connectionTimeoutMillis: 2000,
 })
 
-//export const { handlers, auth, signIn, signOut } = NextAuth({
-export const authOptions = {
+const authOptions: NextAuthOptions = {
   adapter: PostgresAdapter(pool),
   providers: [
     GitHubProvider({
@@ -44,19 +32,6 @@ export const authOptions = {
       clientId: process.env.SLACK_CLIENT_ID ?? "",
       clientSecret: process.env.SLACK_CLIENT_SECRET ?? "",
     }),
-    /*
-    EmailProvider({
-      server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: process.env.EMAIL_SERVER_PORT,
-        auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD,
-        },
-      },
-      from: process.env.EMAIL_FROM,
-    }),
-    */
     EmailProvider({
       server: {
         host: 'smtp.sendgrid.net',
@@ -69,14 +44,15 @@ export const authOptions = {
       from: process.env.EMAIL_FROM /*as string*/,
     }),
   ],
+  callbacks: {
+    async session({ session }: any) {
+      return session;
+    },
+    async signIn({ profile }: any) {
+      return await handleLogin({ profile });
+    },
+  },
   session: {
     strategy: "database",
   }
 };
-
-
-
-export const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
-
-

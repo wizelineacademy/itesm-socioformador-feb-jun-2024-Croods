@@ -5,11 +5,13 @@ import { useRouter } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { redirect } from "next/navigation";
+import { useTheme } from "next-themes"
 
 
 export default function Signup() {
   //const { data: session } = useSession();
   const { data: session, status } = useSession();
+  const { resolvedTheme } = useTheme()
   const router = useRouter(); 
   const [email, setEmail] = useState('');
   //const [password, setPassword] = useState('');
@@ -86,14 +88,14 @@ export default function Signup() {
   };
 
   return (
-    <main className="bg-backgroundLight">
+    <main className="bg-backgroundLight dark:bg-backgroundDark">
       <div className="mx-auto px-6 max-w-6xl h-screen text-gray-600 flex flex-wrap content-center justify-center">
         <section className="w-full top-10 flex justify-center mb-10 absolute">
           <Image
-            src="/Logo.svg"
+            src={resolvedTheme === "light" ? "/Logo.svg" : "/LogoDark.svg"}
             alt="Next.js Logo"
-            width={100}
-            height={100}
+            width={50}
+            height={50}
             priority
           />
         </section>
@@ -121,21 +123,21 @@ export default function Signup() {
               className="flex items-center justify-center h-12 w-64 rounded-lg border-2 border-[#0000001a] bg-[#24292f] text-white py-3 px-4 text-lg transition ease-in-out hover:bg-[#24292fcc]"
               onClick={() => handleSignInGithub('github')}
             >
-              <img loading="lazy" height="24" width="24" id="provider-logo-dark" src="https://authjs.dev/img/providers/github.svg"></img>
+              <Image loading="lazy" height="24" width="24" id="provider-logo-dark" src="https://authjs.dev/img/providers/github.svg" alt="Github Logo"></Image>
               <span className="grow">Sign in with GitHub</span>
             </button>
             <button
               className="flex items-center justify-center h-12 w-64 rounded-lg border-2 border-[#0000001a] bg-white text-black py-3 px-4 text-lg transition ease-in-out hover:bg-[#ffffffcc]"
               onClick={() => handleSignInGoogle('google')}
             >
-              <img loading="lazy" height="24" width="24" id="provider-logo-dark" src="https://authjs.dev/img/providers/google.svg"></img>
+              <Image loading="lazy" height="24" width="24" id="provider-logo-dark" src="https://authjs.dev/img/providers/google.svg" alt="Google Logo"></Image>
               <span className="grow">Sign in with Google</span>
             </button>
             <button
               className="flex items-center justify-center h-12 w-64 rounded-lg border-2 border-[#0000001a] bg-black text-white py-3 px-4 text-lg transition ease-in-out hover:bg-[#000000cc]"
               onClick={() => handleSignInSlack('slack')}
             >
-              <img loading="lazy" height="24" width="24" id="provider-logo-dark" src="https://authjs.dev/img/providers/slack.svg"></img>
+              <Image loading="lazy" height="24" width="24" id="provider-logo-dark" src="https://authjs.dev/img/providers/slack.svg" alt="Slack Logo"></Image>
               <span className="grow">Sign in with Slack</span>
             </button>
           </div>
