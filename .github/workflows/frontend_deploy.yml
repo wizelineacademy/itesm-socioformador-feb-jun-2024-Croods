@@ -2,7 +2,7 @@ name: KnowX Frontend Deploy
 on:
   push:
     branches:
-      - main
+      - DEV
 
 jobs:
   test:
