@@ -2,7 +2,7 @@ name: KnowX Backend Deploy
 on:
   push:
     branches:
-      - I002-ConfigureDeployment
+      - main
 
 jobs:
   deploy:

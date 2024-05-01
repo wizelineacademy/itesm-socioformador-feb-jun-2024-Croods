@@ -2,7 +2,7 @@ name: KnowX Frontend Deploy
 on:
   push:
     branches:
-      - I002-ConfigureDeployment
+      - main
 
 jobs:
   test:
@@ -83,6 +83,12 @@ jobs:
           sst secret set GithubSecret $GITHUB_SECRET
           sst secret set GoogleClientId $GOOGLE_CLIENT_ID
           sst secret set GoogleClientSecret $GOOGLE_CLIENT_SECRET
+          sst secret set EmailServerHost $EMAIL_SERVER_HOST
+          sst secret set EmailServerPort $EMAIL_SERVER_PORT
+          sst secret set EmailServerUser $EMAIL_SERVER_USER
+          sst secret set EmailServerPassword $EMAIL_SERVER_PASSWORD
+          sst secret set EmailFrom $EMAIL_FROM
+          sst secret set SendgridApiKey $SENDGRID_API_KEY
         working-directory: knowx
         env:
           API_ROOT_ROUTE: ${{ secrets.API_ROOT_ROUTE }}
@@ -93,6 +99,12 @@ jobs:
           GITHUB_SECRET: ${{ secrets.NEXTAUTH_GITHUB_SECRET }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          EMAIL_SERVER_HOST: ${{ secrets.EMAIL_SERVER_HOST }}
+          EMAIL_SERVER_PORT: ${{ secrets.EMAIL_SERVER_PORT }}
+          EMAIL_SERVER_USER: ${{ secrets.EMAIL_SERVER_USER }}
+          EMAIL_SERVER_PASSWORD: ${{ secrets.EMAIL_SERVER_PASSWORD }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
 
       - name: Deploy
         id: deploy
