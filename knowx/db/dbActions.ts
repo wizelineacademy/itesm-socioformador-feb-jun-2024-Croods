@@ -1,48 +1,23 @@
 // import { drizzle } from "drizzle-orm/aws-data-api/pg";
 import { eq } from "drizzle-orm";
-import { Resource } from "sst";
-import { RDSDataClient } from "@aws-sdk/client-rds-data";
-import postgres from "postgres";
-
-import { neon } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-http';
-
-import { User, user, login_log, search_log, error_log} from "./schema";
+import { User, old_user, login_log, search_log, error_log} from "./schema";
+import { db } from "./schema";
 
 export async function getUserId({ newEmail }: { newEmail: string }) {
-  const sql = neon(process.env.DB_URL!);
-  const db = drizzle(sql);
-
-  // const db = drizzle(new RDSDataClient({}), {
-  //   database: Resource.KnowXDB.database,
-  //   secretArn: Resource.KnowXDB.secretArn,
-  //   resourceArn: Resource.KnowXDB.clusterArn
-  // });
-
-  let recent = await db.select().from(user).where(eq(user.email, newEmail));
+  let recent = await db.select().from(old_user).where(eq(old_user.email, newEmail));
   return recent[0].id;
 }
 
 export async function handleLogin({ profile }: any) {
   try {
-
-    const sql = neon(process.env.DB_URL!);
-    const db = drizzle(sql);
-
-    // const db = drizzle(new RDSDataClient({}), {
-    //   database: Resource.KnowXDB.database,
-    //   secretArn: Resource.KnowXDB.secretArn,
-    //   resourceArn: Resource.KnowXDB.clusterArn
-    // });
-
     const uniqueUser: User[] = await db
       .select()
-      .from(user)
-      .where(eq(user.email, profile.email));
+      .from(old_user)
+      .where(eq(old_user.email, profile.email));
 
     if (uniqueUser.length === 0) {
       const newUser = await db
-        .insert(user)
+        .insert(old_user)
         .values({
           email: profile.email,
           region: "MX",
@@ -66,65 +41,47 @@ export async function handleLogin({ profile }: any) {
     console.log("Error in handleLogin: ", error);
 
     await logError({
-      userId: -1,
+      old_userId: -1,
       description: String(error),
       origin: "handleLogin",
     });
-    // return false;
-    return true;
+
+    return false;
   }
 }
 
 export async function logSearch({
-  userId,
+  old_userId,
   search,
   feedback,
 }: {
-  userId: number;
+  old_userId: number;
   search: string;
   feedback: boolean;
 }) {
   try {
-    const sql = neon(process.env.DB_URL!);
-    const db = drizzle(sql);
-
-    // const db = drizzle(new RDSDataClient({}), {
-    //   database: Resource.KnowXDB.database,
-    //   secretArn: Resource.KnowXDB.secretArn,
-    //   resourceArn: Resource.KnowXDB.clusterArn
-    // });
-    
     await db.insert(search_log).values({
-      idUser: userId,
+      idUser: old_userId,
       search,
       timeOfSearch: new Date(),
       feedback,
     });
   } catch (error) {
-    await logError({ userId, description: String(error), origin: "logSearch" });
+    await logError({ old_userId, description: String(error), origin: "logSearch" });
   }
 }
 
 async function logError({
-  userId,
+  old_userId,
   description,
   origin,
 }: {
-  userId: number;
+  old_userId: number;
   description: string;
   origin: string;
 }) {
-  const sql = neon(process.env.DB_URL!);
-  const db = drizzle(sql);
-
-  // const db = drizzle(new RDSDataClient({}), {
-  //   database: Resource.KnowXDB.database,
-  //   secretArn: Resource.KnowXDB.secretArn,
-  //   resourceArn: Resource.KnowXDB.clusterArn
-  // });
-
   await db.insert(error_log).values({
-    idUser: userId,
+    idUser: old_userId,
     description,
     errorTime: new Date(),
     origin,
