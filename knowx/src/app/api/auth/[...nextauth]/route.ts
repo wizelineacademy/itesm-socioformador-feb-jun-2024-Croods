@@ -3,22 +3,13 @@ import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import SlackProvider from "next-auth/providers/slack";
 import EmailProvider from 'next-auth/providers/email';
-import PostgresAdapter from "@auth/pg-adapter";
-import { Pool } from "pg";
+import { DrizzleAdapter } from "@auth/drizzle-adapter"
 import { handleLogin } from "../../../../../db/dbActions";
-
-const pool = new Pool({
-  host: process.env.DATABASE_HOST,
-  user: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASSWORD,
-  database: process.env.DATABASE_NAME,
-  max: 20,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
-})
+import { db } from "../../../../../db/schema";
+import type { Adapter } from 'next-auth/adapters';
 
 const authOptions: NextAuthOptions = {
-  adapter: PostgresAdapter(pool),
+  adapter: DrizzleAdapter(db) as Adapter,
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_ID ?? "",
@@ -34,25 +25,25 @@ const authOptions: NextAuthOptions = {
     }),
     EmailProvider({
       server: {
-        host: 'smtp.sendgrid.net',
-        port: 465,
+        host: process.env.EMAIL_SERVER_HOST,
+        port: process.env.EMAIL_SERVER_PORT,
         auth: {
-          user: 'apikey',
-          pass: process.env.SENDGRID_API_KEY /*as string*/,
+          user: process.env.EMAIL_SERVER_USER,
+          pass: process.env.SENDGRID_API_KEY,
         },
       },
-      from: process.env.EMAIL_FROM /*as string*/,
+      from: process.env.EMAIL_FROM,
     }),
   ],
+  session: {
+    strategy: "jwt",
+  },
   callbacks: {
-    async session({ session }: any) {
-      return session;
-    },
     async signIn({ profile }: any) {
       return await handleLogin({ profile });
     },
   },
-  session: {
-    strategy: "database",
-  }
 };
+
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };
