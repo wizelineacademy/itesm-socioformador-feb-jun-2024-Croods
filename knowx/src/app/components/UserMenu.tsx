@@ -1,4 +1,5 @@
 "use client"
+import Image, { ImageLoader } from "next/image";
 import { Fragment } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { Menu, Transition } from '@headlessui/react'
@@ -52,6 +53,10 @@ function MyDropdown() {
   )
 }
 
+const myLoader: ImageLoader = ({ src }) => {
+  return src
+}
+
 export default function UserMenu({className}: {className: string}) {
   const { data: session } = useSession();
 
@@ -59,10 +64,13 @@ export default function UserMenu({className}: {className: string}) {
     <div className={`flex justify-between items-center cursor-pointer ${className}`}>
       <div className="flex relative items-center p-3 rounded-lg bg-[#4040401a] dark:bg-[#d9d9d91a]">
         <span className="hidden sm:block mr-2 text-lg font-semibold dark:text-white select-none">{session?.user?.name}</span>
-        <img
+        <Image
           src={session?.user?.image || "/blankUser.png"}
+          height={10}
+          width={10}
           className="w-10 h-10 rounded-full select-none"
           alt="User Image"
+          loader={myLoader}
         />
         <MyDropdown />
       </div>

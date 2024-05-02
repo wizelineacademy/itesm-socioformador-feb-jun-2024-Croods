@@ -36,4 +36,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+.sst/sendgrid.env
 .sst/
+.open-next/
+
+# local files
+secretCreate.txt
