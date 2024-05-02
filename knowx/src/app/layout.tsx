@@ -4,6 +4,8 @@ import { getServerSession } from "next-auth";
 import SessionProvider from "./components/SessionProvider";
 import "./globals.css";
 import { redirect } from "next/navigation";
+import { ThemeProvider } from 'next-themes'
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +26,9 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <SessionProvider session={session}>
-          {children}
+          <ThemeProvider attribute="class" enableSystem>
+            {children}
+          </ThemeProvider>
         </SessionProvider>
       </body>
     </html>
