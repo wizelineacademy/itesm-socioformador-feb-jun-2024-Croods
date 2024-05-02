@@ -2,7 +2,7 @@ name: KnowX Frontend Deploy
 on:
   push:
     branches:
-      - DEV
+      - I002-ConfigureDeployment
 
 jobs:
   test:
