@@ -4,26 +4,28 @@ import Image from "next/image";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { useTheme } from "next-themes";
 
 import UserMenu from "../components/UserMenu";
 import { navigate } from "@/app/actions/redirect";
 import { logSearch, getUserId } from "../../../db/schema";
+import { checkSession } from "@/app/actions/redirect";
+import checkTheme from "@/app/actions/theme";
 
-export default function Home() {
-  const { data: session } = useSession();
-
-  if (!session) {
-    redirect("/auth");
-  }
+export default async function Home() {
+  // const { data: session } = useSession();
+  checkSession();
+  // const theme = await checkTheme();
+  // if (!session) {
+  //   redirect("/auth");
+  // }
 
   function startPhase1(query: string) {
     console.log("running");
     navigate(query);
   }
 
-  const { resolvedTheme } = useTheme();
-  const [query, setQuery] = useState<string>("");
+  let query: string = "";
+  // const [query, setQuery] = useState<string>("");
 
   // const callSearchAPI = async (query: string) => {
   //   console.log(query);
@@ -42,7 +44,7 @@ export default function Home() {
         <header className="fixed top-0 left-0 right-0 py-3 flex justify-center">
           <Image
             className="relative top-0 left-0 right-0"
-            src={resolvedTheme === "light" ? "/Logo.svg" : "/LogoDark.svg"}
+            src={"light" === "light" ? "/Logo.svg" : "/LogoDark.svg"}
             alt="KnowX Logo"
             width={50}
             height={50}
@@ -55,11 +57,11 @@ export default function Home() {
           <input
             name=""
             className="bg-black dark:bg-backgroundLight left-20 right-20 h-20 w-full rounded-lg text-white dark:text-black px-8 text-lg"
-            onChange={(e) => setQuery(e.target.value)}
+            // onChange={(e) => (query = e.target.value)}
           ></input>
           <button
             className="absolute h-20 w-30 rounded-lg text-gray px-4 text-lg right-0"
-            onClick={() => startPhase1(query)}
+            onClick={() => startPhase1("query")}
           >
             <Image
               className="relative top-0 left-0 right-0"
