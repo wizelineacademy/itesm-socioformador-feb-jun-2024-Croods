@@ -38,11 +38,11 @@ const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  callbacks: {
-    async signIn({ profile }: any) {
-      return await handleLogin({ profile });
-    },
-  },
+  // callbacks: {
+  //   async signIn({ profile }: any) {
+  //     return await handleLogin({ profile });
+  //   },
+  // },
 };
 
 const handler = NextAuth(authOptions);
