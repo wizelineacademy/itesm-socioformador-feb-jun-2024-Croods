@@ -31,12 +31,3 @@ body {
     text-wrap: balance;
   }
 }
-
-.scrollable-list {
-  height: 20rem; 
-  overflow-y: auto;
-
-  /* Solo funciona con ciertos buscadores */
-  scrollbar-color: rgb(47, 47, 47); 
-  scrollbar-width: thin; 
-}

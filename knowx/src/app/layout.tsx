@@ -4,8 +4,6 @@ import { getServerSession } from "next-auth";
 import SessionProvider from "./components/SessionProvider";
 import { ThemeProvider } from 'next-themes'
 import "./globals.css";
-import { redirect } from "next/navigation";
-import { ThemeProvider } from 'next-themes'
 
 const inter = Inter({ subsets: ["latin"] });
 
