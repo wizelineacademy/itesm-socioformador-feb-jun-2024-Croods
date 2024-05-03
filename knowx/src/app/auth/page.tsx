@@ -6,6 +6,7 @@ import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { useTheme } from "next-themes"
 
 export default function Signup() {
   const { data: session } = useSession();
@@ -15,6 +16,7 @@ export default function Signup() {
   }
 
   const router = useRouter();
+  const { resolvedTheme } = useTheme()
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -86,14 +88,14 @@ export default function Signup() {
   };
 
   return (
-    <main className="bg-backgroundLight">
+    <main className="bg-backgroundLight dark:bg-backgroundDark">
       <div className="mx-auto px-6 max-w-6xl h-screen text-gray-600 flex flex-wrap content-center justify-center">
         <section className="w-full top-10 flex justify-center mb-10 absolute">
           <Image
-            src="/Logo.svg"
+            src={resolvedTheme === "light" ? "/Logo.svg" : "/LogoDark.svg"}
             alt="Next.js Logo"
-            width={100}
-            height={100}
+            width={50}
+            height={50}
             priority
           />
         </section>

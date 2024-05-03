@@ -1,8 +1,9 @@
-import NextAuth from 'next-auth';
-import GitHubProvider from 'next-auth/providers/github';
-import GoogleProvider from 'next-auth/providers/google';
-import SlackProvider from 'next-auth/providers/slack';
-import CredentialsProvider from 'next-auth/providers/credentials';
+import NextAuth from "next-auth";
+import GitHubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
+import SlackProvider from "next-auth/providers/slack";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { handleLogin } from "../../../../../db/schema";
 
 export const authOptions = {
   providers: [
@@ -18,19 +19,26 @@ export const authOptions = {
       clientId: process.env.SLACK_CLIENT_ID ?? "",
       clientSecret: process.env.SLACK_CLIENT_SECRET ?? "",
     }),
-    CredentialsProvider({ 
-      name: 'Email',
-      credentials: {
-        email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" }
-      },
-      authorize: async (credentials) => {
-        // Aqui se pone para verificar si el usuario y contraseña son correctos
-        return null; 
-      }
-    })
-  
+    // CredentialsProvider({
+    //   name: 'Email',
+    //   credentials: {
+    //     email: { label: "Email", type: "text" },
+    //     password: { label: "Password", type: "password" }
+    //   },
+    //   authorize: async (credentials) => {
+    //     // Aqui se pone para verificar si el usuario y contraseña son correctos
+    //     return null;
+    //   }
+    // })
   ],
+  callbacks: {
+    async session({ session }: any) {
+      return session;
+    },
+    async signIn({ profile }: any) {
+      return await handleLogin({ profile });
+    },
+  },
 };
 
 export const handler = NextAuth(authOptions);
