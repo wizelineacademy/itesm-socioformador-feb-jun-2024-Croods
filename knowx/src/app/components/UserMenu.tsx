@@ -1,8 +1,12 @@
-"use client"
+"use client";
 import { Fragment } from "react";
 import { useSession, signOut } from "next-auth/react";
-import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon, ArrowLeftEndOnRectangleIcon, BookmarkIcon } from '@heroicons/react/20/solid'
+import { Menu, Transition } from "@headlessui/react";
+import {
+  ChevronDownIcon,
+  ArrowLeftEndOnRectangleIcon,
+  BookmarkIcon,
+} from "@heroicons/react/20/solid";
 
 function MyDropdown() {
   return (
@@ -25,7 +29,7 @@ function MyDropdown() {
         <Menu.Items className="absolute right-0 top-full mt-1 w-full origin-top-right divide-y bg-[#4040401a] dark:bg-[#d9d9d91a] divide-gray-600 rounded-md shadow-lg ring-1 ring-black/5 focus:outline-none">
           <Menu.Item>
             <div className="flex items-center text-start">
-              <BookmarkIcon 
+              <BookmarkIcon
                 className="ml-3 h-6 w-6 text-gray-600 dark:text-gray-300"
                 aria-hidden="true"
               />
@@ -37,11 +41,14 @@ function MyDropdown() {
 
           <Menu.Item>
             <div className="flex items-center text-start">
-              <ArrowLeftEndOnRectangleIcon 
+              <ArrowLeftEndOnRectangleIcon
                 className="ml-3 h-6 w-6 text-gray-600 dark:text-gray-300"
                 aria-hidden="true"
               />
-              <button onClick={() => signOut()} className="p-3 rounded-lg text-gray-600 dark:text-gray-300 w-full text-left">
+              <button
+                onClick={() => signOut()}
+                className="p-3 rounded-lg text-gray-600 dark:text-gray-300 w-full text-left"
+              >
                 Sign out
               </button>
             </div>
@@ -49,16 +56,20 @@ function MyDropdown() {
         </Menu.Items>
       </Transition>
     </Menu>
-  )
+  );
 }
 
-export default function UserMenu({className}: {className: string}) {
+export default function UserMenu({ className }: { className: string }) {
   const { data: session } = useSession();
 
   return (
-    <div className={`flex justify-between items-center cursor-pointer ${className}`}>
+    <div
+      className={`flex justify-between items-center cursor-pointer ${className}`}
+    >
       <div className="flex relative items-center p-3 rounded-lg bg-[#4040401a] dark:bg-[#d9d9d91a]">
-        <span className="hidden sm:block mr-2 text-lg font-semibold dark:text-white select-none">{session?.user?.name}</span>
+        <span className="hidden sm:block mr-2 text-lg font-semibold dark:text-white select-none">
+          {session?.user?.name}
+        </span>
         <img
           src={session?.user?.image || "/blankUser.png"}
           className="w-10 h-10 rounded-full select-none"
