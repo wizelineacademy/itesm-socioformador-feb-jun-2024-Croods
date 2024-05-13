@@ -9,7 +9,8 @@ load_dotenv()
 app = FastAPI()
 
 origins = [
-  "http://localhost:3000"
+  "http://localhost:3000",
+  "https://dph69s4pp597c.cloudfront.net/"
 ]
 
 app.add_middleware(

@@ -1,6 +1,6 @@
 from .web_scraper import scrape_links_to_documents
 from .document_processor import resize_documents, create_vectorstore
-from .openai_interaction import run_chain_on, run_plx
+from .openai_interaction import run_chain_on, run_plx, get_features
 from .google_serper import get_relevant_links
 from langchain_community.vectorstores import faiss
 from langchain_openai.embeddings import OpenAIEmbeddings
@@ -17,10 +17,15 @@ async def getDevResults(givenTopic):
 	relevantSubTopics = await getTopicSubTopics(givenTopic)
 
 	# LAYER 2 --> Categories List
+	
+	topicFeatures = await getFeatures(givenTopic)
+	print(topicFeatures)
 
 	# LAYER 3 --> Info loop for each result
 	# finalAnswer = await getToolsInfo(relevantSubTopics['response'][0], "Price, Content Type, Devices")
-	finalAnswer = await run_plx(givenTopic, relevantSubTopics, "Description, Price, Ai Category, Licence type, Enterprise Category")
+	# finalAnswer = await run_plx(givenTopic, relevantSubTopics, "Description, Price, Ai Category, Licence type, Enterprise Category")
+
+	finalAnswer = await run_plx(givenTopic, relevantSubTopics, topicFeatures)
  
 	return {
 		"subTopics": relevantSubTopics,
@@ -54,6 +59,10 @@ async def getTopicSubTopics(givenTopic):
 # Returns: List[str] of categories to search for
 async def getCategories(tool):
 	return ["Foundation Models", "Cloud Services", "Mashup Tools", "Applications", "Data and Integration Services", "Infrastructure"]
+
+async def getFeatures(givenTopic):
+	features = await get_features(givenTopic)
+	return features
 
 
 # PHASE 3: Get the information loop for the given tool with OpenAI

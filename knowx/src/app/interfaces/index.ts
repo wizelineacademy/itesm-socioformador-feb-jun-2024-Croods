@@ -6,5 +6,6 @@ export type User = {
 export type P1_SearchResultProps = {
   content: string;
   index: number;
-  willSearch: (index: number, content: string) => void;
+  isFavorite: boolean;
+  // willSearch: (index: number, content: string) => void;
 };
