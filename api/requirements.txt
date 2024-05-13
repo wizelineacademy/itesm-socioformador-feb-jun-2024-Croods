@@ -18,3 +18,4 @@ langchain_openai
 python-multipart
 selenium
 sentence_transformers
+fastapi

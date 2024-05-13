@@ -1,25 +1,30 @@
-// src/app/signup/page.tsx
+// src/app/auth/page.tsx
 "use client";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useState } from 'react';
-import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useTheme } from "next-themes"
 
+
 export default function Signup() {
-  const { data: session } = useSession();
+  //const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const { resolvedTheme } = useTheme()
+  const router = useRouter(); 
+  const [email, setEmail] = useState('');
+  //const [password, setPassword] = useState('');
 
   if (session) {
     redirect('/dashboard');
   }
+  /*
+  if (session) {
+    router.push('/dashboard');  // Use `router.push` for navigation
+  }
+  */
 
-  const router = useRouter();
-  const { resolvedTheme } = useTheme()
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   // Function to handle signing in with GitHub using a popup
   const handleSignInGithub = async (providerId: string) => {
@@ -71,20 +76,15 @@ export default function Signup() {
   }
 
   const handleSignInEmail = async () => {
-    const result = await signIn('credentials', {
-      redirect: false,
-      email,
-      password,
-      callbackUrl: '/dashboard'
-    });
-  
-    if (result?.url) {
-      router.push(result.url);
-    }
-  
-    if (result?.error) {
-      console.error("Authentication failed:", result.error);
-    }
+    await signIn('email', { email, redirect: false, callbackUrl: '/dashboard' })
+      .then((result) => {
+        if (result?.url) {
+          router.push(result.url);
+        }
+      })
+      .catch((error) => {
+        console.error("Authentication failed:", error.message);
+      });
   };
 
   return (
@@ -112,7 +112,7 @@ export default function Signup() {
               onClick={handleSignInEmail}
               className="flex items-center justify-center w-30 h-8 rounded-lg shadow text-black px-8 text-md mb-10 border-[#0000001a] border-2 transition ease-in-out hover:bg-backgroundLight" 
             >
-              Sign in
+              Sign in with Email
             </button>
 
           </div>
@@ -123,21 +123,21 @@ export default function Signup() {
               className="flex items-center justify-center h-12 w-64 rounded-lg border-2 border-[#0000001a] bg-[#24292f] text-white py-3 px-4 text-lg transition ease-in-out hover:bg-[#24292fcc]"
               onClick={() => handleSignInGithub('github')}
             >
-              <img loading="lazy" height="24" width="24" id="provider-logo-dark" src="https://authjs.dev/img/providers/github.svg"></img>
+              <Image loading="lazy" height="24" width="24" id="provider-logo-dark" src="https://authjs.dev/img/providers/github.svg" alt="Github Logo"></Image>
               <span className="grow">Sign in with GitHub</span>
             </button>
             <button
               className="flex items-center justify-center h-12 w-64 rounded-lg border-2 border-[#0000001a] bg-white text-black py-3 px-4 text-lg transition ease-in-out hover:bg-[#ffffffcc]"
               onClick={() => handleSignInGoogle('google')}
             >
-              <img loading="lazy" height="24" width="24" id="provider-logo-dark" src="https://authjs.dev/img/providers/google.svg"></img>
+              <Image loading="lazy" height="24" width="24" id="provider-logo-dark" src="https://authjs.dev/img/providers/google.svg" alt="Google Logo"></Image>
               <span className="grow">Sign in with Google</span>
             </button>
             <button
               className="flex items-center justify-center h-12 w-64 rounded-lg border-2 border-[#0000001a] bg-black text-white py-3 px-4 text-lg transition ease-in-out hover:bg-[#000000cc]"
               onClick={() => handleSignInSlack('slack')}
             >
-              <img loading="lazy" height="24" width="24" id="provider-logo-dark" src="https://authjs.dev/img/providers/slack.svg"></img>
+              <Image loading="lazy" height="24" width="24" id="provider-logo-dark" src="https://authjs.dev/img/providers/slack.svg" alt="Slack Logo"></Image>
               <span className="grow">Sign in with Slack</span>
             </button>
           </div>

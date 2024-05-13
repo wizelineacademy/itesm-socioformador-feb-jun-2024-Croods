@@ -5,6 +5,8 @@ import UserMenu from "../components/UserMenu";
 import { checkSession } from "@/app/actions/redirect";
 import InputBar from "@/app/components/Dashboard/InputBar";
 import checkTheme from "@/app/actions/theme";
+import { navigate } from "@/app/actions/redirect";
+import { logSearch, getUserId } from "../../../db/dbActions";
 
 export default async function Home() {
   // const { data: session } = useSession();
