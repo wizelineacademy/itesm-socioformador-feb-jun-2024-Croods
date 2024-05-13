@@ -30,7 +30,6 @@ jobs:
           key: ${{ runner.os }}-venv-${{ hashFiles('**/requirements*.txt') }}
           restore-keys: |
             ${{ runner.os }}-venv-
-          working-directory: api
 
       - name: Install Dependencies on env
         run: python -m venv venv && source venv/bin/activate &&
@@ -45,7 +44,7 @@ jobs:
         working-directory: api
       
       - name: Add App to Zipfile
-        run: cd ./app && zip -g ../knowXAPI.zip -r .
+        run: zip -g ../knowXAPI.zip -r .
         working-directory: api
               
       - name: Install dependencies
