@@ -3,10 +3,12 @@ from dotenv import load_dotenv
 
 from utils.combinator import getDevResults, getTopicSubTopics, getCategories, getToolsInfoWithPlx
 from fastapi.middleware.cors import CORSMiddleware
+from mangum import Mangum
 
 load_dotenv()
 
 app = FastAPI()
+handler = Mangum(app)
 
 origins = [
   "http://localhost:3000",
