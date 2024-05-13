@@ -4,12 +4,12 @@ import time
 import openai
 from openai import OpenAI
 from .config.config import OPENAI_MODEL_NAME, MAX_TOKENS, TEMPERATURE, INDEX_K
-from .prompt_repo import rag, get_prompts, get_sub_topics_prompt, get_final_categories_prompt
+from .prompt_repo import rag, get_prompts, get_sub_topics_prompt, get_final_categories_prompt, get_features_prompt
 import os
 import re
 import json
 
-async def run_plx(initialPromt, tools, categories):
+async def run_plx(initialPromt, objects, features):
     url = "https://api.perplexity.ai/chat/completions"
 
     payload = {
@@ -17,12 +17,12 @@ async def run_plx(initialPromt, tools, categories):
         "messages": [
             {
                 "role": "system",
-                "content": "Be precise and concise. Return a dictionary ONLY with the category name as a key."
+                "content": "Be precise and concise. Return ONLY a dictionary with ONLY the category name as a key."
             },
             {
                 "role": "user",
-                "content": f"""We are talking about the following tools: {tools}. Based on what each of them are in the context of '{initialPromt}', what they offer and the given information, please 
-                            return a dictionary a description of the tool and the answers to following categories for EACH of the tools: {categories}. 
+                "content": f"""We are talking about the following objects: {objects}. Based on what each of them are in the context of '{initialPromt}', what they offer and the given information, please 
+                            return a dictionary a description of the tool and the answers to following features for EACH of the objects: {features}. 
                             If no information is found on a category, retun NULL on that key.
                             Strictly return ONLY a dictionary."""
             }
@@ -93,3 +93,27 @@ async def run_chain_on(tool, vectorstore, phase, categories=""):
     except Exception as e:
         print("Error in run_chain_on: %s", e)
         # return {MAIN_COLUMN: tool, "Error": str(e)}
+
+async def run_simple_prompt(prompt):
+    openai.api_key = os.getenv("OPENAI_API_KEY")
+    client = OpenAI()
+    try:
+        response = client.chat.completions.create(
+            model=OPENAI_MODEL_NAME,
+            temperature=TEMPERATURE,
+            messages=[
+                {"role": "system", "content": "You're a very helpful assistant"},
+                {"role": "user", "content": prompt},
+            ],
+        )
+        return response.choices[0].message.content.replace("\n", "")
+    except Exception as e:
+        print(f"Error in OpenAI API call: {e}")
+        return "Error"
+
+async def get_features(givenTopic):
+    prompt = get_features_prompt(givenTopic)
+    context = prompt[0][0]
+    question = prompt[0][1]
+    features = await run_simple_prompt(question)
+    return features
