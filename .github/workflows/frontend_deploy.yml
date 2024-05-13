@@ -2,7 +2,7 @@ name: KnowX Frontend Deploy
 on:
   push:
     branches:
-      - DEV
+      - I002-ConfigureDeployment
 
 jobs:
   test:
@@ -33,6 +33,12 @@ jobs:
           envkey_GITHUB_SECRET: ${{ secrets.NEXTAUTH_GITHUB_SECRET }}
           envkey_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           envkey_GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          envkey_EMAIL_SERVER_HOST: ${{ secrets.EMAIL_SERVER_HOST }}
+          envkey_EMAIL_SERVER_PORT: ${{ secrets.EMAIL_SERVER_PORT }}
+          envkey_EMAIL_SERVER_USER: ${{ secrets.EMAIL_SERVER_USER }}
+          envkey_EMAIL_SERVER_PASSWORD: ${{ secrets.EMAIL_SERVER_PASSWORD }}
+          envkey_EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          envkey_SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
           directory: knowx
 
       - name: Run Tests

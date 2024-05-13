@@ -76,8 +76,10 @@ export default function Signup() {
   }
 
   const handleSignInEmail = async () => {
+    console.log("Email: ", email)
     await signIn('email', { email, redirect: false, callbackUrl: '/dashboard' })
       .then((result) => {
+        console.log("Result: ", result)
         if (result?.url) {
           router.push(result.url);
         }
@@ -109,7 +111,7 @@ export default function Signup() {
               className="flex items-center justify-center w-64 h-12 rounded-lg bg-backgroundLight shadow-md text-black px-4"
             />
             <button
-              onClick={handleSignInEmail}
+              onClick={() => handleSignInEmail()}
               className="flex items-center justify-center w-30 h-8 rounded-lg shadow text-black px-8 text-md mb-10 border-[#0000001a] border-2 transition ease-in-out hover:bg-backgroundLight" 
             >
               Sign in with Email
