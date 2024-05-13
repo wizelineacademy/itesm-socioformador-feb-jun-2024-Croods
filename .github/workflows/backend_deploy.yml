@@ -41,7 +41,7 @@ jobs:
       - name: Create Zip with dependencies
         run: |
           cd ./venv/lib/python3.11/site-packages
-          zip -r9 ../../../../knowXAPI.zip .
+          zip -q -r9 ../../../../knowXAPI.zip .
         working-directory: api
       
       - name: Add App to Zipfile
