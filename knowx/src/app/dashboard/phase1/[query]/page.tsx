@@ -7,6 +7,7 @@ import P1_SearchResult from "../../../components/Phase1/P1_SearchResult";
 import P1_ResultsWrapper from "@/app/components/Phase1/P1_ResultsWrapper";
 import { check } from "drizzle-orm/mysql-core";
 import { getSearchObjectsAction } from "@/app/actions/search";
+import UserMenu from "@/app/components/UserMenu";
 
 export default async function Home({ params }: { params: { query: string } }) {
   checkSession();
@@ -15,9 +16,7 @@ export default async function Home({ params }: { params: { query: string } }) {
   const { searchObjects, allObjects } = await getSearchObjectsAction();
   return (
     <main className="">
-      <h1 className="mx-auto w-fit text-center mt-10 text-3xl">
-        Choose search items
-      </h1>
+      <UserMenu className="absolute right-0 mr-3" />
       <P1_ResultsWrapper>
         {allObjects.map((item: string, index: number) => (
           <P1_SearchResult

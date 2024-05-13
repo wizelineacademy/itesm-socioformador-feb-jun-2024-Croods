@@ -26,3 +26,9 @@ export async function checkSession(): Promise<boolean> {
 export async function navigate(query: string) {
   redirect(`/dashboard/phase1/${query}`);
 }
+export async function navigateToDashboard() {
+  redirect("/dashboard");
+}
+export async function navigateToPhase2() {
+  redirect("/dashboard/phase2");
+}
