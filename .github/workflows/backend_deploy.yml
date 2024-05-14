@@ -48,7 +48,9 @@ jobs:
       #   working-directory: api
               
       - name: Install dependencies
-        run: pip3 install -q -r requirements.txt -t ./package
+        run: |
+          pip3 install -q -r requirements.txt -t package/
+          rm -rf package/bin
         working-directory: api
 
       - name: Create deployment package
