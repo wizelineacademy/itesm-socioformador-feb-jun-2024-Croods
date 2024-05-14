@@ -30,4 +30,22 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+.scrollable-list {
+  height: 20rem;
+  overflow-y: auto;
+
+  /* Solo funciona con ciertos buscadores */
+  scrollbar-color: rgb(47, 47, 47);
+  scrollbar-width: thin;
 }

@@ -95,33 +95,48 @@ def get_prompts(tool):
     return prompts
 
 
-def get_sub_topics_prompt(tool):
+def get_sub_topics_prompt(givenObject):
     """
-    Returns a list of tuples containing prompt keys and their respective templates for a given tool.
+    Returns a list of tuples containing prompt keys and their respective templates for a given object.
 
-    :param tool: The tool to generate sub-topic for.
+    :param object: The object to generate sub-topic for.
     :return: promt(str)
     """
     prompts = [
-        ("Top tools extractions", f"""We are talking about {tool}. Based on what it is, what it offers and the given information, please 
-        return the top results or tools that best fits this category. Strictly return ONLY a comma separated list WITH NO numeration with the different sub-topic/tool names.
-        Try to extract as many tools as possible with a LIMIT of 10 results. If you can't find any, return an empty list"""),
+        ("Top objects extractions", f"""We are talking about {givenObject}. Based on what it is, what it offers and the given information, please 
+        return the top results or objects that best fits this category. Strictly return ONLY a comma separated list WITH NO numeration with the different sub-topic/object names.
+        Try to extract as many objects as possible with a LIMIT of 10 results. If you can't find any, return an empty list"""),
     ]
     
     return prompts
 
 
-def get_final_categories_prompt(tool, categories):
+def get_final_categories_prompt(givenObject, features):
     """
-    Returns a list of tuples containing prompt keys and their respective templates for a given tool.
+    Returns a list of tuples containing prompt keys and their respective templates for a given object.
 
-    :param tool: The tool to generate sub-topic for.
+    :param object: The object to generate sub-topic for.
     :return: promt(str)
     """
     prompts = [
-        ("Top tools extractions", f"""We are talking about {tool}. Based on what it is, what it offers and the given information, please 
-        return a disctionary with a description of the tool and the following categories: {categories}. If no information is found on the tool on that category, retun Null on that key.
+        ("Top objects extractions", f"""We are talking about {givenObject}. Based on what it is, what it offers and the given information, please 
+        return a disctionary with a description of the object and the following categories: {features}. If no information is found on the object on that category, retun Null on that key.
         Strictly return ONLY a dictionary with the category name as a key."""),
     ]
     
+    return prompts
+
+def get_features_prompt(givenTopic):
+    """
+    Returns a string containig the features to search for in the given topic, each feature should be separated by a comma.
+
+    :param givenTopic: The topic to get the fetures for.
+    :return: promt(str) 
+    """
+
+    prompts = [
+        ("Features", f"""According to the topic {givenTopic}, please return the features that each object of the category should have. You will need to think like a market researcher and what features are important for the user, remember that depending on the topic one of the most important features is the price.
+        The features should be separated by a comma. For example: "Price, Content Type, Devices, License Type". There should be a minimun of 3 features and a maximum of 8. The first feture MUST be "Description". """),
+    ]
+
     return prompts
