@@ -59,7 +59,6 @@ jobs:
 
 
 
-
   dev_deploy:
     needs: test
     name: "Deploy to AWS - DEV"
@@ -143,7 +142,6 @@ jobs:
           curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=✅ Frontend(DEV) Deploy Successful"
           url=${{ steps.extract_url.outputs.url }}
           curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployment(DEV) URL: $url"
-
 
 
 
