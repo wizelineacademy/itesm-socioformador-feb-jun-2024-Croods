@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Form
 from dotenv import load_dotenv
-from utils.combinator import getDevResults, getTopicSubTopics, getCategories, getToolsInfoWithPlx
+from utils.combinator import getDevResults, getTopicSubTopics, getFeatures, getToolsInfoWithPlx
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
@@ -31,7 +31,7 @@ async def knowx_initial_search(topic: str = Form(...)):
 
 @app.post("/search/categories")
 async def knowx_categories_search(topic: str = Form(...)):
-  results = await getCategories(topic)
+  results = await getFeatures(topic)
   return results
 
 @app.post("/search")
