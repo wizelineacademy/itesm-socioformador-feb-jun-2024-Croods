@@ -46,4 +46,4 @@ jobs:
         if: success()
         run: |
           curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=✅ Back Deploy Successful"
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=API URL: ${{ secrets.API_FINAL_URL }}"
+          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 API URL: ${{ secrets.API_FINAL_URL }}"
