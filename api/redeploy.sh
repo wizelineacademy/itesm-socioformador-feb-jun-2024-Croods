@@ -3,8 +3,8 @@
 # cd into projects folder
 cd /root/itesm-socioformador-feb-jun-2024-Croods/api
 
-# git fetch
-git fetch && git reset origin/main --hard
+# git pull
+git pull && git reset origin/main --hard
 
 rm -rf knowx
 
