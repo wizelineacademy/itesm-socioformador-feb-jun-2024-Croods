@@ -120,7 +120,7 @@ jobs:
         id: deploy
         run: |
           npm install
-          sst deploy --stage dev > deployment_output.txt
+          sudo sst deploy --stage dev > deployment_output.txt
           echo "deployment_output_path=deployment_output.txt" >> $GITHUB_OUTPUT
         working-directory: knowx
 
@@ -206,7 +206,7 @@ jobs:
         id: deploy
         run: |
           npm install
-          sst deployn --stage prod > deployment_output.txt
+          sudo sst deployn --stage prod > deployment_output.txt
           echo "deployment_output_path=deployment_output.txt" >> $GITHUB_OUTPUT
         working-directory: knowx
 
