@@ -19,5 +19,4 @@ python-multipart
 selenium
 sentence_transformers
 fastapi
-mangum
 boto3
