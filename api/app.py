@@ -2,13 +2,11 @@ from fastapi import FastAPI, Form
 from dotenv import load_dotenv
 from utils.combinator import getDevResults, getTopicSubTopics, getCategories, getToolsInfoWithPlx
 from fastapi.middleware.cors import CORSMiddleware
-from mangum import Mangum
 import uvicorn
 
 load_dotenv()
 
 app = FastAPI()
-handler = Mangum(app)
 
 origins = [
   "*"
