@@ -2,7 +2,7 @@ name: KnowX Backend Deploy
 on:
   push:
     branches:
-      - DEV
+      - H010-UserHistory
 
 jobs:
   deploy:
@@ -12,87 +12,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.11
-          architecture: x64
-          working-directory: api
-
-      # - name: Install Virtualenv
-      #   run: pip3 install virtualenv
-
-      # - name: Setup Virtualenv
-      #   uses: actions/cache@v4
-      #   id: cache-venv
-      #   with:
-      #     path: venv
-      #     key: ${{ runner.os }}-venv-${{ hashFiles('**/requirements*.txt') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-venv-
-
-      # - name: Install Dependencies on env
-      #   run: python -m venv venv && source venv/bin/activate &&
-      #     pip3 install -r requirements.txt
-      #   if: steps.cache-venv.outputs.cache-hit != 'true'
-      #   working-directory: api
-
-      # - name: Create Zip with dependencies
-      #   run: |
-      #     cd ./venv/lib/python3.11/site-packages
-      #     zip -q -r9 ../../../../knowXAPI.zip .
-      #   working-directory: api
-      
-      # - name: Add App to Zipfile
-      #   run: zip -q -g ../knowXAPI.zip -r .
-      #   working-directory: api
-              
-      - name: Install dependencies
+      - name: Configure SSH
         run: |
-          pip3 install -q -r requirements.txt -t package/
-          rm -rf package/bin
-        working-directory: api
-
-      - name: Create deployment package
-        run: |
-          zip -q -r knowXAPI.zip . -x "*.git*" "tests/*" "venv/*" "__pycache__/*" "*.github*"
-        working-directory: api
-      
-      # - name: Upload zip file artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: api
-      #     path: knowXAPI.zip
-      #     working-directory: api
-
-      - name: Cofigure AWS
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region: us-east-1
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      
-      # - name: Download Lambda api.zip
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: api
-      #     working-directory: api
-
-      - name: Upload to S3
-        run: aws s3 cp knowXAPI.zip s3://knowx-api-bucket/knowXAPI.zip
-        working-directory: api
+          mkdir -p ~/.ssh/
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy-key.pem
+          chmod 600 ~/.ssh/deploy-key.pem
+          cat >> ~/.ssh/config <<END
+          Host my-vps
+            HostName $SSH_IP
+            User $SSH_USER
+            IdentityFile ~/.ssh/deploy-key.pem
+            StrictHostKeyChecking no
+          END
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          # AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_IP: ${{ secrets.SSH_IP }}
 
-      - name: Deploy new Lambda
-        run: aws lambda update-function-code --function-name KnowXAPI --s3-bucket knowx-api-bucket --s3-key knowXAPI.zip
-        working-directory: api
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          # AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      - name: Make redeploy.sh executable
+        run: ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && chmod +x redeploy.sh'
+
+      - name: Deploy API
+        run: ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && ./redeploy.sh'
+
+      - name: Check container status
+        run: ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && sudo docker compose ps'
 
       - name: Send Deploy Failure Message
         if: failure()
@@ -102,3 +46,4 @@ jobs:
         if: success()
         run: |
           curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=✅ Back Deploy Successful"
+          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=API URL: ${{ secrets.API_FINAL_URL }}"
