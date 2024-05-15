@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # cd into projects folder
-cd /root/itesm-socioformador-feb-jun-2024-Croods
+cd ~/itesm-socioformador-feb-jun-2024-Croods
 
 # Remove frontend folder
 rm -rf knowx
