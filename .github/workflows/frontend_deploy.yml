@@ -78,10 +78,10 @@ jobs:
         
       - name: Install SST
         run: |
-          ls
           wget https://github.com/sst/ion/releases/download/v0.0.193/sst-linux-amd64.deb
           sudo dpkg -i sst-linux-amd64.deb
           sst version
+        working-directory: knowx
 
       - name: Copy Secrets
         run: |
@@ -163,10 +163,10 @@ jobs:
         
       - name: Install SST
         run: |
-          ls
           wget https://github.com/sst/ion/releases/download/v0.0.193/sst-linux-amd64.deb
           sudo dpkg -i sst-linux-amd64.deb
           sst version
+        working-directory: knowx
 
       - name: Copy Secrets
         run: |
@@ -205,7 +205,7 @@ jobs:
         id: deploy
         run: |
           npm install
-          sudo sst deployn --stage prod > deployment_output.txt
+          sudo sst deploy --stage prod > deployment_output.txt
           echo "deployment_output_path=deployment_output.txt" >> $GITHUB_OUTPUT
         working-directory: knowx
 
