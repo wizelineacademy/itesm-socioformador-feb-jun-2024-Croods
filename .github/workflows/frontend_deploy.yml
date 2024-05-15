@@ -7,7 +7,7 @@ on:
 jobs:
   test:
     name: "Frontend Tests"
-    environment: test
+    environment: prod
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
