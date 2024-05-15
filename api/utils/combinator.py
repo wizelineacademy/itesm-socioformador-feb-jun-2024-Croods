@@ -7,8 +7,6 @@ from langchain_openai.embeddings import OpenAIEmbeddings
 from openai import OpenAI
 from .config.config import CHUNK_SIZE, CHUNK_OVERLAP, LINK_SEARCH_PROVIDER
 
-from sentence_transformers import SentenceTransformer, util
-
 from .url_scraper import ddg_url_search
 
 # Returns final results

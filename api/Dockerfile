@@ -1,10 +1,10 @@
-FROM python:3.9-slim-buster
+FROM python:3.11-slim-bullseye
 
 WORKDIR /knowapi
 
 COPY requirements.txt .
 
-RUN pip3 install -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY . .
 
