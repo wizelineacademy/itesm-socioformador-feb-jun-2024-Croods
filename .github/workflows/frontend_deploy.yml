@@ -120,8 +120,7 @@ jobs:
         id: deploy
         run: |
           npm install
-          sudo sst deploy --stage dev > deployment_output.txt
-          echo "deployment_output_path=deployment_output.txt" >> $GITHUB_OUTPUT
+          sudo sst deploy --stage dev
         working-directory: knowx
 
       - name: Extract URL from Deployment Output
