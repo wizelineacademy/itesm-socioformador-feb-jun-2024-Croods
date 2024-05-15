@@ -1,9 +1,9 @@
 from fastapi import FastAPI, Form
 from dotenv import load_dotenv
-
 from utils.combinator import getDevResults, getTopicSubTopics, getCategories, getToolsInfoWithPlx
 from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
+import uvicorn
 
 load_dotenv()
 
@@ -11,8 +11,7 @@ app = FastAPI()
 handler = Mangum(app)
 
 origins = [
-  "http://localhost:3000",
-  "https://dph69s4pp597c.cloudfront.net/"
+  "*"
 ]
 
 app.add_middleware(
@@ -46,3 +45,6 @@ async def knowx_search(topic: str = Form(...), tools: list = Form(...), categori
 async def knowx_search(topic: str = Form(...)):
   results = await getDevResults(topic)
   return results
+
+if __name__ == "__main__":
+  uvicorn.run(app, host="0.0.0.0", port=8080)
