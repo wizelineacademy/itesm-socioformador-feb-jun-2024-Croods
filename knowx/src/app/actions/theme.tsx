@@ -1,6 +1,6 @@
 import { useTheme } from "next-themes";
 
-export default function checkTheme() {
+export default function CheckTheme() {
   const { resolvedTheme } = useTheme();
   return resolvedTheme;
 }

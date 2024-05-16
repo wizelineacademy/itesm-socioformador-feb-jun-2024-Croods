@@ -6,7 +6,6 @@ from openai import OpenAI
 from .config.config import OPENAI_MODEL_NAME, MAX_TOKENS, TEMPERATURE, INDEX_K
 from .prompt_repo import rag, get_prompts, get_sub_topics_prompt, get_final_categories_prompt, get_features_prompt
 import os
-import re
 import json
 
 async def run_plx(initialPromt, objects, features):
