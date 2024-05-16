@@ -128,6 +128,21 @@ jobs:
         id: deploy
         run: |
           npm install
+        working-directory: knowx
+
+      - name: SST unlock
+        run: |
+          sudo sst unlock --stage dev
+        working-directory: knowx
+      
+      - name: SST install
+        run: |
+          sudo sst install
+        working-directory: knowx
+
+      - name: SST Deploy
+        id: sst_deploy
+        run: |
           sudo sst deploy --stage dev
         working-directory: knowx
 
