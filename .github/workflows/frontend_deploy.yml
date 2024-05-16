@@ -67,6 +67,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -79,6 +80,9 @@ jobs:
           aws-region: us-east-1
           # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Verify AWS Credentials
+        run: aws sts get-caller-identity
         
       - name: Install SST
         run: |
