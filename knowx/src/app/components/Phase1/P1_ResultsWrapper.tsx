@@ -3,7 +3,10 @@ import React from "react";
 import Image from "next/image";
 import { navigateToPhase2 } from "@/app/actions/redirect";
 
-const P1_ResultsWrapper = (props: { children: JSX.Element[] }) => {
+const P1_ResultsWrapper = (props: {
+  children: JSX.Element[];
+  query: string;
+}) => {
   return (
     // <div className="flex flex-row gap-4 mt-4 flex-wrap w-full justify-around">
     <div className="flex bg-backgroundLight ">
@@ -32,7 +35,7 @@ const P1_ResultsWrapper = (props: { children: JSX.Element[] }) => {
         >
           <div
             className="text-white text-xl font-bold text-center"
-            onClick={() => navigateToPhase2()}
+            onClick={() => navigateToPhase2(props.query)}
           >
             Search
           </div>

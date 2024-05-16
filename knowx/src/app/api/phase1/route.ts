@@ -8,11 +8,9 @@ export async function POST(request: Request, response: Response) {
     method: "POST",
     body: u,
   });
-  // console.log(`huh???? =${await res.json()}`);
   const data = (await res.json()) as string[];
 
   return Response.json({ data });
-  // return Response.json({ data: ["Netflix", "Hulu", "Disney+"] });
 }
 
 export async function PUT(request: Request, response: Response) {

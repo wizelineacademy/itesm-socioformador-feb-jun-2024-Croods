@@ -4,13 +4,13 @@ import Image from "next/image";
 import UserMenu from "../components/UserMenu";
 import { checkSession } from "@/app/actions/redirect";
 import InputBar from "@/app/components/Dashboard/InputBar";
-import checkTheme from "@/app/actions/theme";
-import { navigate } from "@/app/actions/redirect";
-import { logSearch, getUserId } from "../../../db/dbActions";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   // const { data: session } = useSession();
-  checkSession();
+  if (!(await checkSession())) {
+    redirect("/auth");
+  }
   // const theme = await checkTheme();
   // if (!session) {
   //   redirect("/auth");

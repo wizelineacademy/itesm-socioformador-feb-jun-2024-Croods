@@ -14,11 +14,6 @@ const P1_SearchResult = (props: P1_SearchResultProps) => {
           ? "bg-black hover:bg-purple-300 transition duration-100 ease-in-out"
           : "bg-purple-500 transition duration-100 ease-in-out"
       }`}
-      // className={` w-[250px] h-[100px] rounded-lg m-10 p-10 ${
-      //   !props.isFavorite
-      //     ? "bg-white hover:bg-purple-300 transition duration-100 ease-in-out"
-      //     : "bg-purple-500 transition duration-100 ease-in-out"
-      // }`}
       onClick={() => toggleSearchObject(props.content)}
     >
       <div className="text-white text-xl font-bold text-center">
