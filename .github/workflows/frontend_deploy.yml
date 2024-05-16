@@ -65,9 +65,6 @@ jobs:
     name: "Deploy to AWS - DEV"
     environment: dev
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -78,9 +75,6 @@ jobs:
           aws-region: us-east-1
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-      - name: Verify AWS Credentials
-        run: aws sts get-caller-identity
         
       - name: Install SST
         run: |
@@ -91,20 +85,20 @@ jobs:
 
       - name: Copy Secrets
         run: |
-          sst secret set APIRootRoute $API_ROOT_ROUTE --stage dev
-          sst secret set DBUrl $DB_URL --stage dev
-          sst secret set NextAuthUrl $NEXTAUTH_URL --stage dev
-          sst secret set NextAuthSecret $NEXTAUTH_SECRET --stage dev
-          sst secret set GithubId $GITHUB_ID --stage dev
-          sst secret set GithubSecret $GITHUB_SECRET --stage dev
-          sst secret set GoogleClientId $GOOGLE_CLIENT_ID --stage dev
-          sst secret set GoogleClientSecret $GOOGLE_CLIENT_SECRET --stage dev
-          sst secret set EmailServerHost $EMAIL_SERVER_HOST --stage dev
-          sst secret set EmailServerPort $EMAIL_SERVER_PORT --stage dev
-          sst secret set EmailServerUser $EMAIL_SERVER_USER --stage dev
-          sst secret set EmailServerPassword $EMAIL_SERVER_PASSWORD --stage dev
-          sst secret set EmailFrom $EMAIL_FROM --stage dev
-          sst secret set SendgridApiKey $SENDGRID_API_KEY --stage dev
+          sst secret set APIRootRoute $API_ROOT_ROUTE
+          sst secret set DBUrl $DB_URL
+          sst secret set NextAuthUrl $NEXTAUTH_URL
+          sst secret set NextAuthSecret $NEXTAUTH_SECRET
+          sst secret set GithubId $GITHUB_ID
+          sst secret set GithubSecret $GITHUB_SECRET
+          sst secret set GoogleClientId $GOOGLE_CLIENT_ID
+          sst secret set GoogleClientSecret $GOOGLE_CLIENT_SECRET
+          sst secret set EmailServerHost $EMAIL_SERVER_HOST
+          sst secret set EmailServerPort $EMAIL_SERVER_PORT
+          sst secret set EmailServerUser $EMAIL_SERVER_USER
+          sst secret set EmailServerPassword $EMAIL_SERVER_PASSWORD
+          sst secret set EmailFrom $EMAIL_FROM
+          sst secret set SendgridApiKey $SENDGRID_API_KEY
         working-directory: knowx
         env:
           API_ROOT_ROUTE: ${{ secrets.API_ROOT_ROUTE }}
@@ -122,26 +116,14 @@ jobs:
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
 
-      - name: Npm Install
+      - name: NPM install
         id: npm_install
-        run: |
-          npm install
-        working-directory: knowx
-
-      - name: SST unlock
-        run: |
-          sudo sst unlock --stage dev
-        working-directory: knowx
-      
-      - name: SST install
-        run: |
-          sudo sst install
+        run: npm install
         working-directory: knowx
 
       - name: SST Deploy
         id: sst_deploy
-        run: |
-          sudo sst deploy --stage dev
+        run: sudo sst deploy
         working-directory: knowx
 
       - name: Extract URL from Deployment Output
