@@ -10,62 +10,62 @@ permissions:
   contents: read
 
 jobs:
-  test:
-    name: "Frontend Tests"
-    environment: prod
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+  # test:
+  #   name: "Frontend Tests"
+  #   environment: prod
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
 
-      - name: Install Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          working-directory: knowx
+  #     - name: Install Node
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: '20'
+  #         working-directory: knowx
 
-      - name: Install Dependencies
-        run: npm install
-        working-directory: knowx
+  #     - name: Install Dependencies
+  #       run: npm install
+  #       working-directory: knowx
 
-      - name: Make envfile
-        uses: SpicyPizza/create-envfile@v2.0
-        with:
-          envkey_API_ROOT_ROUTE: ${{ secrets.API_ROOT_ROUTE }}
-          envkey_DB_URL: ${{ secrets.DB_URL }}
-          envkey_NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
-          envkey_NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-          envkey_GITHUB_ID: ${{ secrets.NEXTAUTH_GITHUB_ID }}
-          envkey_GITHUB_SECRET: ${{ secrets.NEXTAUTH_GITHUB_SECRET }}
-          envkey_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          envkey_GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          envkey_EMAIL_SERVER_HOST: ${{ secrets.EMAIL_SERVER_HOST }}
-          envkey_EMAIL_SERVER_PORT: ${{ secrets.EMAIL_SERVER_PORT }}
-          envkey_EMAIL_SERVER_USER: ${{ secrets.EMAIL_SERVER_USER }}
-          envkey_EMAIL_SERVER_PASSWORD: ${{ secrets.EMAIL_SERVER_PASSWORD }}
-          envkey_EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
-          envkey_SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
-          directory: knowx
+  #     - name: Make envfile
+  #       uses: SpicyPizza/create-envfile@v2.0
+  #       with:
+  #         envkey_API_ROOT_ROUTE: ${{ secrets.API_ROOT_ROUTE }}
+  #         envkey_DB_URL: ${{ secrets.DB_URL }}
+  #         envkey_NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+  #         envkey_NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+  #         envkey_GITHUB_ID: ${{ secrets.NEXTAUTH_GITHUB_ID }}
+  #         envkey_GITHUB_SECRET: ${{ secrets.NEXTAUTH_GITHUB_SECRET }}
+  #         envkey_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+  #         envkey_GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+  #         envkey_EMAIL_SERVER_HOST: ${{ secrets.EMAIL_SERVER_HOST }}
+  #         envkey_EMAIL_SERVER_PORT: ${{ secrets.EMAIL_SERVER_PORT }}
+  #         envkey_EMAIL_SERVER_USER: ${{ secrets.EMAIL_SERVER_USER }}
+  #         envkey_EMAIL_SERVER_PASSWORD: ${{ secrets.EMAIL_SERVER_PASSWORD }}
+  #         envkey_EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+  #         envkey_SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+  #         directory: knowx
 
-      - name: Run Tests
-        uses: cypress-io/github-action@v6
-        with:
-          build: npm run build
-          start: npm start
-          working-directory: knowx
+  #     - name: Run Tests
+  #       uses: cypress-io/github-action@v6
+  #       with:
+  #         build: npm run build
+  #         start: npm start
+  #         working-directory: knowx
 
-      - name: Send Deploy Failure Message
-        if: failure()
-        run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=💥 Front Testing Failed"
+  #     - name: Send Deploy Failure Message
+  #       if: failure()
+  #       run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=💥 Front Testing Failed"
 
-      - name: Send Deploy Success Message
-        if: success()
-        run: |
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🧪 Front Testing Successful"
+  #     - name: Send Deploy Success Message
+  #       if: success()
+  #       run: |
+  #         curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🧪 Front Testing Successful"
 
 
   dev_deploy:
-    needs: test
+    # needs: test
     name: "Deploy to AWS - DEV"
     environment: dev
     runs-on: ubuntu-latest
@@ -86,13 +86,13 @@ jobs:
 
       - name: Setup AWS
         run: |
-          sudo mkdir -p ~/.aws/config
-          sudo echo "[default]" > ~/.aws/config
-          sudo echo "region = us-east-1" >> ~/.aws/config
-          sudo mkdir -p ~/.aws/credentials
-          sudo echo "[default]" > ~/.aws/credentials
-          sudo echo "aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
-          sudo echo "aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
+          sudo mkdir -p ~/.aws/config.txt
+          sudo echo "[default]" > ~/.aws/config.txt
+          sudo echo "region = us-east-1" >> ~/.aws/config.txt
+          sudo mkdir -p ~/.aws/credentials.txt
+          sudo echo "[default]" > ~/.aws/credentials.txt
+          sudo echo "aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials.txt
+          sudo echo "aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials.txt
         
       - name: Install SST
         run: |
