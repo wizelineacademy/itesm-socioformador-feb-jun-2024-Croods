@@ -63,7 +63,6 @@ jobs:
           curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🧪 Front Testing Successful"
 
 
-
   dev_deploy:
     needs: test
     name: "Deploy to AWS - DEV"
