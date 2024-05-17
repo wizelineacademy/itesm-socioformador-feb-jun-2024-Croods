@@ -87,6 +87,11 @@ jobs:
       - name: Setup AWS
         run: |
           sudo mkdir ~/.aws
+          sudo mkdir ~/.aws/credentials.txt
+          sudo mkdir ~/.aws/config.txt
+          sudo chmod 777 ~/.aws
+          sudo chmod 777 ~/.aws/credentials.txt
+          sudo chmod 777 ~/.aws/config.txt
           sudo printf "[default]\nregion = us-east-1" > ~/.aws/config.txt
           sudo printf "[default]\naws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}\naws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}" > ~/.aws/credentials.txt
         
