@@ -98,6 +98,23 @@ jobs:
           sst version
         working-directory: knowx
 
+      - name: Check secrets
+        run: |
+          echo $API_ROOT_ROUTE
+          echo $DB_URL
+          echo $NEXTAUTH_URL
+          echo $NEXTAUTH_SECRET
+          echo $GITHUB_ID
+          echo $GITHUB_SECRET
+          echo $GOOGLE_CLIENT_ID
+          echo $GOOGLE_CLIENT_SECRET
+          echo $EMAIL_SERVER_HOST
+          echo $EMAIL_SERVER_PORT
+          echo $EMAIL_SERVER_USER
+          echo $EMAIL_SERVER_PASSWORD
+          echo $EMAIL_FROM
+          echo $SENDGRID_API_KEY
+
       - name: Copy Secrets
         run: |
           sst secret set APIRootRoute $API_ROOT_ROUTE --stage dev
