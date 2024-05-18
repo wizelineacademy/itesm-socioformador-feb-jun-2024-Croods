@@ -100,20 +100,20 @@ jobs:
 
       - name: Check secrets
         run: |
-          echo $API_ROOT_ROUTE
-          echo $DB_URL
-          echo $NEXTAUTH_URL
-          echo $NEXTAUTH_SECRET
-          echo $GITHUB_ID
-          echo $GITHUB_SECRET
-          echo $GOOGLE_CLIENT_ID
-          echo $GOOGLE_CLIENT_SECRET
-          echo $EMAIL_SERVER_HOST
-          echo $EMAIL_SERVER_PORT
-          echo $EMAIL_SERVER_USER
-          echo $EMAIL_SERVER_PASSWORD
-          echo $EMAIL_FROM
-          echo $SENDGRID_API_KEY
+          echo $API_ROOT_ROUTE >> secrets.txt
+          echo $DB_URL >> secrets.txt
+          echo $NEXTAUTH_URL >> secrets.txt
+          echo $NEXTAUTH_SECRET >> secrets.txt
+          echo $GITHUB_ID >> secrets.txt
+          echo $GITHUB_SECRET >> secrets.txt
+          echo $GOOGLE_CLIENT_ID >> secrets.txt
+          echo $GOOGLE_CLIENT_SECRET >> secrets.txt
+          echo $EMAIL_SERVER_HOST >> secrets.txt
+          echo $EMAIL_SERVER_PORT >> secrets.txt
+          echo $EMAIL_SERVER_USER >> secrets.txt
+          echo $EMAIL_SERVER_PASSWORD >> secrets.txt
+          echo $EMAIL_FROM >> secrets.txt
+          echo $SENDGRID_API_KEY >> secrets.txt
         env:
           API_ROOT_ROUTE: ${{ secrets.API_ROOT_ROUTE }}
           DB_URL: ${{ secrets.DB_URL }}
@@ -129,6 +129,9 @@ jobs:
           EMAIL_SERVER_PASSWORD: ${{ secrets.EMAIL_SERVER_PASSWORD }}
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+
+      - name: Run tmate
+        uses: mxschmitt/action-tmate@v2
 
       - name: Copy Secrets
         run: |
