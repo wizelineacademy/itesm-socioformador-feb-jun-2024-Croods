@@ -32,12 +32,12 @@ export async function toggleCategory(obj: string) {
   setCookie(CATEGORIES_KEY, newFavorites.join(","));
 }
 export async function addCategory(obj: string) {
-  const { categories } = getCategories();
+  const { allObjects } = getCategories();
   let newFavorites: string[] = [];
-  if (categories.includes(obj)) {
-    newFavorites = categories.filter((object) => object !== obj);
+  if (allObjects.includes(obj)) {
+    newFavorites = allObjects.filter((object) => object !== obj);
   } else {
-    newFavorites = [...categories, obj];
+    newFavorites = [...allObjects, obj];
   }
   setCookie(ORIGINAL_CATEGORIES_KEY, newFavorites.join(","));
 }
@@ -46,10 +46,17 @@ export async function getSearchObjectsAction() {
   return getSearchObjects();
 }
 
+export async function clearSearches() {
+  setCookie(SEARCH_VALUES_KEY, "");
+  setCookie(ORIGINAL_SEARCH_VALUES_KEY, "");
+  setCookie(CURRENT_QUERY_KEY, "");
+  setCookie(CATEGORIES_KEY, "");
+  setCookie(ORIGINAL_CATEGORIES_KEY, "");
+}
+
 export async function initialSearchAction(query: string) {
   const topic = query;
   console.log(`topic=${topic}`);
-  // navigate(`dashboard/phase1/${query}`);
 
   const u = new URLSearchParams({ topic: topic });
   const res = await fetch(`${process.env.API_ROOT_ROUTE}/search/initial`, {
@@ -60,10 +67,11 @@ export async function initialSearchAction(query: string) {
   const data: string[] = await res.json();
   console.log(`data=${data}`);
 
-  setCookie(CURRENT_QUERY_KEY, data.join(","));
+  setCookie(CURRENT_QUERY_KEY, query);
   setCookie(ORIGINAL_SEARCH_VALUES_KEY, data.join(","));
   return data;
 }
+
 export async function categorySearchFunction(query: string) {
   const topic = query;
   console.log(`topic=${topic}`);
@@ -79,7 +87,7 @@ export async function categorySearchFunction(query: string) {
   console.log(`data=${data}`);
 
   setCookie(ORIGINAL_CATEGORIES_KEY, data);
-  return data;
+  // return data;
 }
 
 export async function getUserIdFunc(
