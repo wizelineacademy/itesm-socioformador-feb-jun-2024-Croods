@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS "account" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "error_log" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"userId" integer,
+	"userId" text,
 	"description" text,
 	"errorTime" timestamp with time zone,
 	"origin" varchar(100)
@@ -23,22 +23,17 @@ CREATE TABLE IF NOT EXISTS "error_log" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "login_log" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"userId" integer,
+	"userId" text,
 	"accessDate" timestamp with time zone
-);
---> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "old_user" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"email" varchar(100) NOT NULL,
-	"region" varchar(20),
-	"createdAt" date,
-	CONSTRAINT "old_user_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "search_log" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"idUser" integer,
+	"userId" text,
 	"search" varchar(128),
+	"selectedTopics" text,
+	"selectedCategories" text,
+	"searchResults" text,
 	"timeOfSearch" timestamp with time zone,
 	"feedback" boolean
 );
@@ -71,19 +66,19 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "error_log" ADD CONSTRAINT "error_log_userId_old_user_id_fk" FOREIGN KEY ("userId") REFERENCES "old_user"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "error_log" ADD CONSTRAINT "error_log_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "login_log" ADD CONSTRAINT "login_log_userId_old_user_id_fk" FOREIGN KEY ("userId") REFERENCES "old_user"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "login_log" ADD CONSTRAINT "login_log_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "search_log" ADD CONSTRAINT "search_log_idUser_old_user_id_fk" FOREIGN KEY ("idUser") REFERENCES "old_user"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "search_log" ADD CONSTRAINT "search_log_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
