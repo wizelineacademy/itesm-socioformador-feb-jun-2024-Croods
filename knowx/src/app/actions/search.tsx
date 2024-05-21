@@ -1,5 +1,6 @@
 "use server";
-import { getUserId, logSearch } from "../api/schema";
+//import { getUserId, logSearch } from "../api/schema";
+import { getUserId, logSearch } from "../../../db/dbActions";
 import { cookies } from "next/headers";
 import {
   ORIGINAL_SEARCH_VALUES_KEY,
@@ -56,6 +57,7 @@ export async function getUserIdFunc(
 ) {
   // const { session, query } = await request.json();
   getUserId({ newEmail: user || "" }).then(async (id) => {
-    await logSearch({ userId: id, search: query, feedback: false });
+    //await logSearch({ userId: id, search: query, feedback: false });
+    await logSearch({ old_userId: id, search: query, feedback: false });
   });
 }
