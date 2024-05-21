@@ -7,7 +7,7 @@ async def ddg_url_search(topic):
   results = []
 
   # Use DuckDuckGo API to get results on the given topic (Returns: Dict['title', 'href', 'body'])
-  ddgResults = await AsyncDDGS(proxy=None).text(topic, max_results=NUM_GEN_LINKS)
+  ddgResults = AsyncDDGS(proxy=None).text(topic, max_results=NUM_GEN_LINKS)
   
   if len(ddgResults) != 0:
     # Clean up results, removing links in the prohibited list

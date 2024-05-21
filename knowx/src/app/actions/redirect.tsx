@@ -3,8 +3,9 @@
 
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth/next";
+import { categorySearchFunction } from "./search";
 
-export async function checkSession(): Promise<boolean> {
+export async function checkSession(): Promise<Boolean> {
   // const { data: session } = useSession();
   // if (!session) {
   //   redirect("/auth");
@@ -12,11 +13,10 @@ export async function checkSession(): Promise<boolean> {
   // }
   // return true;
   const session = await getServerSession();
-  if (!session) {
-    redirect("/auth");
-    return false;
-  }
-  return true;
+  return session ? true : false;
+  // if (!session) {
+  //   // return false;
+  // }
 }
 
 // export async function startPhase1(query: string) {
@@ -29,6 +29,11 @@ export async function navigate(query: string) {
 export async function navigateToDashboard() {
   redirect("/dashboard");
 }
-export async function navigateToPhase2() {
+export async function navigateToPhase2(query: string) {
+  categorySearchFunction(query);
   redirect("/dashboard/phase2");
+}
+
+export async function navigateToHistory() {
+  redirect("/history");
 }

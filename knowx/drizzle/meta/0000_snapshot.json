@@ -1,5 +1,5 @@
 {
-  "id": "0d457488-f449-429b-915a-f8d4d1d1087a",
+  "id": "7023e496-a890-4b37-b022-177d21eb43da",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -114,7 +114,7 @@
         },
         "userId": {
           "name": "userId",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -139,10 +139,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "error_log_userId_old_user_id_fk": {
-          "name": "error_log_userId_old_user_id_fk",
+        "error_log_userId_user_id_fk": {
+          "name": "error_log_userId_user_id_fk",
           "tableFrom": "error_log",
-          "tableTo": "old_user",
+          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
@@ -168,7 +168,7 @@
         },
         "userId": {
           "name": "userId",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -181,10 +181,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "login_log_userId_old_user_id_fk": {
-          "name": "login_log_userId_old_user_id_fk",
+        "login_log_userId_user_id_fk": {
+          "name": "login_log_userId_user_id_fk",
           "tableFrom": "login_log",
-          "tableTo": "old_user",
+          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
@@ -198,48 +198,6 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "old_user": {
-      "name": "old_user",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "email": {
-          "name": "email",
-          "type": "varchar(100)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "region": {
-          "name": "region",
-          "type": "varchar(20)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "old_user_email_unique": {
-          "name": "old_user_email_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
-        }
-      }
-    },
     "search_log": {
       "name": "search_log",
       "schema": "",
@@ -250,15 +208,33 @@
           "primaryKey": true,
           "notNull": true
         },
-        "idUser": {
-          "name": "idUser",
-          "type": "integer",
+        "userId": {
+          "name": "userId",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
         "search": {
           "name": "search",
           "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "selectedTopics": {
+          "name": "selectedTopics",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "selectedCategories": {
+          "name": "selectedCategories",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "searchResults": {
+          "name": "searchResults",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -277,12 +253,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "search_log_idUser_old_user_id_fk": {
-          "name": "search_log_idUser_old_user_id_fk",
+        "search_log_userId_user_id_fk": {
+          "name": "search_log_userId_user_id_fk",
           "tableFrom": "search_log",
-          "tableTo": "old_user",
+          "tableTo": "user",
           "columnsFrom": [
-            "idUser"
+            "userId"
           ],
           "columnsTo": [
             "id"

@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import OverflowHiddenBody from "../components/OverflowHiddenBody";
 
 export const metadata: Metadata = {
-  title: "KnowX - Dashboard",
-  description: "Your dashboard for all things KnowX.",
+  title: "KnowX - History",
+  description: "Your search history.",
 };
 
 export default async function RootLayout({
