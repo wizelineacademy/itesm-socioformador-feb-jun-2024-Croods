@@ -15,7 +15,7 @@ const InputBar = () => {
         className="absolute h-20 w-30 rounded-lg text-gray px-4 text-lg right-0"
         onClick={() => {
           initialSearchAction(query);
-          navigate("query");
+          navigate(query);
         }}
       >
         <Image

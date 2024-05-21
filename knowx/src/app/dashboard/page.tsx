@@ -4,13 +4,14 @@ import Image from "next/image";
 import UserMenu from "../components/UserMenu";
 import { checkSession } from "@/app/actions/redirect";
 import InputBar from "@/app/components/Dashboard/InputBar";
-import checkTheme from "@/app/actions/theme";
-import { navigate } from "@/app/actions/redirect";
-import { logSearch, getUserId } from "../../../db/dbActions";
+import { redirect } from "next/navigation";
+import Header from "../components/Header";
 
 export default async function Home() {
   // const { data: session } = useSession();
-  checkSession();
+  if (!(await checkSession())) {
+    redirect("/auth");
+  }
   // const theme = await checkTheme();
   // if (!session) {
   //   redirect("/auth");
@@ -33,17 +34,7 @@ export default async function Home() {
   return (
     <main className="bg-backgroundLight dark:bg-backgroundDark">
       <div className="mx-auto px-6 max-w-6xl h-screen text-gray-600 flex flex-wrap content-center justify-center">
-        <header className="fixed top-0 left-0 right-0 py-3 flex justify-center">
-          <Image
-            className="relative top-0 left-0 right-0"
-            src={"light" !== "light" ? "/Logo.svg" : "/LogoDark.svg"}
-            alt="KnowX Logo"
-            width={50}
-            height={50}
-            priority
-          />
-          <UserMenu className="absolute right-0 mr-3" />
-        </header>
+        <Header isDashboard={true}></Header>
         <InputBar></InputBar>
       </div>
     </main>

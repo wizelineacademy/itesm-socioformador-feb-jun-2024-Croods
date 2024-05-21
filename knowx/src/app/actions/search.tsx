@@ -1,18 +1,16 @@
 "use server";
-import { getUserId, logSearch } from "../../../db/dbActions";
+import { getUserId, logSearch } from "../../../db/insertActions";
+import { logSearchTopics } from "../../../db/updateActions";
 import { cookies } from "next/headers";
 import {
   ORIGINAL_SEARCH_VALUES_KEY,
   SEARCH_VALUES_KEY,
+  CURRENT_QUERY_KEY,
+  ORIGINAL_CATEGORIES_KEY,
+  CATEGORIES_KEY,
 } from "../const/cookies";
-import {
-  getSearchObjects,
-  setCookie,
-  searchAllObjects,
-  storeOriginalObjects,
-  initialSearch,
-} from "../helper/cookies";
-import { navigate } from "./redirect";
+import { getSearchObjects, getCategories, setCookie } from "../helper/cookies";
+import { getServerSession } from "next-auth";
 
 export async function toggleSearchObject(obj: string) {
   const { searchObjects } = getSearchObjects();
@@ -24,6 +22,26 @@ export async function toggleSearchObject(obj: string) {
   }
   setCookie(SEARCH_VALUES_KEY, newFavorites.join(","));
 }
+export async function toggleCategory(obj: string) {
+  const { categories } = getCategories();
+  let newFavorites: string[] = [];
+  if (categories.includes(obj)) {
+    newFavorites = categories.filter((object) => object !== obj);
+  } else {
+    newFavorites = [...categories, obj];
+  }
+  setCookie(CATEGORIES_KEY, newFavorites.join(","));
+}
+export async function addCategory(obj: string) {
+  const { categories } = getCategories();
+  let newFavorites: string[] = [];
+  if (categories.includes(obj)) {
+    newFavorites = categories.filter((object) => object !== obj);
+  } else {
+    newFavorites = [...categories, obj];
+  }
+  setCookie(ORIGINAL_CATEGORIES_KEY, newFavorites.join(","));
+}
 
 export async function getSearchObjectsAction() {
   return getSearchObjects();
@@ -31,30 +49,52 @@ export async function getSearchObjectsAction() {
 
 export async function initialSearchAction(query: string) {
   const topic = query;
-  console.log(`topic=${topic}`);
-  // navigate(`dashboard/phase1/${query}`);
+  const u = new URLSearchParams({ topic: topic });
+  const res = await fetch(`${process.env.API_ROOT_ROUTE}/search/initial`, {
+    method: "POST",
+    body: u,
+  });
 
-  // const u = new URLSearchParams({ topic: topic });
-  // const res = await fetch(`${process.env.API_ROOT_ROUTE}/search/initial`, {
-  //   method: "POST",
-  //   body: u,
-  // });
-  // console.log(`huh???? =${res}`);
-  // const result = await res.json();
-  // const data = (await result) as string[];
+  const data: string[] = await res.json();
 
-  // return { data };
-  let resFake = ["Netflix", "Hulu", "Disney+"];
-  // storeOriginalObjects(res);
-  setCookie(ORIGINAL_SEARCH_VALUES_KEY, resFake.join(","));
-  return resFake;
+  setCookie(CURRENT_QUERY_KEY, data.join(","));
+  setCookie(ORIGINAL_SEARCH_VALUES_KEY, data.join(","));
+
+  const session = await getServerSession();
+
+  getUserIdFunc(session?.user?.email, query);
+
+  return data;
+}
+export async function categorySearchFunction(query: string) {
+  const topic = query;
+  const u = new URLSearchParams({ topic: topic });
+  const res = await fetch(`${process.env.API_ROOT_ROUTE}/search/categories`, {
+    method: "POST",
+    body: u,
+  });
+  const data: string = await res.json();
+
+  setCookie(ORIGINAL_CATEGORIES_KEY, data);
+
+  // Log Selected Topics
+
+  const { searchObjects } = getSearchObjects();
+
+  const processedTopic = topic.replaceAll("%20", " ");
+
+  logSearchTopics({
+    search: processedTopic,
+    selectedTopics: searchObjects.join(", "),
+  });
+
+  return data;
 }
 
 export async function getUserIdFunc(
   user: string | null | undefined,
   query: string
 ) {
-  // const { session, query } = await request.json();
   getUserId({ newEmail: user || "" }).then(async (id) => {
     await logSearch({ old_userId: id, search: query, feedback: false });
   });

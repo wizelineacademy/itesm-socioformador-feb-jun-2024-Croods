@@ -1,4 +1,4 @@
-import { getUserId, logSearch } from "../../../../db/dbActions";
+import { getUserId, logSearch } from "../../../../db/insertActions";
 
 export async function POST(request: Request, response: Response) {
   const { topic } = await request.json();
@@ -8,16 +8,14 @@ export async function POST(request: Request, response: Response) {
     method: "POST",
     body: u,
   });
-  // console.log(`huh???? =${await res.json()}`);
   const data = (await res.json()) as string[];
 
   return Response.json({ data });
-  // return Response.json({ data: ["Netflix", "Hulu", "Disney+"] });
 }
 
 export async function PUT(request: Request, response: Response) {
   const { session, query } = await request.json();
   getUserId({ newEmail: session?.user?.email || "" }).then(async (id) => {
-    await logSearch({ old_userId: id, search: query, feedback: false });
+    await logSearch({ userId: id, search: query, feedback: false });
   });
 }

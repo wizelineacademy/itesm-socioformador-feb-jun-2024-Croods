@@ -1,5 +1,5 @@
 import unittest
-from main import app
+from api.app import app
 
 class TestAPI(unittest.TestCase):
   def setUp(self):

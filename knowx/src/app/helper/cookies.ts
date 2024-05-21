@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 import {
   SEARCH_VALUES_KEY,
   ORIGINAL_SEARCH_VALUES_KEY,
+  CATEGORIES_KEY,
+  ORIGINAL_CATEGORIES_KEY,
 } from "@/app/const/cookies";
 
 export function setCookie(key: string, value: string) {
@@ -52,5 +54,12 @@ export function getSearchObjects() {
     searchObjects: searchObjects ? searchObjects.split(",") : [],
     allObjects:
       cookies().get(ORIGINAL_SEARCH_VALUES_KEY)?.value.split(",") || [],
+  };
+}
+export function getCategories() {
+  const categories = cookies().get(CATEGORIES_KEY)?.value;
+  return {
+    categories: categories ? categories.split(",") : [],
+    allObjects: cookies().get(ORIGINAL_CATEGORIES_KEY)?.value.split(",") || [],
   };
 }
