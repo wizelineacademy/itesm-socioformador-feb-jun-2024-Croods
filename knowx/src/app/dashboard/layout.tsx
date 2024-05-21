@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import OverflowHiddenBody from "../components/OverflowHiddenBody";
 
 export const metadata: Metadata = {
   title: "KnowX - Dashboard",
@@ -12,9 +13,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        {children}
-      </body>
+      <OverflowHiddenBody>{children}</OverflowHiddenBody>
     </html>
   );
 }

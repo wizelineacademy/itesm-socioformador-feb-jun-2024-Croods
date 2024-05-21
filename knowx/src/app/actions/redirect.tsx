@@ -30,6 +30,9 @@ export async function navigateToPhase2(query: string) {
   await categorySearchFunction(query);
   redirect("/dashboard/phase2");
 }
+
+export async function navigateToHistory() {
+  redirect("/history");
 export async function navigateToPhase3() {
   return null;
 }

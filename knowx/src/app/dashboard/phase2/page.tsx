@@ -6,6 +6,7 @@ import { getCategories } from "@/app/helper/cookies";
 import P2_NewCategory from "@/app/components/Phase2/P2_NewCategory";
 import { checkSession } from "@/app/actions/redirect";
 import { redirect } from "next/navigation";
+import Header from "@/app/components/Header";
 import { P2_CategoryResults } from "@/app/components/Phase2/P2_CategoryResults";
 
 export default async function Features() {
@@ -18,6 +19,9 @@ export default async function Features() {
 
   return (
     <main className="flex bg-backgroundLight dark:bg-backgroundDark">
+      {/* <UserMenu className="absolute right-0 mr-3" /> */}
+      <div className="mx-auto px-6 max-w-6xl h-screen text-gray-600 flex flex-wrap content-center justify-start flex-col">
+        {/* <section className="relative top-0 left-0 right-0 py-3 flex justify-center">
       <UserMenu className="absolute right-0 mr-3" />
       <div className="mx-auto px-6 max-w-6xl h-screen text-gray-600 flex flex-wrap content-center items-center justify-start align-center flex-col">
         <section className="relative top-0 left-0 right-0 py-3 flex justify-center">
@@ -29,7 +33,9 @@ export default async function Features() {
             height={50}
             priority
           />
-        </section>
+        </section> */}
+
+        <Header isDashboard={true} />
 
         <div className="w-full relative p-14 snap-start">
           <h1 className="text-5xl text-center text-black dark:text-white">

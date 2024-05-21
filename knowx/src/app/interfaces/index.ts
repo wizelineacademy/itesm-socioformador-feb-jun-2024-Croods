@@ -8,3 +8,9 @@ export type P1_SearchResultProps = {
   index: number;
   isFavorite: boolean;
 };
+
+export type SimpleHistoryType = {
+  id: number;
+  search: string | null;
+  timestamp: Date | null;
+};
