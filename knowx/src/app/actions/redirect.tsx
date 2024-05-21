@@ -33,3 +33,7 @@ export async function navigateToPhase2(query: string) {
   categorySearchFunction(query);
   redirect("/dashboard/phase2");
 }
+
+export async function navigateToHistory() {
+  redirect("/history");
+}

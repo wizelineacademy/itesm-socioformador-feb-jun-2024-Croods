@@ -1,4 +1,4 @@
-import { getUserId, logSearch } from "../../../../db/dbActions";
+import { getUserId, logSearch } from "../../../../db/insertActions";
 
 export async function POST(request: Request, response: Response) {
   const { topic } = await request.json();
@@ -16,6 +16,6 @@ export async function POST(request: Request, response: Response) {
 export async function PUT(request: Request, response: Response) {
   const { session, query } = await request.json();
   getUserId({ newEmail: session?.user?.email || "" }).then(async (id) => {
-    await logSearch({ old_userId: id, search: query, feedback: false });
+    await logSearch({ userId: id, search: query, feedback: false });
   });
 }

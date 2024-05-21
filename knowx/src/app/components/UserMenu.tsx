@@ -2,14 +2,16 @@
 import Image, { ImageLoader } from "next/image";
 import { Fragment } from "react";
 import { useSession, signOut } from "next-auth/react";
+import { navigateToHistory, navigateToDashboard } from "../actions/redirect";
 import { Menu, Transition } from "@headlessui/react";
 import {
   ChevronDownIcon,
   ArrowLeftEndOnRectangleIcon,
   BookmarkIcon,
+  HomeIcon,
 } from "@heroicons/react/20/solid";
 
-function MyDropdown() {
+function MyDropdown({ isDashboard = true }: { isDashboard?: boolean }) {
   return (
     <Menu>
       <Menu.Button>
@@ -28,17 +30,39 @@ function MyDropdown() {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items className="absolute right-0 top-full mt-1 w-full origin-top-right divide-y bg-[#4040401a]  divide-gray-600 rounded-md shadow-lg ring-1 ring-black/5 focus:outline-none">
-          <Menu.Item>
-            <div className="flex items-center text-start">
-              <BookmarkIcon
-                className="ml-3 h-6 w-6 text-gray-600 "
-                aria-hidden="true"
-              />
-              <button className="p-3 rounded-lg text-gray-600  w-full text-left">
-                History
-              </button>
-            </div>
-          </Menu.Item>
+          {!isDashboard && (
+            <Menu.Item>
+              <div className="flex items-center text-start">
+                <HomeIcon
+                  className="ml-3 h-6 w-6 text-gray-600 "
+                  aria-hidden="true"
+                />
+                <button
+                  onClick={() => navigateToDashboard()}
+                  className="p-3 rounded-lg text-gray-600  w-full text-left"
+                >
+                  Dashboard
+                </button>
+              </div>
+            </Menu.Item>
+          )}
+
+          {isDashboard && (
+            <Menu.Item>
+              <div className="flex items-center text-start">
+                <BookmarkIcon
+                  className="ml-3 h-6 w-6 text-gray-600 "
+                  aria-hidden="true"
+                />
+                <button
+                  onClick={() => navigateToHistory()}
+                  className="p-3 rounded-lg text-gray-600  w-full text-left"
+                >
+                  History
+                </button>
+              </div>
+            </Menu.Item>
+          )}
 
           <Menu.Item>
             <div className="flex items-center text-start">
@@ -64,7 +88,13 @@ const myLoader: ImageLoader = ({ src }) => {
   return src;
 };
 
-export default function UserMenu({ className }: { className: string }) {
+export default function UserMenu({
+  className,
+  isDashboard = true,
+}: {
+  className: string;
+  isDashboard?: boolean;
+}) {
   const { data: session } = useSession();
 
   return (
@@ -83,7 +113,7 @@ export default function UserMenu({ className }: { className: string }) {
           alt="User Image"
           loader={myLoader}
         />
-        <MyDropdown />
+        <MyDropdown isDashboard={isDashboard} />
       </div>
     </div>
   );

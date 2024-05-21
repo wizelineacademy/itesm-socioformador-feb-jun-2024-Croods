@@ -16,8 +16,8 @@ export default async function Home({ params }: { params: { query: string } }) {
   // const data = await initialSearchAction(decodeURI(params.query));
   const { searchObjects, allObjects } = await getSearchObjectsAction();
   return (
-    <main className="">
-      <UserMenu className="absolute right-0 mr-3" />
+    <main className="bg-backgroundLight dark:bg-backgroundDark">
+      {/* <UserMenu className="absolute right-0 mr-3" /> */}
       <P1_ResultsWrapper query={params.query}>
         {allObjects.map((item: string, index: number) => (
           <P1_SearchResult

@@ -1,5 +1,6 @@
 "use server";
-import { getUserId, logSearch } from "../../../db/dbActions";
+import { getUserId, logSearch } from "../../../db/insertActions";
+import { logSearchTopics } from "../../../db/updateActions";
 import { cookies } from "next/headers";
 import {
   ORIGINAL_SEARCH_VALUES_KEY,
@@ -9,7 +10,7 @@ import {
   CATEGORIES_KEY,
 } from "../const/cookies";
 import { getSearchObjects, getCategories, setCookie } from "../helper/cookies";
-import { navigate } from "./redirect";
+import { getServerSession } from "next-auth";
 
 export async function toggleSearchObject(obj: string) {
   const { searchObjects } = getSearchObjects();
@@ -48,37 +49,45 @@ export async function getSearchObjectsAction() {
 
 export async function initialSearchAction(query: string) {
   const topic = query;
-  console.log(`topic=${topic}`);
-  // navigate(`dashboard/phase1/${query}`);
-
   const u = new URLSearchParams({ topic: topic });
   const res = await fetch(`${process.env.API_ROOT_ROUTE}/search/initial`, {
     method: "POST",
     body: u,
   });
-  console.log(`huh???? =${res}`);
+
   const data: string[] = await res.json();
-  console.log(`data=${data}`);
 
   setCookie(CURRENT_QUERY_KEY, data.join(","));
   setCookie(ORIGINAL_SEARCH_VALUES_KEY, data.join(","));
+
+  const session = await getServerSession();
+
+  getUserIdFunc(session?.user?.email, query);
+
   return data;
 }
 export async function categorySearchFunction(query: string) {
   const topic = query;
-  console.log(`topic=${topic}`);
-  // navigate(`dashboard/phase1/${query}`);
-
   const u = new URLSearchParams({ topic: topic });
   const res = await fetch(`${process.env.API_ROOT_ROUTE}/search/categories`, {
     method: "POST",
     body: u,
   });
-  console.log(`huh???? =${res}`);
   const data: string = await res.json();
-  console.log(`data=${data}`);
 
   setCookie(ORIGINAL_CATEGORIES_KEY, data);
+
+  // Log Selected Topics
+
+  const { searchObjects } = getSearchObjects();
+
+  const processedTopic = topic.replaceAll("%20", " ");
+
+  logSearchTopics({
+    search: processedTopic,
+    selectedTopics: searchObjects.join(", "),
+  });
+
   return data;
 }
 
@@ -86,8 +95,7 @@ export async function getUserIdFunc(
   user: string | null | undefined,
   query: string
 ) {
-  // const { session, query } = await request.json();
   getUserId({ newEmail: user || "" }).then(async (id) => {
-    await logSearch({ old_userId: id, search: query, feedback: false });
+    await logSearch({ userId: id, search: query, feedback: false });
   });
 }
