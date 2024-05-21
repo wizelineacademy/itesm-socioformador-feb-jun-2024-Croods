@@ -49,7 +49,7 @@ export default function Phase3() {
   };
 
   return (
-    <div className="flex flex-col flex-1 bg-backgroundLight rounded-xl h-screen">
+    <div className="flex flex-col flex-1 bg-backgroundLight rounded-xl h-screen overflow-y-scroll">
       <Header isDashboard={false} title="Phase 3" />
 
       <div className="flex flex-col space-y-8 mt-40">
