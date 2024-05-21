@@ -10,10 +10,10 @@ import { PlusIcon, MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 const P2_NewCategory = () => {
   const [newFeature, setNewFeature] = useState("");
   return (
-    <div className="flex mt-5 w-fit items-center justify-center ">
+    <div className="flex mt-5 w-fit items-center justify-center relative">
       <input
         name=""
-        className="bg-black dark:bg-backgroundLight rounded-lg text-white dark:text-black text-base py-3 text-center"
+        className="bg-black dark:bg-backgroundLight rounded-lg text-white dark:text-black text-base py-3 text-center align-center mx-[60px]"
         onChange={(e) => setNewFeature(e.target.value)}
         value={newFeature}
         placeholder="Type new category"

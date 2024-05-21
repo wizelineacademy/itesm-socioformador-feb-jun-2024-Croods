@@ -8,7 +8,7 @@ interface P2_DynamicButtonProps {
 export const P2_DynamicButton = (props: P2_DynamicButtonProps) => {
   return (
     <button
-      className="text-black text-4xl p-1 h-full aspect-square bg-white rounded-full text-center relative right-0 ml-10"
+      className="text-black text-4xl p-1 h-full aspect-square bg-white rounded-full text-center absolute right-0"
       onClick={() => {
         props.function();
         // setNewFeature("");

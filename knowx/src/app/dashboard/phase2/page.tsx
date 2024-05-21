@@ -37,7 +37,7 @@ export default async function Features() {
           </h1>
         </div>
 
-        <div className="overflow-y-scroll h-[20rem] items-center justify-center p-3 no-scrollbar">
+        <div className="overflow-y-scroll h-[20rem] items-center justify-center p-3 pretty-scrollbar">
           <ul className="grid grid-cols-2 flex-wrap gap-8">
             {allObjects.map((feature, index) => (
               <P2_CategoryResults
