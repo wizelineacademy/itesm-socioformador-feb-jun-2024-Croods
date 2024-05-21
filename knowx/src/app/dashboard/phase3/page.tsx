@@ -46,72 +46,66 @@ export default function Phase3() {
     };
 
     return (
-        <div className="flex h-screen bg-white border-solid border-4 border-black rounded-2xl">
-            <header>
-                <title>Comparacion</title>
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-            </header>
+        <div className="flex flex-col flex-1 bg-backgroundLight rounded-xl h-screen">
 
-            <div className="flex flex-col fixed h-full overflow-auto bg-black w-48 rounded-r-3xl items-center justify-start p-10 space-y-4">
-                <Image
-                    className="flex items-center justify-center w-20 h-20"
-                    src={resolvedTheme === "light" ? "/Logo.svg" : "/LogoDark.svg"}
-                    alt="KnowX Logo"
-                    width={50}
-                    height={50}
-                    priority
-                />
-                <h2 className="text-lg font-bold">KnowX</h2>
+            <div className="bg-gray-400 m-2">
+                Here goes the header
             </div>
-
-            <div className="flex flex-col flex-1 p-6 md:ml-48">
-                <div className="flex flex-col text-black sm:ml-48 md:ml-0 space-y-8">
-                    <div className="flex items-center justify-center">
-                        <input
-                            name=""
-                            className="bg-black rounded-2xl text-gray-400 text-md py-4 w-3/4 h-10 text-center"
-                            onChange={(e) => setQuery(e.target.value)}
-                            value="Enter your new search here."
+            
+            <div className="flex flex-col space-y-8 m-5">
+                <div className="flex items-center justify-center">
+                    <input
+                        name=""
+                        className="bg-black rounded-2xl text-white text-md py-4 w-3/4 h-10 text-center shadow-lg"
+                        onChange={(e) => setQuery(e.target.value)}
+                        value="Enter your new search here..."
+                    />
+                    <button className="text-black text-4xl px-4">
+                        <Image
+                            className="relative top-0 left-0 right-0 text-black"
+                            src="/arrow-right.svg"
+                            alt="Search Arrow Right"
+                            width={25}
+                            height={20}
+                            priority
                         />
-                        <button className="text-black text-4xl px-4">
-                            <Image
-                                className="relative top-0 left-0 right-0 text-black"
-                                src="/arrow-right.svg"
-                                alt="Search Arrow Right"
-                                width={25}
-                                height={20}
-                                priority
-                            />
-                        </button>
+                    </button>
+                </div>
+
+                <div className="flex flex-col items-center justify-center w-full h-full text-black ">
+                    <div className="mt-5 flex overflow-hidden border-4 rounded-3xl border-black w-4/5 shadow-xl overflow-y-scroll no-scrollbar h-[25rem]">
+
+                        <table className="table-auto w-full bg-white shadow-md">
+
+                            <thead className="sticky top-0 bg-white">
+                                <tr>
+                                    <th className="px-8 py-4">Tool Name</th>
+                                    <th className="px-8 py-4">{featureNames[0]}</th>
+                                    <th className="px-8 py-4">{featureNames[1]}</th>
+                                </tr>
+                            </thead>
+
+                            <tbody className="border-2">
+                                {serviceNames.map((serviceName, index) => (
+                                    <tr
+                                        key={index}
+                                        onClick={() => handleRowClick(serviceName)}
+                                        className={`cursor-pointer ${selectedSoftwareList.includes(serviceName) ? 'bg-backgroundLight bg-opacity-30' : ''} text-center border-2`}
+                                    >
+                                        <td className="px-8 py-4">{serviceName}</td>
+                                        <td className="px-8 py-4">{finalAnswer[serviceName][featureNames[0]]}</td>
+                                        <td className="px-8 py-4">{finalAnswer[serviceName][featureNames[1]]}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+
+                        </table>
                     </div>
 
-                    <div className="flex flex-col items-center justify-center w-full h-full">
-                        <h2 className="text-black w-3/4 font-bold text-2xl">Tools Found</h2>
-                        <div className="mt-2 flex overflow-hidden border-4 rounded-3xl border-black w-4/5">
-                            <table className="table-auto w-full bg-white">
-                                <thead>
-                                    <tr>
-                                        <th className="px-4 py-2">Tool Name</th>
-                                        <th className="px-4 py-2">{featureNames[0]}</th>
-                                        <th className="px-4 py-2">{featureNames[1]}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {serviceNames.map((serviceName, index) => (
-                                        <tr
-                                            key={index}
-                                            onClick={() => handleRowClick(serviceName)}
-                                            className={`cursor-pointer ${selectedSoftwareList.includes(serviceName) ? 'bg-pink-500' : ''}`}
-                                        >
-                                            <td className="border px-4 py-2">{serviceName}</td>
-                                            <td className="border px-4 py-2">{finalAnswer[serviceName][featureNames[0]]}</td>
-                                            <td className="border px-4 py-2">{finalAnswer[serviceName][featureNames[1]]}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    <button className="bg-black text-white rounded-3xl m-8 py-2 px-8 hover:bg-neutral-800 border-2 border-black shadow-lg">
+                        Compare
+                    </button>
+
                 </div>
             </div>
         </div>
