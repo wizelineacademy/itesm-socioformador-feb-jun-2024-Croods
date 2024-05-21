@@ -7,32 +7,13 @@ import P2_NewCategory from "@/app/components/Phase2/P2_NewCategory";
 import { checkSession } from "@/app/actions/redirect";
 import { redirect } from "next/navigation";
 import Header from "@/app/components/Header";
+import { P2_CategoryResults } from "@/app/components/Phase2/P2_CategoryResults";
 
 export default async function Features() {
   if (!(await checkSession())) {
     redirect("/auth");
   }
   const { categories, allObjects } = getCategories();
-  // const [newFeature, setNewFeature] = useState<string>("");
-  // // const featuresList = categorySearchFunction
-  // const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
-
-  // const addNewFeature = () => {
-  //   if (newFeature.trim() !== "") {
-  //     //featuresList.push(newFeature);
-  //     setFeaturesList([...featuresList, newFeature]);
-  //     setNewFeature(""); // Clear input after adding the feature
-  //   }
-  // };
-
-  // const toggleFeature = (feature: string) => {
-  //   const isSelected = selectedFeatures.includes(feature);
-  //   if (isSelected) {
-  //     setSelectedFeatures(selectedFeatures.filter((item) => item !== feature));
-  //   } else {
-  //     setSelectedFeatures([...selectedFeatures, feature]);
-  //   }
-  // };
 
   // const { resolvedTheme } = useTheme();
 
@@ -41,6 +22,9 @@ export default async function Features() {
       {/* <UserMenu className="absolute right-0 mr-3" /> */}
       <div className="mx-auto px-6 max-w-6xl h-screen text-gray-600 flex flex-wrap content-center justify-start flex-col">
         {/* <section className="relative top-0 left-0 right-0 py-3 flex justify-center">
+      <UserMenu className="absolute right-0 mr-3" />
+      <div className="mx-auto px-6 max-w-6xl h-screen text-gray-600 flex flex-wrap content-center items-center justify-start align-center flex-col">
+        <section className="relative top-0 left-0 right-0 py-3 flex justify-center">
           <Image
             className="relative top-0 left-0 right-0"
             src={"light" === "light" ? "/Logo.svg" : "/LogoDark.svg"}
@@ -59,22 +43,16 @@ export default async function Features() {
           </h1>
         </div>
 
-        <div className="overflow-y-scroll h-[20rem] items-center justify-center p-3 no-scrollbar">
+        <div className="overflow-y-scroll h-[20rem] items-center justify-center p-3 pretty-scrollbar">
           <ul className="grid grid-cols-2 flex-wrap gap-8">
             {allObjects.map((feature, index) => (
-              <button
+              <P2_CategoryResults
                 key={index}
-                className={`text-xl rounded-xl py-3 px-8 text-wrap text-ellipsis overflow-hidden ${
-                  categories.includes(feature)
-                    ? "bg-purple-500 transition duration-100 ease-in-out"
-                    : "bg-white hover:bg-purple-300 transition duration-100 ease-in-out"
-                }`}
-                onClick={() => toggleCategory(feature)}
-              >
-                <div className="text-black text-xl font-bold text-center">
-                  {feature}
-                </div>
-              </button>
+                index={index}
+                isSelected={categories.includes(feature)}
+                feature={feature}
+                toggleCategory={toggleCategory}
+              />
             ))}
           </ul>
         </div>

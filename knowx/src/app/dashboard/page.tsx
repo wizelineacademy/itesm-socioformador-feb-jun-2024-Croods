@@ -12,24 +12,6 @@ export default async function Home() {
   if (!(await checkSession())) {
     redirect("/auth");
   }
-  // const theme = await checkTheme();
-  // if (!session) {
-  //   redirect("/auth");
-  // }
-
-  let query: string = "";
-  // const [query, setQuery] = useState<string>("");
-
-  // const callSearchAPI = async (query: string) => {
-  //   console.log(query);
-  //   const u = new URLSearchParams({ topic: query });
-  //   const response = await fetch("http://127.0.0.1:8000/search", {
-  //     method: "POST",
-  //     body: u,
-  //   });
-  //   const data = await response.json();
-  //   console.log(data);
-  // };
 
   return (
     <main className="bg-backgroundLight dark:bg-backgroundDark">
