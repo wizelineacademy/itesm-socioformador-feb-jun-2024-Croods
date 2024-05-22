@@ -33,6 +33,7 @@ export async function navigateToPhase2(query: string) {
 
 export async function navigateToHistory() {
   redirect("/history");
+}
 export async function navigateToPhase3() {
   return null;
 }

@@ -105,6 +105,6 @@ export async function getUserIdFunc(
   query: string
 ) {
   getUserId({ newEmail: user || "" }).then(async (id) => {
-    await logSearch({ old_userId: id, search: query, feedback: false });
+    await logSearch({ userId: id, search: query, feedback: false });
   });
 }
