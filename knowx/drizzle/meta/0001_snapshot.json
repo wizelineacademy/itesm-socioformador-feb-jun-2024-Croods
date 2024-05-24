@@ -1,6 +1,6 @@
 {
-  "id": "1cdbdbd4-742c-4744-8e1a-b846bb4760c0",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "7df0373a-6028-46bf-be26-76a37d4747a3",
+  "prevId": "1cdbdbd4-742c-4744-8e1a-b846bb4760c0",
   "version": "5",
   "dialect": "pg",
   "tables": {
@@ -240,6 +240,12 @@
         },
         "selectedCategories": {
           "name": "selectedCategories",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "addedCategories": {
+          "name": "addedCategories",
           "type": "text",
           "primaryKey": false,
           "notNull": false
