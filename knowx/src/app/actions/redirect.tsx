@@ -1,5 +1,4 @@
 "use server";
-// "use client";
 
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth/next";
@@ -26,9 +25,11 @@ export async function checkSession(): Promise<Boolean> {
 export async function navigate(query: string) {
   redirect(`/dashboard/phase1/${query}`);
 }
+
 export async function navigateToDashboard() {
   redirect("/dashboard");
 }
+
 export async function navigateToPhase2(query: string) {
   categorySearchFunction(query);
   redirect("/dashboard/phase2");
@@ -36,4 +37,8 @@ export async function navigateToPhase2(query: string) {
 
 export async function navigateToHistory() {
   redirect("/history");
+}
+
+export async function navigateToHistoryLog(logId: string) {
+  redirect(`/history/${logId}`);
 }

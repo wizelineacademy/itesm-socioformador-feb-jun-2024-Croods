@@ -11,7 +11,13 @@ import {
   HomeIcon,
 } from "@heroicons/react/20/solid";
 
-function MyDropdown({ isDashboard = true }: { isDashboard?: boolean }) {
+function MyDropdown({
+  isDashboard = true,
+  showBoth = false,
+}: {
+  isDashboard?: boolean;
+  showBoth?: boolean;
+}) {
   return (
     <Menu>
       <Menu.Button>
@@ -30,7 +36,7 @@ function MyDropdown({ isDashboard = true }: { isDashboard?: boolean }) {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items className="absolute right-0 top-full mt-1 w-full origin-top-right divide-y bg-[#4040401a]  divide-gray-600 rounded-md shadow-lg ring-1 ring-black/5 focus:outline-none">
-          {!isDashboard && (
+          {(!isDashboard || showBoth) && (
             <Menu.Item>
               <div className="flex items-center text-start">
                 <HomeIcon
@@ -47,7 +53,7 @@ function MyDropdown({ isDashboard = true }: { isDashboard?: boolean }) {
             </Menu.Item>
           )}
 
-          {isDashboard && (
+          {(isDashboard || showBoth) && (
             <Menu.Item>
               <div className="flex items-center text-start">
                 <BookmarkIcon
@@ -91,9 +97,11 @@ const myLoader: ImageLoader = ({ src }) => {
 export default function UserMenu({
   className,
   isDashboard = true,
+  showBoth = false,
 }: {
   className: string;
   isDashboard?: boolean;
+  showBoth?: boolean;
 }) {
   const { data: session } = useSession();
 
@@ -109,11 +117,12 @@ export default function UserMenu({
           src={session?.user?.image || "/blankUser.png"}
           height={10}
           width={10}
+          unoptimized={true}
           className="w-10 h-10 rounded-full select-none"
           alt="User Image"
           loader={myLoader}
         />
-        <MyDropdown isDashboard={isDashboard} />
+        <MyDropdown isDashboard={isDashboard} showBoth={showBoth} />
       </div>
     </div>
   );

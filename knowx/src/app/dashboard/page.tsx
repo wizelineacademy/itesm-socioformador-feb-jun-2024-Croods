@@ -33,10 +33,11 @@ export default async function Home() {
 
   return (
     <main className="bg-backgroundLight dark:bg-backgroundDark">
-      <div className="mx-auto px-6 max-w-6xl h-screen text-gray-600 flex flex-wrap content-center justify-center">
-        <Header isDashboard={true}></Header>
-        <InputBar></InputBar>
-      </div>
+      <Header isDashboard={true}>
+        <div className="h-[70%] max-w-6xl w-5/6 relative flex items-center justify-center">
+          <InputBar></InputBar>
+        </div>
+      </Header>
     </main>
   );
 }
