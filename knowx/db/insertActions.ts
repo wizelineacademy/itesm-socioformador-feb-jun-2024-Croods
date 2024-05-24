@@ -38,11 +38,9 @@ export async function handleLogin({ profile }: any) {
 export async function logSearch({
   userId,
   search,
-  feedback,
 }: {
   userId: string;
   search: string;
-  feedback: boolean;
 }) {
   try {
     await db.insert(search_log).values({
@@ -52,7 +50,7 @@ export async function logSearch({
       selectedCategories: "",
       searchResults: "",
       timeOfSearch: new Date(),
-      feedback,
+      feedback: -1,
     });
   } catch (error) {
     await logError({
