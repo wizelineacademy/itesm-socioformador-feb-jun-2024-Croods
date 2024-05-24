@@ -5,21 +5,21 @@ import { initialSearchAction } from "@/app/actions/search";
 const InputBar = () => {
   let query: string = "";
   return (
-    <div className="w-5/6 relative">
+    <div className="relative w-5/6">
       <input
         name=""
-        className="bg-black dark:bg-backgroundLight left-20 right-20 h-20 w-full rounded-lg text-white dark:text-black px-8 text-lg"
+        className="left-20 right-20 h-20 w-full rounded-lg bg-black px-8 text-lg text-white dark:bg-backgroundLight dark:text-black"
         onChange={(e) => (query = e.target.value)}
       ></input>
       <button
-        className="absolute h-20 w-30 rounded-lg text-gray px-4 text-lg right-0"
+        className="w-30 text-gray absolute right-0 h-20 rounded-lg px-4 text-lg"
         onClick={() => {
           initialSearchAction(query);
           navigate(query);
         }}
       >
         <Image
-          className="relative top-0 left-0 right-0"
+          className="relative left-0 right-0 top-0"
           src="/arrow-right.svg"
           alt="Search Arrow Right"
           width={40}

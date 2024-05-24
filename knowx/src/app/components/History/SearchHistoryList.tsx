@@ -69,7 +69,7 @@ export default function SearchHistoryList({
     setIsLoading(true);
     await deleteSearchLogAction(logId);
     setSearchHistory((currentHistory) =>
-      currentHistory.filter((item) => item.id !== logId)
+      currentHistory.filter((item) => item.id !== logId),
     );
     historyList.items = searchHistory;
     setIsLoading(false);
@@ -80,8 +80,8 @@ export default function SearchHistoryList({
 
     setSearchHistory((currentHistory) =>
       currentHistory.map((item) =>
-        item.id === logId ? { ...item, feedback: 1 } : item
-      )
+        item.id === logId ? { ...item, feedback: 1 } : item,
+      ),
     );
   };
 
@@ -90,38 +90,50 @@ export default function SearchHistoryList({
 
     setSearchHistory((currentHistory) =>
       currentHistory.map((item) =>
-        item.id === logId ? { ...item, feedback: 0 } : item
-      )
+        item.id === logId ? { ...item, feedback: 0 } : item,
+      ),
     );
   };
 
-  let historyList = useAsyncList({
-    async load({ signal }) {
+  const historyList = useAsyncList({
+    async load() {
       setIsLoading(false);
 
       return {
         items: searchHistory,
       };
     },
-    async sort({ items, sortDescriptor }) {
+    async sort({ sortDescriptor }) {
       setSearchHistory((prevHistory) =>
-        prevHistory.sort((a: any, b: any) => {
-          if (sortDescriptor.column === "timestamp") {
+        prevHistory.sort((a: SimpleHistoryType, b: SimpleHistoryType) => {
+          if (
+            sortDescriptor.column === "timestamp" &&
+            a.timestamp &&
+            b.timestamp
+          ) {
             return sortDescriptor.direction === "descending"
               ? a.timestamp.getDate() - b.timestamp.getDate()
               : b.timestamp.getDate() - a.timestamp.getDate();
-          } else if (sortDescriptor.column === "searchValue") {
+          } else if (
+            sortDescriptor.column === "searchValue" &&
+            a.search &&
+            b.search
+          ) {
             return sortDescriptor.direction === "descending"
               ? a.search.localeCompare(b.search)
               : b.search.localeCompare(a.search);
-          } else if (sortDescriptor.column === "time") {
+          } else if (
+            sortDescriptor.column === "time" &&
+            a.timestamp &&
+            b.timestamp
+          ) {
             return sortDescriptor.direction === "descending"
               ? a.timestamp.getTime() - b.timestamp.getTime()
               : b.timestamp.getTime() - a.timestamp.getTime();
           }
 
           return 0;
-        })
+        }),
       );
 
       return {
@@ -136,7 +148,7 @@ export default function SearchHistoryList({
       sortDescriptor={historyList.sortDescriptor}
       onSortChange={historyList.sort}
       selectionMode="single"
-      className="rounded-lg overflow-hidden min-w-full h-auto table-auto w-full dark:dark"
+      className="h-auto w-full min-w-full table-auto overflow-hidden rounded-lg dark:dark"
       aria-label="search history table"
       onRowAction={(key) => openItem(Number(key))}
     >
@@ -160,7 +172,7 @@ export default function SearchHistoryList({
         isLoading={isLoading}
       >
         {(item: SimpleHistoryType) => (
-          <TableRow key={item.id} className="select-none cursor-pointer">
+          <TableRow key={item.id} className="cursor-pointer select-none">
             <TableCell className="text-md">{item.search}</TableCell>
             <TableCell>
               <BubbleText
@@ -173,7 +185,7 @@ export default function SearchHistoryList({
               />
             </TableCell>
             <TableCell>
-              <div className="relative flex justify-end items-center gap-2">
+              <div className="relative flex items-center justify-end gap-2">
                 <Dropdown className="dark:dark">
                   <DropdownTrigger>
                     <Button
@@ -190,37 +202,43 @@ export default function SearchHistoryList({
                       item.feedback == 1
                         ? ["thumbs-up"]
                         : item.feedback == 0
-                        ? ["thumbs-down"]
-                        : []
+                          ? ["thumbs-down"]
+                          : []
                     }
                   >
                     <DropdownItem
                       key={"thumbs-up"}
                       className={item.feedback == 1 ? "text-primary" : ""}
                     >
-                      <div
+                      <button
                         className="flex flex-row items-center gap-3"
                         onClick={() =>
                           item.feedback != 1 && logGoodSearch(item.id)
                         }
+                        onKeyDown={() =>
+                          item.feedback != 1 && logGoodSearch(item.id)
+                        }
                       >
                         <HandThumbUpIcon className="h-4 w-4" />
-                        Good Answer
-                      </div>
+                        <h1>Good Answer</h1>
+                      </button>
                     </DropdownItem>
                     <DropdownItem
                       key={"thumbs-down"}
                       className={item.feedback == 0 ? "text-warning" : ""}
                     >
-                      <div
+                      <button
                         className="flex flex-row items-center gap-3"
                         onClick={() =>
                           item.feedback != 0 && logBadSearchInternal(item.id)
                         }
+                        onKeyDown={() =>
+                          item.feedback != 0 && logBadSearchInternal(item.id)
+                        }
                       >
                         <HandThumbDownIcon className="h-4 w-4" />
-                        Bad Answer
-                      </div>
+                        <h1>Bad Answer</h1>
+                      </button>
                     </DropdownItem>
                     <DropdownItem
                       className="text-danger"

@@ -14,7 +14,7 @@ export default async function Home() {
     })) || [];
 
   return (
-    <main className="dark:bg-backgroundDark bg-backgroundLight">
+    <main className="bg-backgroundLight dark:bg-backgroundDark">
       <Header isDashboard={false} title="Search History">
         <div className="flex w-2/3">
           <SearchHistoryList history={history || []} />

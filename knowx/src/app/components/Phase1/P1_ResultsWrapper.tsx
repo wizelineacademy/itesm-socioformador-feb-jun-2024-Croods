@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import Image from "next/image";
 import { navigateToPhase2 } from "@/app/actions/redirect";
 import Header from "@/app/components/Header";
 
@@ -9,24 +8,14 @@ const P1_ResultsWrapper = (props: {
   query: string;
 }) => {
   return (
-    // <div className="flex flex-row gap-4 mt-4 flex-wrap w-full justify-around">
     <div className="flex bg-backgroundLight dark:bg-backgroundDark">
-      <div className="mx-auto px-6 max-w-6xl h-screen text-gray-600 flex flex-wrap content-center justify-start flex-col">
-        <section className="relative top-0 left-0 right-0 py-3 flex justify-center">
-          {/* <Image
-            className="relative top-0 left-0 right-0"
-            src={"light" === "light" ? "/Logo.svg" : "/LogoDark.svg"}
-            alt="KnowX Logo"
-            width={50}
-            height={50}
-            priority
-          /> */}
-
+      <div className="mx-auto flex h-screen max-w-6xl flex-col flex-wrap content-center justify-start px-6 text-gray-600">
+        <section className="relative left-0 right-0 top-0 flex justify-center py-3">
           <Header isDashboard={true} />
         </section>
 
-        <div className="w-full relative p-14 snap-start">
-          <h1 className="text-5xl text-center text-black dark:text-white">
+        <div className="relative w-full snap-start p-14">
+          <h1 className="text-center text-5xl text-black dark:text-white">
             Choose search items
           </h1>
         </div>
@@ -36,14 +25,15 @@ const P1_ResultsWrapper = (props: {
           </ul>
         </div>
         <div
-          className={`w-[200px] text-xl rounded-xl py-3 px-3 text-wrap text-ellipsis overflow-hidden bg-black dark:bg-backgroundLight dark:text-black hover:bg-purple-300 transition duration-100 ease-in-out mx-auto`}
+          className={`mx-auto w-[200px] overflow-hidden text-ellipsis text-wrap rounded-xl bg-black px-3 py-3 text-xl transition duration-100 ease-in-out hover:bg-purple-300 dark:bg-backgroundLight dark:text-black`}
         >
-          <div
-            className="text-white text-xl font-bold text-center dark:text-black cursor-pointer"
+          <button
+            className="cursor-pointer text-center text-xl font-bold text-white dark:text-black"
             onClick={() => navigateToPhase2(props.query)}
+            onKeyDown={() => navigateToPhase2(props.query)}
           >
             Search
-          </div>
+          </button>
         </div>
       </div>
     </div>

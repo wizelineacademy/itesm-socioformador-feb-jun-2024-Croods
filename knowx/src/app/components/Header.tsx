@@ -13,12 +13,12 @@ export default function Header({
   children?: React.ReactNode;
 }) {
   return (
-    <div className="mx-auto h-screen text-gray-600 flex flex-wrap justify-center content-baseline">
+    <div className="mx-auto flex h-screen flex-wrap content-baseline justify-center text-gray-600">
       <header
         className={
           !title
-            ? "relative top-0 left-0 right-0 py-3 pb-20 flex justify-between items-center w-full h-fit"
-            : "top-0 left-0 right-0 pb-8 flex justify-between items-center w-full h-fit"
+            ? "relative left-0 right-0 top-0 flex h-fit w-full items-center justify-between py-3 pb-20"
+            : "left-0 right-0 top-0 flex h-fit w-full items-center justify-between pb-8"
         }
       >
         {!title && <div className="invisible" />}
@@ -26,8 +26,8 @@ export default function Header({
         <Image
           className={
             !title
-              ? "dark:invert absolute top-0 left-0 right-0 mr-auto ml-auto pt-3"
-              : "dark:invert top-0 left-0 my-5 ml-8"
+              ? "absolute left-0 right-0 top-0 ml-auto mr-auto pt-3 dark:invert"
+              : "left-0 top-0 my-5 ml-8 dark:invert"
           }
           src={"/Logo.svg"}
           alt="KnowX Logo"
@@ -37,7 +37,7 @@ export default function Header({
         />
 
         {title && (
-          <h1 className="absolute left-0 right-0 text-5xl font-bold text-center text-backgroundDark dark:text-backgroundLight select-none">
+          <h1 className="absolute left-0 right-0 select-none text-center text-5xl font-bold text-backgroundDark dark:text-backgroundLight">
             {title}
           </h1>
         )}

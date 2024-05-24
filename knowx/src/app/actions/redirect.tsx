@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth/next";
 import { categorySearchFunction } from "./search";
 
-export async function checkSession(): Promise<Boolean> {
+export async function checkSession(): Promise<boolean> {
   // const { data: session } = useSession();
   // if (!session) {
   //   redirect("/auth");

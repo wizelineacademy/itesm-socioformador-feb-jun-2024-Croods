@@ -1,7 +1,5 @@
 /* src/app/dashboard/page.tsx */
 // "use client";
-import Image from "next/image";
-import UserMenu from "../components/UserMenu";
 import { checkSession } from "@/app/actions/redirect";
 import InputBar from "@/app/components/Dashboard/InputBar";
 import { redirect } from "next/navigation";
@@ -17,7 +15,6 @@ export default async function Home() {
   //   redirect("/auth");
   // }
 
-  let query: string = "";
   // const [query, setQuery] = useState<string>("");
 
   // const callSearchAPI = async (query: string) => {
@@ -34,7 +31,7 @@ export default async function Home() {
   return (
     <main className="bg-backgroundLight dark:bg-backgroundDark">
       <Header isDashboard={true}>
-        <div className="h-[70%] max-w-6xl w-5/6 relative flex items-center justify-center">
+        <div className="relative flex h-[70%] w-5/6 max-w-6xl items-center justify-center">
           <InputBar></InputBar>
         </div>
       </Header>

@@ -7,7 +7,7 @@ export default function OverflowHiddenBody({
 }) {
   return (
     <body
-      className={`${className} overflow-hidden dark:bg-backgroundDark bg-backgroundLight`}
+      className={`${className} overflow-hidden bg-backgroundLight dark:bg-backgroundDark`}
     >
       {children}
     </body>

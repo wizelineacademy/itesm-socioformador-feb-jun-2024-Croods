@@ -5,15 +5,15 @@ import { addCategory } from "@/app/actions/search";
 const P2_NewCategory = () => {
   let newFeature = "";
   return (
-    <div className="flex mt-5 w-full items-center justify-center ">
+    <div className="mt-5 flex w-full items-center justify-center ">
       <input
         name=""
-        className="bg-black dark:bg-backgroundLight rounded-lg text-white dark:text-black text-base py-3 text-center"
+        className="rounded-lg bg-black py-3 text-center text-base text-white dark:bg-backgroundLight dark:text-black"
         onChange={(e) => (newFeature = e.target.value)}
         // value={newFeature}
       ></input>
       <button
-        className="text-black dark:text-white text-4xl pl-4 pr-1"
+        className="pl-4 pr-1 text-4xl text-black dark:text-white"
         onClick={() => addCategory(newFeature)}
       ></button>
     </div>

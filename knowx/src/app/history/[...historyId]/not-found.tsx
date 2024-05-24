@@ -10,7 +10,7 @@ export default function NotFound() {
         <h2 className="text-3xl font-semibold">404 Not Found</h2>
         <Link
           href="/history"
-          className="mt-4 rounded-md bg-backgroundDark dark:bg-backgroundLight px-4 py-2 text-md text-backgroundLight dark:text-backgroundDark transition-opacity hover:opacity-80"
+          className="text-md mt-4 rounded-md bg-backgroundDark px-4 py-2 text-backgroundLight transition-opacity hover:opacity-80 dark:bg-backgroundLight dark:text-backgroundDark"
         >
           Go Back
         </Link>

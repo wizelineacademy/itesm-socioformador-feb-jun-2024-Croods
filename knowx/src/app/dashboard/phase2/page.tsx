@@ -1,7 +1,5 @@
 // "use client";
-import Image from "next/image";
-import UserMenu from "@/app/components/UserMenu";
-import { toggleCategory, addCategory } from "@/app/actions/search";
+import { toggleCategory } from "@/app/actions/search";
 import { getCategories } from "@/app/helper/cookies";
 import P2_NewCategory from "@/app/components/Phase2/P2_NewCategory";
 import { checkSession } from "@/app/actions/redirect";
@@ -39,7 +37,7 @@ export default async function Features() {
   return (
     <main className="flex bg-backgroundLight dark:bg-backgroundDark">
       {/* <UserMenu className="absolute right-0 mr-3" /> */}
-      <div className="mx-auto px-6 max-w-6xl h-screen text-gray-600 flex flex-wrap content-center justify-start flex-col">
+      <div className="mx-auto flex h-screen max-w-6xl flex-col flex-wrap content-center justify-start px-6 text-gray-600">
         {/* <section className="relative top-0 left-0 right-0 py-3 flex justify-center">
           <Image
             className="relative top-0 left-0 right-0"
@@ -53,25 +51,25 @@ export default async function Features() {
 
         <Header isDashboard={true} />
 
-        <div className="w-full relative p-14 snap-start">
-          <h1 className="text-5xl text-center text-black dark:text-white">
+        <div className="relative w-full snap-start p-14">
+          <h1 className="text-center text-5xl text-black dark:text-white">
             Select your Favorites
           </h1>
         </div>
 
-        <div className="overflow-y-scroll h-[20rem] items-center justify-center p-3 no-scrollbar">
+        <div className="no-scrollbar h-[20rem] items-center justify-center overflow-y-scroll p-3">
           <ul className="grid grid-cols-2 flex-wrap gap-8">
             {allObjects.map((feature, index) => (
               <button
                 key={index}
-                className={`text-xl rounded-xl py-3 px-8 text-wrap text-ellipsis overflow-hidden ${
+                className={`overflow-hidden text-ellipsis text-wrap rounded-xl px-8 py-3 text-xl ${
                   categories.includes(feature)
                     ? "bg-purple-500 transition duration-100 ease-in-out"
-                    : "bg-white hover:bg-purple-300 transition duration-100 ease-in-out"
+                    : "bg-white transition duration-100 ease-in-out hover:bg-purple-300"
                 }`}
                 onClick={() => toggleCategory(feature)}
               >
-                <div className="text-black text-xl font-bold text-center">
+                <div className="text-center text-xl font-bold text-black">
                   {feature}
                 </div>
               </button>

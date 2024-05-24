@@ -26,7 +26,7 @@ export default async function Home({
 
   return (
     <Suspense fallback={<Loading />}>
-      <main className="dark:bg-backgroundDark bg-backgroundLight">
+      <main className="bg-backgroundLight dark:bg-backgroundDark">
         <Header
           isDashboard={false}
           userMenuShowBoth={true}

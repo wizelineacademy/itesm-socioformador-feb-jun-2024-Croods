@@ -1,7 +1,6 @@
 "use server";
 import { getUserId, logSearch } from "../../../db/insertActions";
 import { logSearchTopics } from "../../../db/updateActions";
-import { cookies } from "next/headers";
 import {
   ORIGINAL_SEARCH_VALUES_KEY,
   SEARCH_VALUES_KEY,
@@ -93,7 +92,7 @@ export async function categorySearchFunction(query: string) {
 
 export async function getUserIdFunc(
   user: string | null | undefined,
-  query: string
+  query: string,
 ) {
   getUserId({ newEmail: user || "" }).then(async (id) => {
     await logSearch({ userId: id, search: query });
