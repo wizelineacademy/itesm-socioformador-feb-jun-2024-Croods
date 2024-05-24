@@ -26,7 +26,13 @@ import {
   EllipsisVerticalIcon,
 } from "@heroicons/react/20/solid";
 
-import { deleteSearchLogAction } from "@/app/actions/dbActions";
+import {
+  deleteSearchLogAction,
+  logGoodSearchAction,
+  logBadSearchAction,
+} from "@/app/actions/dbActions";
+
+import { navigateToHistoryLog } from "@/app/actions/redirect";
 
 const dateFormatter = (date: Date) => {
   const month = date.getMonth() + 1;
@@ -40,11 +46,11 @@ const timeFormatter = (date: Date) => {
   const hours = date.getHours();
   const minutes = date.getMinutes();
 
-  return `${hours}:${minutes}`;
-};
+  if (minutes < 10) {
+    return `${hours}:0${minutes}`;
+  }
 
-const openItem = (itemId: number) => {
-  alert(`You searched for ${itemId}`);
+  return `${hours}:${minutes}`;
 };
 
 export default function SearchHistoryList({
@@ -52,12 +58,41 @@ export default function SearchHistoryList({
 }: {
   history: SimpleHistoryType[] | [];
 }) {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchHistory, setSearchHistory] = useState(history || []);
+
+  const openItem = (itemId: number) => {
+    navigateToHistoryLog(itemId.toString());
+  };
 
   const deleteSearchLog = async (logId: number) => {
     setIsLoading(true);
     await deleteSearchLogAction(logId);
+    setSearchHistory((currentHistory) =>
+      currentHistory.filter((item) => item.id !== logId)
+    );
+    historyList.items = searchHistory;
     setIsLoading(false);
+  };
+
+  const logGoodSearch = async (logId: number) => {
+    await logGoodSearchAction(logId);
+
+    setSearchHistory((currentHistory) =>
+      currentHistory.map((item) =>
+        item.id === logId ? { ...item, feedback: 1 } : item
+      )
+    );
+  };
+
+  const logBadSearchInternal = async (logId: number) => {
+    await logBadSearchAction(logId);
+
+    setSearchHistory((currentHistory) =>
+      currentHistory.map((item) =>
+        item.id === logId ? { ...item, feedback: 0 } : item
+      )
+    );
   };
 
   let historyList = useAsyncList({
@@ -65,12 +100,12 @@ export default function SearchHistoryList({
       setIsLoading(false);
 
       return {
-        items: history,
+        items: searchHistory,
       };
     },
     async sort({ items, sortDescriptor }) {
-      return {
-        items: items.sort((a: any, b: any) => {
+      setSearchHistory((prevHistory) =>
+        prevHistory.sort((a: any, b: any) => {
           if (sortDescriptor.column === "timestamp") {
             return sortDescriptor.direction === "descending"
               ? a.timestamp.getDate() - b.timestamp.getDate()
@@ -86,7 +121,11 @@ export default function SearchHistoryList({
           }
 
           return 0;
-        }),
+        })
+      );
+
+      return {
+        items: searchHistory,
       };
     },
   });
@@ -115,7 +154,7 @@ export default function SearchHistoryList({
       </TableHeader>
 
       <TableBody
-        items={historyList.items as SimpleHistoryType[]}
+        items={searchHistory}
         emptyContent={"No History"}
         loadingContent={<Spinner label="Loading..." />}
         isLoading={isLoading}
@@ -137,19 +176,48 @@ export default function SearchHistoryList({
               <div className="relative flex justify-end items-center gap-2">
                 <Dropdown className="dark:dark">
                   <DropdownTrigger>
-                    <Button isIconOnly size="sm" variant="light">
+                    <Button
+                      isIconOnly
+                      size="sm"
+                      variant="light"
+                      color="primary"
+                    >
                       <EllipsisVerticalIcon className="h-5 w-5 text-default-300" />
                     </Button>
                   </DropdownTrigger>
-                  <DropdownMenu>
-                    <DropdownItem>
-                      <div className="flex flex-row items-center gap-3">
+                  <DropdownMenu
+                    disabledKeys={
+                      item.feedback == 1
+                        ? ["thumbs-up"]
+                        : item.feedback == 0
+                        ? ["thumbs-down"]
+                        : []
+                    }
+                  >
+                    <DropdownItem
+                      key={"thumbs-up"}
+                      className={item.feedback == 1 ? "text-primary" : ""}
+                    >
+                      <div
+                        className="flex flex-row items-center gap-3"
+                        onClick={() =>
+                          item.feedback != 1 && logGoodSearch(item.id)
+                        }
+                      >
                         <HandThumbUpIcon className="h-4 w-4" />
                         Good Answer
                       </div>
                     </DropdownItem>
-                    <DropdownItem>
-                      <div className="flex flex-row items-center gap-3">
+                    <DropdownItem
+                      key={"thumbs-down"}
+                      className={item.feedback == 0 ? "text-warning" : ""}
+                    >
+                      <div
+                        className="flex flex-row items-center gap-3"
+                        onClick={() =>
+                          item.feedback != 0 && logBadSearchInternal(item.id)
+                        }
+                      >
                         <HandThumbDownIcon className="h-4 w-4" />
                         Bad Answer
                       </div>
