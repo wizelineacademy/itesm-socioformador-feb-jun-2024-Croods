@@ -1,6 +1,6 @@
 export default function OverflowHiddenBody({
   children,
-  className,
+  className = "",
 }: {
   children: React.ReactNode;
   className?: string;
