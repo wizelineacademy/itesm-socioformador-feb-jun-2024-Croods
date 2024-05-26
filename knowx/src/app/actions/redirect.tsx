@@ -35,5 +35,5 @@ export async function navigateToHistory() {
   redirect("/history");
 }
 export async function navigateToPhase3() {
-  return null;
+  redirect("/dashboard/phase3");
 }
