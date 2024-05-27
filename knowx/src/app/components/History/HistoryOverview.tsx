@@ -41,7 +41,7 @@ export default function HistoryOverview({
         <Card className="h-[300px] w-full max-w-[300px]">
           <CardHeader className="top-1 z-10 flex-row !items-start gap-1">
             <SparklesIcon className="mr-2 h-6 w-6 self-center fill-slate-500" />
-            <h4 className="text-large font-bold text-white">
+            <h4 className="text-large font-bold text-backgroundDark dark:text-white">
               Topics Generated
             </h4>
           </CardHeader>
@@ -67,7 +67,7 @@ export default function HistoryOverview({
           <Card className="h-[300px] w-full max-w-[300px]">
             <CardHeader className="top-1 z-10 flex-row !items-start gap-1">
               <BookmarkIcon className="mr-2 h-5 w-5 self-center fill-slate-500" />
-              <h4 className="text-large font-bold text-white">
+              <h4 className="text-large font-bold text-backgroundDark dark:text-white">
                 Topics Selected
               </h4>
             </CardHeader>
@@ -94,7 +94,7 @@ export default function HistoryOverview({
           <Card className="h-[300px] w-full max-w-[300px]">
             <CardHeader className="top-1 z-10 flex-row !items-start gap-1">
               <SparklesIcon className="mr-2 h-6 w-6 self-center fill-slate-500" />
-              <h4 className="text-large font-bold text-white">
+              <h4 className="text-large font-bold text-backgroundDark dark:text-white">
                 Categories Generated
               </h4>
             </CardHeader>
@@ -119,7 +119,7 @@ export default function HistoryOverview({
           <Card className="h-[300px] w-full max-w-[300px]">
             <CardHeader className="top-1 z-10 flex-row !items-start gap-1">
               <BookmarkIcon className="mr-2 h-5 w-5 self-center fill-slate-500" />
-              <h4 className="text-large font-bold text-white">
+              <h4 className="text-large font-bold text-backgroundDark dark:text-white">
                 Categories Selected
               </h4>
             </CardHeader>
