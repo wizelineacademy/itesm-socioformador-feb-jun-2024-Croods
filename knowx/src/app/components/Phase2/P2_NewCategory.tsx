@@ -1,21 +1,37 @@
 "use client";
 import React from "react";
 import { addCategory } from "@/app/actions/search";
+import { useState } from "react";
+import { navigateToPhase3 } from "@/app/actions/redirect";
+
+import { P2_DynamicButton } from "./P2_DynamicButton";
+import { PlusIcon, MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 
 const P2_NewCategory = () => {
-  let newFeature = "";
+  const [newFeature, setNewFeature] = useState("");
   return (
-    <div className="mt-5 flex w-full items-center justify-center ">
+    <div className="flex mt-5 w-fit items-center justify-center relative">
       <input
         name=""
-        className="rounded-lg bg-black py-3 text-center text-base text-white dark:bg-backgroundLight dark:text-black"
-        onChange={(e) => (newFeature = e.target.value)}
-        // value={newFeature}
+        className="bg-black dark:bg-backgroundLight rounded-lg text-white dark:text-black text-base py-3 text-center align-center mx-[60px]"
+        onChange={(e) => setNewFeature(e.target.value)}
+        value={newFeature}
+        placeholder="Type new category"
       ></input>
-      <button
-        className="pl-4 pr-1 text-4xl text-black dark:text-white"
-        onClick={() => addCategory(newFeature)}
-      ></button>
+      <P2_DynamicButton
+        function={
+          newFeature !== ""
+            ? () => {
+                addCategory(newFeature);
+                setNewFeature("");
+              }
+            : () => {
+                navigateToPhase3();
+              }
+        }
+      >
+        {newFeature !== "" ? <PlusIcon /> : <MagnifyingGlassIcon />}
+      </P2_DynamicButton>
     </div>
   );
 };

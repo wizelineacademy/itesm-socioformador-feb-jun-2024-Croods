@@ -58,6 +58,7 @@ export function getSearchObjects() {
 }
 export function getCategories() {
   const categories = cookies().get(CATEGORIES_KEY)?.value;
+  // console.log("DOING THIS");
   return {
     categories: categories ? categories.split(",") : [],
     allObjects: cookies().get(ORIGINAL_CATEGORIES_KEY)?.value.split(",") || [],

@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { navigate } from "@/app/actions/redirect";
-import { initialSearchAction } from "@/app/actions/search";
+import { initialSearchAction, clearSearches } from "@/app/actions/search";
 const InputBar = () => {
   let query: string = "";
   return (
@@ -14,6 +14,7 @@ const InputBar = () => {
       <button
         className="w-30 text-gray absolute right-0 h-20 rounded-lg px-4 text-lg"
         onClick={() => {
+          clearSearches();
           initialSearchAction(query);
           navigate(query);
         }}

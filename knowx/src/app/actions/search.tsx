@@ -32,18 +32,26 @@ export async function toggleCategory(obj: string) {
   setCookie(CATEGORIES_KEY, newFavorites.join(","));
 }
 export async function addCategory(obj: string) {
-  const { categories } = getCategories();
+  const { allObjects } = getCategories();
   let newFavorites: string[] = [];
-  if (categories.includes(obj)) {
-    newFavorites = categories.filter((object) => object !== obj);
+  if (allObjects.includes(obj)) {
+    newFavorites = allObjects.filter((object) => object !== obj);
   } else {
-    newFavorites = [...categories, obj];
+    newFavorites = [...allObjects, obj];
   }
   setCookie(ORIGINAL_CATEGORIES_KEY, newFavorites.join(","));
 }
 
 export async function getSearchObjectsAction() {
   return getSearchObjects();
+}
+
+export async function clearSearches() {
+  setCookie(SEARCH_VALUES_KEY, "");
+  setCookie(ORIGINAL_SEARCH_VALUES_KEY, "");
+  setCookie(CURRENT_QUERY_KEY, "");
+  setCookie(CATEGORIES_KEY, "");
+  setCookie(ORIGINAL_CATEGORIES_KEY, "");
 }
 
 export async function initialSearchAction(query: string) {
@@ -56,7 +64,7 @@ export async function initialSearchAction(query: string) {
 
   const data: string[] = await res.json();
 
-  setCookie(CURRENT_QUERY_KEY, data.join(","));
+  setCookie(CURRENT_QUERY_KEY, query);
   setCookie(ORIGINAL_SEARCH_VALUES_KEY, data.join(","));
 
   const session = await getServerSession();
@@ -65,6 +73,7 @@ export async function initialSearchAction(query: string) {
 
   return data;
 }
+
 export async function categorySearchFunction(query: string) {
   const topic = query;
   const u = new URLSearchParams({ topic: topic });

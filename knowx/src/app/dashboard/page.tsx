@@ -10,6 +10,7 @@ export default async function Home() {
   if (!(await checkSession())) {
     redirect("/auth");
   }
+
   // const theme = await checkTheme();
   // if (!session) {
   //   redirect("/auth");
