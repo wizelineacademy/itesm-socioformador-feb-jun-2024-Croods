@@ -30,10 +30,8 @@ const P1_ResultsWrapper = (props: {
             Choose search items
           </h1>
         </div>
-        <div className="scrollable-list items-center justify-center p-3">
-          <ul className="grid grid-cols-2 flex-wrap gap-8 ">
-            {props.children}
-          </ul>
+        <div className="h-[20rem] overflow-y-auto items-center justify-center p-3 pretty-scrollbar">
+          <ul className="grid grid-cols-2 flex-wrap gap-8">{props.children}</ul>
         </div>
         <div
           className={`w-[200px] text-xl rounded-xl py-3 px-3 text-wrap text-ellipsis overflow-hidden bg-black dark:bg-backgroundLight dark:text-black hover:bg-purple-300 transition duration-100 ease-in-out mx-auto`}

@@ -14,9 +14,6 @@ export async function checkSession(): Promise<Boolean> {
   // return true;
   const session = await getServerSession();
   return session ? true : false;
-  // if (!session) {
-  //   // return false;
-  // }
 }
 
 // export async function startPhase1(query: string) {
@@ -30,10 +27,13 @@ export async function navigateToDashboard() {
   redirect("/dashboard");
 }
 export async function navigateToPhase2(query: string) {
-  categorySearchFunction(query);
+  await categorySearchFunction(query);
   redirect("/dashboard/phase2");
 }
 
 export async function navigateToHistory() {
   redirect("/history");
+}
+export async function navigateToPhase3() {
+  redirect("/dashboard/phase3");
 }

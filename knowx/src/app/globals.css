@@ -26,6 +26,28 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+/* width */
+.pretty-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.pretty-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 5px;
+}
+
+/* Handle */
+.pretty-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+.pretty-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
