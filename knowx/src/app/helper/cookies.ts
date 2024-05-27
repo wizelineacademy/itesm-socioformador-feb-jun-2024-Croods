@@ -22,14 +22,14 @@ export function searchAllObjects() {
   console.log("SEARCHING ALL OBJECTS");
   setCookie(
     SEARCH_VALUES_KEY,
-    cookies().get(ORIGINAL_SEARCH_VALUES_KEY)?.value || ""
+    cookies().get(ORIGINAL_SEARCH_VALUES_KEY)?.value || "",
   );
 }
 
 export function initialSearch(query: string) {
   const topic = query;
   console.log(`topic=${topic}`);
-  const u = new URLSearchParams({ topic: topic });
+  // const u = new URLSearchParams({ topic: topic });
   // const res = await fetch(`${process.env.API_ROOT_ROUTE}/search/initial`, {
   //   method: "POST",
   //   body: u,
@@ -38,7 +38,7 @@ export function initialSearch(query: string) {
   // const data = (await res.json()) as string[];
 
   // return { data };
-  let res = ["Netflix", "Hulu", "Disney+"];
+  const res = ["Netflix", "Hulu", "Disney+"];
   // storeOriginalObjects(res);
   // setCookie(ORIGINAL_SEARCH_VALUES_KEY, res.join(","));
   return res;

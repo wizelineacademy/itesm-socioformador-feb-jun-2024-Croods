@@ -1,6 +1,6 @@
 import { getUserId, logSearch } from "../../../../db/insertActions";
 
-export async function POST(request: Request, response: Response) {
+export async function POST(request: Request) {
   const { topic } = await request.json();
   console.log(`topic=${topic}`);
   const u = new URLSearchParams({ topic: topic });
@@ -13,9 +13,9 @@ export async function POST(request: Request, response: Response) {
   return Response.json({ data });
 }
 
-export async function PUT(request: Request, response: Response) {
+export async function PUT(request: Request) {
   const { session, query } = await request.json();
   getUserId({ newEmail: session?.user?.email || "" }).then(async (id) => {
-    await logSearch({ userId: id, search: query, feedback: false });
+    await logSearch({ userId: id, search: query });
   });
 }

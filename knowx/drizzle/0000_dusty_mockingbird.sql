@@ -31,11 +31,13 @@ CREATE TABLE IF NOT EXISTS "search_log" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"userId" text,
 	"search" varchar(128),
+	"generatedTopics" text,
 	"selectedTopics" text,
+	"generatedCategories" text,
 	"selectedCategories" text,
 	"searchResults" text,
 	"timeOfSearch" timestamp with time zone,
-	"feedback" boolean
+	"feedback" integer DEFAULT -1
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "session" (

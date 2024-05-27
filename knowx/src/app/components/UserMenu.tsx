@@ -11,7 +11,13 @@ import {
   HomeIcon,
 } from "@heroicons/react/20/solid";
 
-function MyDropdown({ isDashboard = true }: { isDashboard?: boolean }) {
+function MyDropdown({
+  isDashboard = true,
+  showBoth = false,
+}: {
+  isDashboard?: boolean;
+  showBoth?: boolean;
+}) {
   return (
     <Menu>
       <Menu.Button>
@@ -29,8 +35,8 @@ function MyDropdown({ isDashboard = true }: { isDashboard?: boolean }) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 top-full mt-1 w-full origin-top-right divide-y bg-[#4040401a]  divide-gray-600 rounded-md shadow-lg ring-1 ring-black/5 focus:outline-none">
-          {!isDashboard && (
+        <Menu.Items className="absolute right-0 top-full mt-1 w-full origin-top-right divide-y divide-gray-600  rounded-md bg-[#4040401a] shadow-lg ring-1 ring-black/5 focus:outline-none">
+          {(!isDashboard || showBoth) && (
             <Menu.Item>
               <div className="flex items-center text-start">
                 <HomeIcon
@@ -39,7 +45,7 @@ function MyDropdown({ isDashboard = true }: { isDashboard?: boolean }) {
                 />
                 <button
                   onClick={() => navigateToDashboard()}
-                  className="p-3 rounded-lg text-gray-600  w-full text-left"
+                  className="w-full rounded-lg p-3  text-left text-gray-600"
                 >
                   Dashboard
                 </button>
@@ -47,7 +53,7 @@ function MyDropdown({ isDashboard = true }: { isDashboard?: boolean }) {
             </Menu.Item>
           )}
 
-          {isDashboard && (
+          {(isDashboard || showBoth) && (
             <Menu.Item>
               <div className="flex items-center text-start">
                 <BookmarkIcon
@@ -56,7 +62,7 @@ function MyDropdown({ isDashboard = true }: { isDashboard?: boolean }) {
                 />
                 <button
                   onClick={() => navigateToHistory()}
-                  className="p-3 rounded-lg text-gray-600  w-full text-left"
+                  className="w-full rounded-lg p-3  text-left text-gray-600"
                 >
                   History
                 </button>
@@ -72,7 +78,7 @@ function MyDropdown({ isDashboard = true }: { isDashboard?: boolean }) {
               />
               <button
                 onClick={() => signOut()}
-                className="p-3 rounded-lg text-gray-600  w-full text-left"
+                className="w-full rounded-lg p-3  text-left text-gray-600"
               >
                 Sign out
               </button>
@@ -91,29 +97,32 @@ const myLoader: ImageLoader = ({ src }) => {
 export default function UserMenu({
   className,
   isDashboard = true,
+  showBoth = false,
 }: {
   className: string;
   isDashboard?: boolean;
+  showBoth?: boolean;
 }) {
   const { data: session } = useSession();
 
   return (
     <div
-      className={`flex justify-between items-center cursor-pointer ${className}`}
+      className={`flex cursor-pointer items-center justify-between ${className}`}
     >
-      <div className="flex relative items-center p-3 rounded-lg bg-[#4040401a] dark:bg-[#d9d9d91a]">
-        <span className="hidden sm:block mr-2 text-lg font-semibold dark:text-white select-none">
+      <div className="relative flex items-center rounded-lg bg-[#4040401a] p-3 dark:bg-[#d9d9d91a]">
+        <span className="mr-2 hidden select-none text-lg font-semibold sm:block dark:text-white">
           {session?.user?.name}
         </span>
         <Image
           src={session?.user?.image || "/blankUser.png"}
           height={10}
           width={10}
-          className="w-10 h-10 rounded-full select-none"
+          unoptimized={true}
+          className="h-10 w-10 select-none rounded-full"
           alt="User Image"
           loader={myLoader}
         />
-        <MyDropdown isDashboard={isDashboard} />
+        <MyDropdown isDashboard={isDashboard} showBoth={showBoth} />
       </div>
     </div>
   );

@@ -1,25 +1,24 @@
 "use client";
 import React from "react";
 import { P1_SearchResultProps } from "../../interfaces";
-import { useState } from "react";
 import { toggleSearchObject } from "@/app/actions/search";
-import { SEARCH_VALUES_KEY } from "@/app/const/cookies";
 
 const P1_SearchResult = (props: P1_SearchResultProps) => {
   return (
-    <div
+    <button
       key={`${props.index}`}
-      className={`text-xl rounded-xl py-3 px-8 text-wrap text-ellipsis overflow-hidden  ${
+      className={`overflow-hidden text-ellipsis text-wrap rounded-xl px-8 py-3 text-xl  ${
         !props.isFavorite
-          ? "bg-black hover:bg-purple-300 transition duration-100 ease-in-out dark:bg-backgroundLight"
+          ? "bg-black transition duration-100 ease-in-out hover:bg-purple-300 dark:bg-backgroundLight"
           : "bg-purple-500 transition duration-100 ease-in-out"
       }`}
       onClick={() => toggleSearchObject(props.content)}
+      onKeyDown={() => toggleSearchObject(props.content)}
     >
-      <div className="text-white text-xl font-bold text-center dark:text-black">
+      <div className="text-center text-xl font-bold text-white dark:text-black">
         {props.content}
       </div>
-    </div>
+    </button>
   );
 };
 

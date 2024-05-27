@@ -1,13 +1,13 @@
 export default function OverflowHiddenBody({
   children,
-  className,
+  className = "",
 }: {
   children: React.ReactNode;
   className?: string;
 }) {
   return (
     <body
-      className={`${className} overflow-hidden dark:bg-backgroundDark bg-backgroundLight`}
+      className={`${className} overflow-hidden bg-backgroundLight dark:bg-backgroundDark`}
     >
       {children}
     </body>

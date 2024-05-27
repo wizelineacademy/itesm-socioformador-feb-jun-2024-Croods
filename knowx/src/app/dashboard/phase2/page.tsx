@@ -1,7 +1,5 @@
 // "use client";
-import Image from "next/image";
-import UserMenu from "@/app/components/UserMenu";
-import { toggleCategory, addCategory } from "@/app/actions/search";
+import { toggleCategory } from "@/app/actions/search";
 import { getCategories } from "@/app/helper/cookies";
 import P2_NewCategory from "@/app/components/Phase2/P2_NewCategory";
 import { checkSession } from "@/app/actions/redirect";
@@ -37,8 +35,9 @@ export default async function Features() {
 
         <Header isDashboard={true} title="Select your Favorites" />
 
-        {/* <div className="w-full relative p-14 snap-start">
-          <h1 className="text-5xl text-center text-black dark:text-white">
+        {/*
+        <div className="relative w-full snap-start p-14">
+          <h1 className="text-center text-5xl text-black dark:text-white">
             Select your Favorites
           </h1>
         </div> */}

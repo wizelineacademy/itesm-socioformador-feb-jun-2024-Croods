@@ -39,7 +39,7 @@ const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async signIn({ profile }: any) {
+    async signIn({ profile }) {
       return await handleLogin({ profile });
     },
   },
