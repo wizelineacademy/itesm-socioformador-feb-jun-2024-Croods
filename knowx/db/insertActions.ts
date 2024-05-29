@@ -51,15 +51,22 @@ export async function logSearch({
   search: string
 }) {
   try {
-    await db.insert(search_log).values({
-      userId: userId,
-      search,
-      selectedTopics: "",
-      selectedCategories: "",
-      searchResults: "",
-      timeOfSearch: new Date(),
-      feedback: -1,
-    })
+    const id = await db
+      .insert(search_log)
+      .values({
+        userId: userId,
+        search,
+        selectedTopics: "",
+        selectedCategories: "",
+        searchResults: "",
+        timeOfSearch: new Date(),
+        feedback: -1,
+      })
+      .returning({
+        id: search_log.id,
+      })
+
+    return id
   } catch (error) {
     await logError({
       userId,

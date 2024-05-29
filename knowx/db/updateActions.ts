@@ -1,15 +1,16 @@
-import { eq } from "drizzle-orm";
-import { db, search_log } from "./schema";
-import { logError } from "./insertActions";
-
-// LOG BASED ON SEARCH ID NOT SEARCH STRING (Could be duplicated on multiple users)
+import { eq, and } from "drizzle-orm"
+import { db, search_log } from "./schema"
+import { logError } from "./insertActions"
+import { getUserId } from "./insertActions"
 
 export async function logGeneratedTopics({
-  search,
+  userId,
+  searchId,
   generatedTopics,
 }: {
-  search: string;
-  generatedTopics: string;
+  userId: string
+  searchId: number
+  generatedTopics: string
 }) {
   try {
     await db
@@ -17,22 +18,24 @@ export async function logGeneratedTopics({
       .set({
         generatedTopics,
       })
-      .where(eq(search_log.search, search));
+      .where(and(eq(search_log.id, searchId), eq(search_log.userId, userId)))
   } catch (error) {
     await logError({
-      userId: "xxx-xxx-xxx-xxx",
+      userId: userId,
       description: String(error),
       origin: "logGeneratedTopics",
-    });
+    })
   }
 }
 
-export async function logSearchTopics({
-  search,
+export async function logSelectedTopics({
+  userId,
+  searchId,
   selectedTopics,
 }: {
-  search: string;
-  selectedTopics: string;
+  userId: string
+  searchId: number
+  selectedTopics: string
 }) {
   try {
     await db
@@ -40,22 +43,49 @@ export async function logSearchTopics({
       .set({
         selectedTopics,
       })
-      .where(eq(search_log.search, search));
+      .where(and(eq(search_log.id, searchId), eq(search_log.userId, userId)))
   } catch (error) {
     await logError({
-      userId: "xxx-xxx-xxx-xxx",
+      userId: userId,
       description: String(error),
       origin: "logSearchTopics",
-    });
+    })
   }
 }
 
-export async function logSearchCategories({
-  search,
+export async function logGeneratedCategories({
+  userId,
+  searchId,
+  generatedCategories,
+}: {
+  userId: string
+  searchId: number
+  generatedCategories: string
+}) {
+  try {
+    await db
+      .update(search_log)
+      .set({
+        generatedCategories,
+      })
+      .where(and(eq(search_log.id, searchId), eq(search_log.userId, userId)))
+  } catch (error) {
+    await logError({
+      userId: userId,
+      description: String(error),
+      origin: "logGeneratedCategories",
+    })
+  }
+}
+
+export async function logSelectedCategories({
+  userId,
+  searchId,
   selectedCategories,
 }: {
-  search: string;
-  selectedCategories: string;
+  userId: string
+  searchId: number
+  selectedCategories: string
 }) {
   try {
     await db
@@ -63,22 +93,49 @@ export async function logSearchCategories({
       .set({
         selectedCategories,
       })
-      .where(eq(search_log.search, search));
+      .where(and(eq(search_log.id, searchId), eq(search_log.userId, userId)))
   } catch (error) {
     await logError({
-      userId: "xxx-xxx-xxx-xxx",
+      userId: userId,
       description: String(error),
       origin: "logSearchCategories",
-    });
+    })
+  }
+}
+
+export async function logAddedCategories({
+  userId,
+  searchId,
+  addedCategories,
+}: {
+  userId: string
+  searchId: number
+  addedCategories: string
+}) {
+  try {
+    await db
+      .update(search_log)
+      .set({
+        addedCategories,
+      })
+      .where(and(eq(search_log.id, searchId), eq(search_log.userId, userId)))
+  } catch (error) {
+    await logError({
+      userId: userId,
+      description: String(error),
+      origin: "logAddedCategories",
+    })
   }
 }
 
 export async function logSearchResults({
-  search,
+  userId,
+  searchId,
   searchResults,
 }: {
-  search: string;
-  searchResults: string;
+  userId: string
+  searchId: number
+  searchResults: string
 }) {
   try {
     await db
@@ -86,17 +143,25 @@ export async function logSearchResults({
       .set({
         searchResults,
       })
-      .where(eq(search_log.search, search));
+      .where(and(eq(search_log.id, searchId), eq(search_log.userId, userId)))
   } catch (error) {
     await logError({
-      userId: "xxx-xxx-xxx-xxx",
+      userId: userId,
       description: String(error),
       origin: "logSearchResults",
-    });
+    })
   }
 }
 
-export async function logGoodSearch({ logId }: { logId: number }) {
+export async function logGoodSearch({
+  email,
+  logId,
+}: {
+  email: string
+  logId: number
+}) {
+  const userId = await getUserId({ newEmail: email })
+
   try {
     await db
       .update(search_log)
@@ -104,29 +169,37 @@ export async function logGoodSearch({ logId }: { logId: number }) {
         id: logId,
         feedback: 1,
       })
-      .where(eq(search_log.id, logId));
+      .where(and(eq(search_log.id, logId), eq(search_log.userId, userId)))
   } catch (error) {
     await logError({
-      userId: "xxx-xxx-xxx-xxx",
+      userId: userId,
       description: String(error),
       origin: "logGoodSearch",
-    });
+    })
   }
 }
 
-export async function logBadSearch({ logId }: { logId: number }) {
+export async function logBadSearch({
+  email,
+  logId,
+}: {
+  email: string
+  logId: number
+}) {
+  const userId = await getUserId({ newEmail: email })
+
   try {
-    const result = await db
+    await db
       .update(search_log)
       .set({
         feedback: 0,
       })
-      .where(eq(search_log.id, logId));
+      .where(and(eq(search_log.id, logId), eq(search_log.userId, userId)))
   } catch (error) {
     await logError({
-      userId: "dbc58b64-668e-4276-b09d-0680be73755e",
+      userId: userId,
       description: String(error),
       origin: "logBadSearch",
-    });
+    })
   }
 }
