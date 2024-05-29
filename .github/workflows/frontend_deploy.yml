@@ -2,7 +2,7 @@ name: KnowX Frontend Deploy
 on:
   push:
     branches:
-      - H010-UserHistory
+      - main
 
 permissions:
   actions: write
@@ -63,7 +63,6 @@ jobs:
   #       run: |
   #         curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🧪 Front Testing Successful"
 
-
   dev_deploy:
     # needs: test
     name: "Deploy to AWS - DEV"
@@ -90,7 +89,7 @@ jobs:
           sudo chmod 777 ~/.aws
           sudo printf "[default]\nregion = us-east-1" > ~/.aws/config.txt
           sudo printf "[default]\naws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}\naws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}" > ~/.aws/credentials.txt
-        
+
       - name: Install SST
         run: |
           wget https://github.com/sst/ion/releases/download/v0.0.298/sst-linux-amd64.deb
@@ -130,8 +129,8 @@ jobs:
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
 
-      - name: Run tmate
-        uses: mxschmitt/action-tmate@v2
+      # - name: Run tmate
+      #   uses: mxschmitt/action-tmate@v2
 
       - name: Copy Secrets
         run: |
@@ -196,8 +195,6 @@ jobs:
           url=${{ steps.extract_url.outputs.url }}
           curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployment(DEV) URL: $url"
 
-
-
   production_deploy:
     needs: dev_deploy
     name: "Deploy to AWS - PRODUCTION"
@@ -213,7 +210,7 @@ jobs:
           aws-region: us-east-1
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        
+
       - name: Install SST
         run: |
           wget https://github.com/sst/ion/releases/download/v0.0.193/sst-linux-amd64.deb

@@ -1,24 +1,24 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { getServerSession } from "next-auth";
-import SessionProvider from "./components/SessionProvider";
-import { ThemeProvider } from "next-themes";
-import OverflowHiddenBody from "./components/OverflowHiddenBody";
-import "./globals.css";
+import type { Metadata } from "next"
+import { Inter } from "next/font/google"
+import { getServerSession } from "next-auth"
+import SessionProvider from "./components/SessionProvider"
+import { ThemeProvider } from "next-themes"
+import OverflowHiddenBody from "./components/OverflowHiddenBody"
+import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "KnowX",
   description: "Knowledge at the speed of thought",
-};
+}
 
 export default async function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
-  const session = await getServerSession();
+  const session = await getServerSession()
 
   return (
     <html lang="en">
@@ -33,5 +33,5 @@ export default async function RootLayout({
         </SessionProvider>
       </OverflowHiddenBody>
     </html>
-  );
+  )
 }

@@ -1,6 +1,6 @@
-import type { Config } from "tailwindcss";
+import type { Config } from "tailwindcss"
 
-const { nextui } = require("@nextui-org/react");
+const { nextui } = require("@nextui-org/react")
 
 const config: Config = {
   content: [
@@ -19,6 +19,9 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      gridTemplateColumns: {
+        "4custom": "1fr 1fr min-content 1fr 1fr",
+      },
       colors: {
         backgroundLight: "#E9E9E9",
         backgroundDark: "#0c0c0c",
@@ -35,5 +38,5 @@ const config: Config = {
   },
   // darkMode: "class",
   plugins: [nextui()],
-};
-export default config;
+}
+export default config

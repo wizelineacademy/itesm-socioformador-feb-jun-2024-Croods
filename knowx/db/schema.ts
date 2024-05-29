@@ -4,15 +4,21 @@ import {
   varchar,
   integer,
   timestamp,
-  boolean,
   text,
   primaryKey,
 } from "drizzle-orm/pg-core";
-import { drizzle } from "drizzle-orm/neon-http";
-import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-serverless";
+import { neon, Pool } from "@neondatabase/serverless";
 import type { AdapterAccount } from "next-auth/adapters";
 
-const pool = neon(process.env.DB_URL!);
+// const pool = neon(
+//   process.env.DB_URL ||
+//     "postgresql://knowx_owner:eRGZEd9ptb5q@ep-jolly-leaf-a4dsq03m-pooler.us-east-1.aws.neon.tech/knowx"
+// );
+
+const pool = new Pool({
+  connectionString: process.env.DB_URL!,
+});
 export const db = drizzle(pool);
 
 export const users = pgTable("user", {
@@ -29,11 +35,14 @@ export const search_log = pgTable("search_log", {
   id: serial("id").primaryKey(),
   userId: text("userId").references(() => users.id),
   search: varchar("search", { length: 128 }),
+  generatedTopics: text("generatedTopics"),
   selectedTopics: text("selectedTopics"),
+  generatedCategories: text("generatedCategories"),
   selectedCategories: text("selectedCategories"),
+  addedCategories: text("addedCategories"),
   searchResults: text("searchResults"),
   timeOfSearch: timestamp("timeOfSearch", { withTimezone: true }),
-  feedback: boolean("feedback"),
+  feedback: integer("feedback"),
 });
 
 export const login_log = pgTable("login_log", {

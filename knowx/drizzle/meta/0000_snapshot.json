@@ -1,5 +1,5 @@
 {
-  "id": "7023e496-a890-4b37-b022-177d21eb43da",
+  "id": "1cdbdbd4-742c-4744-8e1a-b846bb4760c0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -220,8 +220,20 @@
           "primaryKey": false,
           "notNull": false
         },
+        "generatedTopics": {
+          "name": "generatedTopics",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
         "selectedTopics": {
           "name": "selectedTopics",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "generatedCategories": {
+          "name": "generatedCategories",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -246,9 +258,10 @@
         },
         "feedback": {
           "name": "feedback",
-          "type": "boolean",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": -1
         }
       },
       "indexes": {},
