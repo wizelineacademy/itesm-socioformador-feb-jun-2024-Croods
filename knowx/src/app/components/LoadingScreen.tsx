@@ -1,5 +1,5 @@
-import Header from "./Header";
-import { Spinner } from "@nextui-org/react";
+import Header from "./Header"
+import { Spinner } from "@nextui-org/react"
 
 export default function LoadingScreen() {
   return (
@@ -10,5 +10,5 @@ export default function LoadingScreen() {
         </div>
       </Header>
     </main>
-  );
+  )
 }

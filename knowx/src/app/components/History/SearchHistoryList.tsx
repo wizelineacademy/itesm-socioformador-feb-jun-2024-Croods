@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import {
   Table,
   TableHeader,
@@ -6,7 +6,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
-} from "@nextui-org/table";
+} from "@nextui-org/table"
 import {
   Spinner,
   Dropdown,
@@ -14,94 +14,94 @@ import {
   DropdownItem,
   DropdownTrigger,
   Button,
-} from "@nextui-org/react";
-import BubbleText from "./BubbleText";
-import { useAsyncList } from "@react-stately/data";
-import { useState } from "react";
-import { SimpleHistoryType } from "@/app/interfaces";
+} from "@nextui-org/react"
+import BubbleText from "./BubbleText"
+import { useAsyncList } from "@react-stately/data"
+import { useState } from "react"
+import { SimpleHistoryType } from "@/app/interfaces"
 import {
   HandThumbUpIcon,
   HandThumbDownIcon,
   TrashIcon,
   EllipsisVerticalIcon,
-} from "@heroicons/react/20/solid";
+} from "@heroicons/react/20/solid"
 
 import {
   deleteSearchLogAction,
   logGoodSearchAction,
   logBadSearchAction,
-} from "@/app/actions/dbActions";
+} from "@/app/actions/dbActions"
 
-import { navigateToHistoryLog } from "@/app/actions/redirect";
+import { navigateToHistoryLog } from "@/app/actions/redirect"
 
 const dateFormatter = (date: Date) => {
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const year = date.getFullYear();
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const year = date.getFullYear()
 
-  return `${month}/${day}/${year}`;
-};
+  return `${month}/${day}/${year}`
+}
 
 const timeFormatter = (date: Date) => {
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
+  const hours = date.getHours()
+  const minutes = date.getMinutes()
 
   if (minutes < 10) {
-    return `${hours}:0${minutes}`;
+    return `${hours}:0${minutes}`
   }
 
-  return `${hours}:${minutes}`;
-};
+  return `${hours}:${minutes}`
+}
 
 export default function SearchHistoryList({
   history,
 }: {
-  history: SimpleHistoryType[] | [];
+  history: SimpleHistoryType[] | []
 }) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [searchHistory, setSearchHistory] = useState(history || []);
+  const [isLoading, setIsLoading] = useState(false)
+  const [searchHistory, setSearchHistory] = useState(history || [])
 
   const openItem = (itemId: number) => {
-    navigateToHistoryLog(itemId.toString());
-  };
+    navigateToHistoryLog(itemId.toString())
+  }
 
   const deleteSearchLog = async (logId: number) => {
-    setIsLoading(true);
-    await deleteSearchLogAction(logId);
+    setIsLoading(true)
+    await deleteSearchLogAction(logId)
     setSearchHistory((currentHistory) =>
       currentHistory.filter((item) => item.id !== logId),
-    );
-    historyList.items = searchHistory;
-    setIsLoading(false);
-  };
+    )
+    historyList.items = searchHistory
+    setIsLoading(false)
+  }
 
   const logGoodSearch = async (logId: number) => {
-    await logGoodSearchAction(logId);
+    await logGoodSearchAction(logId)
 
     setSearchHistory((currentHistory) =>
       currentHistory.map((item) =>
         item.id === logId ? { ...item, feedback: 1 } : item,
       ),
-    );
-  };
+    )
+  }
 
   const logBadSearchInternal = async (logId: number) => {
-    await logBadSearchAction(logId);
+    await logBadSearchAction(logId)
 
     setSearchHistory((currentHistory) =>
       currentHistory.map((item) =>
         item.id === logId ? { ...item, feedback: 0 } : item,
       ),
-    );
-  };
+    )
+  }
 
   const historyList = useAsyncList({
     async load() {
-      setIsLoading(false);
+      setIsLoading(false)
 
       return {
         items: searchHistory,
-      };
+      }
     },
     async sort({ sortDescriptor }) {
       setSearchHistory((prevHistory) =>
@@ -113,7 +113,7 @@ export default function SearchHistoryList({
           ) {
             return sortDescriptor.direction === "descending"
               ? a.timestamp.getDate() - b.timestamp.getDate()
-              : b.timestamp.getDate() - a.timestamp.getDate();
+              : b.timestamp.getDate() - a.timestamp.getDate()
           } else if (
             sortDescriptor.column === "searchValue" &&
             a.search &&
@@ -121,7 +121,7 @@ export default function SearchHistoryList({
           ) {
             return sortDescriptor.direction === "descending"
               ? a.search.localeCompare(b.search)
-              : b.search.localeCompare(a.search);
+              : b.search.localeCompare(a.search)
           } else if (
             sortDescriptor.column === "time" &&
             a.timestamp &&
@@ -129,18 +129,18 @@ export default function SearchHistoryList({
           ) {
             return sortDescriptor.direction === "descending"
               ? a.timestamp.getTime() - b.timestamp.getTime()
-              : b.timestamp.getTime() - a.timestamp.getTime();
+              : b.timestamp.getTime() - a.timestamp.getTime()
           }
 
-          return 0;
+          return 0
         }),
-      );
+      )
 
       return {
         items: searchHistory,
-      };
+      }
     },
-  });
+  })
 
   return (
     <Table
@@ -258,5 +258,5 @@ export default function SearchHistoryList({
         )}
       </TableBody>
     </Table>
-  );
+  )
 }

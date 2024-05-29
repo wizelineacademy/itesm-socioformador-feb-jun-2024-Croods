@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { FaceFrownIcon } from "@heroicons/react/24/outline";
-import Header from "@/app/components/Header";
+import Link from "next/link"
+import { FaceFrownIcon } from "@heroicons/react/24/outline"
+import Header from "@/app/components/Header"
 
 export default function NotFound() {
   return (
@@ -16,5 +16,5 @@ export default function NotFound() {
         </Link>
       </div>
     </Header>
-  );
+  )
 }

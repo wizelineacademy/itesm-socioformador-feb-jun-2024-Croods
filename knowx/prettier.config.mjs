@@ -1,7 +1,7 @@
 /** @type {import("prettier").Config} */
 const config = {
   singleQuote: false,
-  semi: true,
+  semi: false,
   plugins: ["prettier-plugin-tailwindcss"],
   jsxSingleQuote: false,
 }

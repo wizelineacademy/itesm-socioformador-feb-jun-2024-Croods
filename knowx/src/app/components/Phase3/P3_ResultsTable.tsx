@@ -1,5 +1,5 @@
-"use client";
-import React from "react";
+"use client"
+import React from "react"
 import {
   Table,
   TableHeader,
@@ -7,7 +7,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
-} from "@nextui-org/table";
+} from "@nextui-org/table"
 import {
   Spinner,
   Dropdown,
@@ -16,29 +16,29 @@ import {
   DropdownTrigger,
   Button,
   ScrollShadow,
-} from "@nextui-org/react";
+} from "@nextui-org/react"
 
-import { useAsyncList } from "@react-stately/data";
+import { useAsyncList } from "@react-stately/data"
 
-import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import { EllipsisVerticalIcon } from "@heroicons/react/20/solid"
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"
 
 import {
   ResultsTableProps,
   Service,
   Results,
   ServiceCategories,
-} from "@/app/interfaces/Phase3";
-import { use } from "chai";
-import { lutimesSync } from "fs";
+} from "@/app/interfaces/Phase3"
+import { use } from "chai"
+import { lutimesSync } from "fs"
 
 export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
-  const [category1, setCategory1] = useState<number>(0);
-  const [category2, setCategory2] = useState<number>(1);
+  const [category1, setCategory1] = useState<number>(0)
+  const [category2, setCategory2] = useState<number>(1)
   const [currentColumns, setCurrentColumns] = useState<Set<string>>(
-    new Set([results.categories[category1], results.categories[category2]])
-  );
+    new Set([results.categories[category1], results.categories[category2]]),
+  )
 
   return (
     <div>
@@ -47,7 +47,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
           <Button
             isIconOnly
             size="sm"
-            className="w-full flex justify-start items-center "
+            className="flex w-full items-center justify-start "
             variant="light"
           >
             {"Columns"}
@@ -65,7 +65,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
               <DropdownItem key={category} onClick={() => {}}>
                 {category}
               </DropdownItem>
-            );
+            )
           })}
           {/* <DropdownItem>
                   <div className="flex flex-row items-center gap-3"></div>
@@ -76,7 +76,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
         <Table
           color={"primary"}
           selectionMode="multiple"
-          className="rounded-lg overflow-auto min-w-[90vw] h-full table-auto w-[90vw] dark:dark dark:pretty-scrollbar"
+          className="dark:pretty-scrollbar h-full w-[90vw] min-w-[90vw] table-auto overflow-auto rounded-lg dark:dark"
           aria-label="search history table"
           // sortDescriptor={list.sortDescriptor}
           // onSortChange={list.sort}
@@ -85,14 +85,14 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
           <TableHeader key={"Header"} className="h-10">
             {results.categories
               .filter((category, index) => {
-                return Array.from(currentColumns).includes(category);
+                return Array.from(currentColumns).includes(category)
               })
               .map((column, index) => {
                 return (
                   <TableColumn key={column} allowsSorting>
                     {column}
                   </TableColumn>
-                );
+                )
               })}
           </TableHeader>
           <TableBody
@@ -102,18 +102,18 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
             loadingContent={<Spinner label="Loading..." />}
           >
             {(item: Service) => (
-              <TableRow key={item.Name} className="select-none cursor-pointer">
+              <TableRow key={item.Name} className="cursor-pointer select-none">
                 {
                   // <TableCell className="text-md">{item.Name}</TableCell>
                   // item.Categories = [...item.Categories, {Name: "Name", Value: item.Name}]
                   item.Categories.filter((category) => {
-                    return Array.from(currentColumns).includes(category.Name);
+                    return Array.from(currentColumns).includes(category.Name)
                   }).map((category, index) => {
                     return (
                       <TableCell key={`${category.Name}-${index} `}>
                         {category.Value}
                       </TableCell>
-                    );
+                    )
                   })
                 }
                 {/* <TableCell>{item.Categories[0].Value}</TableCell>
@@ -124,7 +124,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
         </Table>
       </ScrollShadow>
     </div>
-  );
-};
+  )
+}
 
-export default P3_ResultsTable;
+export default P3_ResultsTable

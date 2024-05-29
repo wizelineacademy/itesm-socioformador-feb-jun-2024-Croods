@@ -1,9 +1,9 @@
-"use client";
-import Image from "next/image";
-import { navigate } from "@/app/actions/redirect";
-import { initialSearchAction, clearSearches } from "@/app/actions/search";
+"use client"
+import Image from "next/image"
+import { navigate } from "@/app/actions/redirect"
+import { initialSearchAction, clearSearches } from "@/app/actions/search"
 const InputBar = () => {
-  let query: string = "";
+  let query: string = ""
   return (
     <div className="relative w-5/6">
       <input
@@ -14,9 +14,9 @@ const InputBar = () => {
       <button
         className="w-30 text-gray absolute right-0 h-20 rounded-lg px-4 text-lg"
         onClick={() => {
-          clearSearches();
-          initialSearchAction(query);
-          navigate(query);
+          clearSearches()
+          initialSearchAction(query)
+          navigate(query)
         }}
       >
         <Image
@@ -29,7 +29,7 @@ const InputBar = () => {
         />
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default InputBar;
+export default InputBar

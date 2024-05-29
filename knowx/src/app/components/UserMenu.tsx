@@ -1,22 +1,22 @@
-"use client";
-import Image, { ImageLoader } from "next/image";
-import { Fragment } from "react";
-import { useSession, signOut } from "next-auth/react";
-import { navigateToHistory, navigateToDashboard } from "../actions/redirect";
-import { Menu, Transition } from "@headlessui/react";
+"use client"
+import Image, { ImageLoader } from "next/image"
+import { Fragment } from "react"
+import { useSession, signOut } from "next-auth/react"
+import { navigateToHistory, navigateToDashboard } from "../actions/redirect"
+import { Menu, Transition } from "@headlessui/react"
 import {
   ChevronDownIcon,
   ArrowLeftEndOnRectangleIcon,
   BookmarkIcon,
   HomeIcon,
-} from "@heroicons/react/20/solid";
+} from "@heroicons/react/20/solid"
 
 function MyDropdown({
   isDashboard = true,
   showBoth = false,
 }: {
-  isDashboard?: boolean;
-  showBoth?: boolean;
+  isDashboard?: boolean
+  showBoth?: boolean
 }) {
   return (
     <Menu>
@@ -87,23 +87,23 @@ function MyDropdown({
         </Menu.Items>
       </Transition>
     </Menu>
-  );
+  )
 }
 
 const myLoader: ImageLoader = ({ src }) => {
-  return src;
-};
+  return src
+}
 
 export default function UserMenu({
   className,
   isDashboard = true,
   showBoth = false,
 }: {
-  className: string;
-  isDashboard?: boolean;
-  showBoth?: boolean;
+  className: string
+  isDashboard?: boolean
+  showBoth?: boolean
 }) {
-  const { data: session } = useSession();
+  const { data: session } = useSession()
 
   return (
     <div
@@ -125,5 +125,5 @@ export default function UserMenu({
         <MyDropdown isDashboard={isDashboard} showBoth={showBoth} />
       </div>
     </div>
-  );
+  )
 }

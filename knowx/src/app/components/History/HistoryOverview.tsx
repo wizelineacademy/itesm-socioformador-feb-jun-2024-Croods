@@ -1,31 +1,31 @@
-import { FullHistoryType } from "@/app/interfaces";
-import { Card, CardHeader, CardBody, Chip, Divider } from "@nextui-org/react";
+import { FullHistoryType } from "@/app/interfaces"
+import { Card, CardHeader, CardBody, Chip, Divider } from "@nextui-org/react"
 
-import { SparklesIcon, BookmarkIcon } from "@heroicons/react/20/solid";
+import { SparklesIcon, BookmarkIcon } from "@heroicons/react/20/solid"
 
 const formatDate = (date: Date) => {
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const year = date.getFullYear();
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const year = date.getFullYear()
 
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
+  const hours = date.getHours()
+  const minutes = date.getMinutes()
 
   if (minutes < 10) {
-    return `${month}/${day}/${year} - ${hours}:0${minutes}`;
+    return `${month}/${day}/${year} - ${hours}:0${minutes}`
   }
 
-  return `${month}/${day}/${year} - ${hours}:${minutes}`;
-};
+  return `${month}/${day}/${year} - ${hours}:${minutes}`
+}
 
 const transformToArray = (data: string) => {
-  return data.split(",");
-};
+  return data.split(",")
+}
 
 export default function HistoryOverview({
   history,
 }: {
-  history: FullHistoryType;
+  history: FullHistoryType
 }) {
   return (
     <div className="flex flex-col items-center justify-center gap-3">
@@ -135,11 +135,22 @@ export default function HistoryOverview({
                     {topic}
                   </Chip>
                 ))}
+                {history.addedCategories &&
+                  transformToArray(history.addedCategories).map((topic) => (
+                    <Chip
+                      key={topic}
+                      color="secondary"
+                      variant="dot"
+                      className="mb-2 mr-2"
+                    >
+                      {topic}
+                    </Chip>
+                  ))}
               </div>
             </CardBody>
           </Card>
         )}
       </div>
     </div>
-  );
+  )
 }

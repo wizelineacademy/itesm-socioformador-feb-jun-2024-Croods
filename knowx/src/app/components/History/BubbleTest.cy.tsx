@@ -1,7 +1,7 @@
-import BubbleText from "./BubbleText";
+import BubbleText from "./BubbleText"
 
 describe("BubbleText", () => {
   it("mounts", () => {
-    cy.mount(<BubbleText text="Hello" />);
-  });
-});
+    cy.mount(<BubbleText text="Hello" />)
+  })
+})

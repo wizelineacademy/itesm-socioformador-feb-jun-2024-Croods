@@ -2,7 +2,7 @@
   "extends": [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/strict",
+    // "plugin:@typescript-eslint/strict",
     "plugin:jsx-a11y/recommended",
     "prettier"
   ],

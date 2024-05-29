@@ -2,8 +2,8 @@ export default function OverflowHiddenBody({
   children,
   className = "",
 }: {
-  children: React.ReactNode;
-  className?: string;
+  children: React.ReactNode
+  className?: string
 }) {
   return (
     <body
@@ -11,5 +11,5 @@ export default function OverflowHiddenBody({
     >
       {children}
     </body>
-  );
+  )
 }

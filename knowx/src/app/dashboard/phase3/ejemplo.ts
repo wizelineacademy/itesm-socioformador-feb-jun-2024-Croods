@@ -1,4 +1,4 @@
-import { Name } from "drizzle-orm";
+import { Name } from "drizzle-orm"
 
 export const example = {
   categories: [
@@ -157,4 +157,4 @@ export const example = {
       ],
     },
   ],
-};
+}

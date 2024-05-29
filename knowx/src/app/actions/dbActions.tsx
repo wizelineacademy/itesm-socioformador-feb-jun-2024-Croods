@@ -1,15 +1,18 @@
-"use server";
-import { deleteSearchLog } from "../../../db/deleteActions";
-import { logBadSearch, logGoodSearch } from "../../../db/updateActions";
+"use server"
+import { deleteSearchLog } from "../../../db/deleteActions"
+import { logBadSearch, logGoodSearch } from "../../../db/updateActions"
+import { getServerSession } from "next-auth"
 
 export async function deleteSearchLogAction(logId: number) {
-  return await deleteSearchLog({ logId });
+  return await deleteSearchLog({ logId })
 }
 
 export async function logGoodSearchAction(logId: number) {
-  return await logGoodSearch({ logId });
+  const session = await getServerSession()
+  return await logGoodSearch({ email: session?.user?.email || "", logId })
 }
 
 export async function logBadSearchAction(logId: number) {
-  return await logBadSearch({ logId });
+  const session = await getServerSession()
+  return await logBadSearch({ email: session?.user?.email || "", logId })
 }

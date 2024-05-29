@@ -1,7 +1,7 @@
-"use client";
-import React from "react";
-import { P1_SearchResultProps } from "../../interfaces";
-import { toggleSearchObject } from "@/app/actions/search";
+"use client"
+import React from "react"
+import { P1_SearchResultProps } from "../../interfaces"
+import { toggleSearchObject } from "@/app/actions/search"
 
 const P1_SearchResult = (props: P1_SearchResultProps) => {
   return (
@@ -19,7 +19,7 @@ const P1_SearchResult = (props: P1_SearchResultProps) => {
         {props.content}
       </div>
     </button>
-  );
-};
+  )
+}
 
-export default P1_SearchResult;
+export default P1_SearchResult

@@ -1,20 +1,20 @@
 // src/app/auth/page.tsx
-"use client";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { signIn, useSession } from "next-auth/react";
-import { useState } from "react";
-import { redirect } from "next/navigation";
+"use client"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { signIn, useSession } from "next-auth/react"
+import { useState } from "react"
+import { redirect } from "next/navigation"
 
 export default function Signup() {
   //const { data: session } = useSession();
-  const { data: session } = useSession();
-  const router = useRouter();
-  const [email, setEmail] = useState("");
+  const { data: session } = useSession()
+  const router = useRouter()
+  const [email, setEmail] = useState("")
   //const [password, setPassword] = useState('');
 
   if (session) {
-    redirect("/dashboard");
+    redirect("/dashboard")
   }
   /*
   if (session) {
@@ -28,62 +28,62 @@ export default function Signup() {
       callbackUrl: "/dashboard",
       redirect: false,
       windowFeatures: "width=800,height=600",
-    });
+    })
 
     if (result?.url) {
-      window.open(result.url, "GitHubLogin", "width=800,height=600");
+      window.open(result.url, "GitHubLogin", "width=800,height=600")
     }
 
     if (result?.error) {
-      console.error("Authentication failed:", result.error);
+      console.error("Authentication failed:", result.error)
     }
-  };
+  }
 
   const handleSignInGoogle = async (providerId: string) => {
     const result = await signIn(providerId, {
       callbackUrl: "/dashboard",
       redirect: false,
       windowFeatures: "width=800,height=600",
-    });
+    })
 
     if (result?.url) {
-      window.open(result.url, "GoogleLogin", "width=800,height=600");
+      window.open(result.url, "GoogleLogin", "width=800,height=600")
     }
 
     if (result?.error) {
-      console.error("Authentication failed:", result.error);
+      console.error("Authentication failed:", result.error)
     }
-  };
+  }
 
   const handleSignInSlack = async (providerId: string) => {
     const result = await signIn(providerId, {
       callbackUrl: "/dashboard",
       redirect: false,
       windowFeatures: "width=800,height=600",
-    });
+    })
 
     if (result?.url) {
-      window.open(result.url, "SlackLogin", "width=800,height=600");
+      window.open(result.url, "SlackLogin", "width=800,height=600")
     }
 
     if (result?.error) {
-      console.error("Authentication failed:", result.error);
+      console.error("Authentication failed:", result.error)
     }
-  };
+  }
 
   const handleSignInEmail = async () => {
-    console.log("Email: ", email);
+    console.log("Email: ", email)
     await signIn("email", { email, redirect: false, callbackUrl: "/dashboard" })
       .then((result) => {
-        console.log("Result: ", result);
+        console.log("Result: ", result)
         if (result?.url) {
-          router.push(result.url);
+          router.push(result.url)
         }
       })
       .catch((error) => {
-        console.error("Authentication failed:", error.message);
-      });
-  };
+        console.error("Authentication failed:", error.message)
+      })
+  }
 
   return (
     <main className="bg-backgroundLight dark:bg-backgroundDark">
@@ -162,5 +162,5 @@ export default function Signup() {
         </div>
       </div>
     </main>
-  );
+  )
 }

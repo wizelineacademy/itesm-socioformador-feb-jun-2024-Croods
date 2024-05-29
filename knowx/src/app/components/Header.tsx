@@ -1,5 +1,5 @@
-import Image from "next/image";
-import UserMenu from "./UserMenu";
+import Image from "next/image"
+import UserMenu from "./UserMenu"
 
 export default function Header({
   isDashboard = true,
@@ -7,10 +7,10 @@ export default function Header({
   userMenuShowBoth = false,
   children,
 }: {
-  isDashboard: boolean;
-  title?: string;
-  userMenuShowBoth?: boolean;
-  children?: React.ReactNode;
+  isDashboard: boolean
+  title?: string
+  userMenuShowBoth?: boolean
+  children?: React.ReactNode
 }) {
   return (
     <div className="mx-auto flex h-screen flex-wrap content-baseline justify-center text-gray-600">
@@ -50,5 +50,5 @@ export default function Header({
       </header>
       {children}
     </div>
-  );
+  )
 }

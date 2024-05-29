@@ -1,17 +1,17 @@
-import { getUserId } from "../../../db/insertActions";
-import { getServerSession } from "next-auth";
-import { getSimpleUserHistory } from "../../../db/getActions";
-import SearchHistoryList from "../components/History/SearchHistoryList";
-import { SimpleHistoryType } from "@/app/interfaces";
-import Header from "../components/Header";
+import { getUserId } from "../../../db/insertActions"
+import { getServerSession } from "next-auth"
+import { getSimpleUserHistory } from "../../../db/getActions"
+import SearchHistoryList from "../components/History/SearchHistoryList"
+import { SimpleHistoryType } from "@/app/interfaces"
+import Header from "../components/Header"
 
 export default async function Home() {
-  const session = await getServerSession();
-  const userId = await getUserId({ newEmail: session?.user?.email || "" });
+  const session = await getServerSession()
+  const userId = await getUserId({ newEmail: session?.user?.email || "" })
   const history: SimpleHistoryType[] =
     (await getSimpleUserHistory({
       userId: userId,
-    })) || [];
+    })) || []
 
   return (
     <main className="bg-backgroundLight dark:bg-backgroundDark">
@@ -21,5 +21,5 @@ export default async function Home() {
         </div>
       </Header>
     </main>
-  );
+  )
 }
