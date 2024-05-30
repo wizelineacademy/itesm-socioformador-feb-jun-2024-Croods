@@ -16,14 +16,30 @@ async def run_plx(initialPromt, objects, features):
         "messages": [
             {
                 "role": "system",
-                "content": "Be precise and concise. Return ONLY a dictionary with ONLY the category name as a key."
+                "content": "Be precise and concise. STRICTLY Return ONLY a dictionary with the GIVEN STRUCTURE."
             },
             {
                 "role": "user",
                 "content": f"""We are talking about the following objects: {objects}. Based on what each of them are in the context of '{initialPromt}', what they offer and the given information, please 
-                            return a dictionary a description of the tool and the answers to following features for EACH of the objects: {features}. 
+                            return a dictionary a description of the tool and the answers to following features for EACH of the objects: {features}. If description is not included, be sure to ALWAYS INCLUDE DESCRIPTION.
                             If no information is found on a category, retun NULL on that key.
-                            Strictly return ONLY a dictionary."""
+                            Strictly return ONLY a dictionary with the following structure:""" + """
+
+                            {
+                                "categories": ["", "", ""],
+                                "results: [
+                                    {
+                                        "Name": "",
+                                        "Description": "",
+                                        "Categories": [
+                                            { Name: "...", Value: "..." },
+                                            { Name: "...", Value: "..." },
+                                            ...
+                                        ]
+                                    }
+                                ]
+                            }
+                            """
             }
         ]
     }
