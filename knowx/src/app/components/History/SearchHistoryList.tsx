@@ -150,7 +150,7 @@ export default function SearchHistoryList({
       selectionMode="single"
       className="h-auto w-full min-w-full table-auto overflow-hidden rounded-lg dark:dark"
       aria-label="search history table"
-      onRowAction={(key) => openItem(Number(key))}
+      onRowAction={(key: number) => openItem(Number(key))}
     >
       <TableHeader className="h-10">
         <TableColumn key="searchValue" allowsSorting>

@@ -4,6 +4,9 @@ import { getSimpleUserHistory } from "../../../db/getActions"
 import SearchHistoryList from "../components/History/SearchHistoryList"
 import { SimpleHistoryType } from "@/app/interfaces"
 import Header from "../components/Header"
+import InfoComponent from "../components/informational/InfoComponent"
+import EllipsisVerticalIcon from "@heroicons/react/20/solid/EllipsisVerticalIcon"
+import TrashIcon from "@heroicons/react/20/solid/TrashIcon"
 
 export default async function Home() {
   const session = await getServerSession()
@@ -20,6 +23,27 @@ export default async function Home() {
           <SearchHistoryList history={history || []} />
         </div>
       </Header>
+      <InfoComponent title="History">
+        <>
+          <p>
+            The table below shows the history of your searches. You can click on
+            any of the rows to view the detailed results of the search.
+          </p>
+          <br />
+          <p>
+            You can click on the table headers to sort the data in ascending or
+            descending order.
+          </p>
+          <br />
+          <p>
+            Click on{" "}
+            <EllipsisVerticalIcon className="inline-block h-5 w-5 text-default-300" />{" "}
+            to give feedback on the search results. Or click on{" "}
+            <TrashIcon className="inline-block h-5 w-5 text-default-300" /> to
+            delete the search log.
+          </p>
+        </>
+      </InfoComponent>
     </main>
   )
 }
