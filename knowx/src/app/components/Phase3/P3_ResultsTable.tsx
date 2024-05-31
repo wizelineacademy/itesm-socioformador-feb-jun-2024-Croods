@@ -33,6 +33,21 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
   );
   const [currentRows, setCurrentRows] = useState<Set<string>>(new Set());
 
+  const checkCategories = (item: Service) => {
+    let categories: { Name: string; Value: string }[] = [];
+    let hasName = false,
+      hasDescription = false;
+    item.Categories.forEach((category) => {
+      if (category.Name === "Name") return;
+      if (category.Name === "Description") return;
+      categories.push(category);
+    });
+    categories.push({ Name: "Name", Value: item.Name });
+    categories.push({ Name: "Description", Value: item.Description });
+    console.log("CATEGORIES -> ", categories);
+    return categories;
+  };
+
   useEffect(() => {
     const handleRowUpdate = () => {
       toggleCompares(currentRows, results);
@@ -118,15 +133,26 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
                 {
                   // <TableCell className="text-md">{item.Name}</TableCell>
                   // item.Categories = [...item.Categories, {Name: "Name", Value: item.Name}]
-                  item.Categories.filter((category) => {
-                    return Array.from(currentColumns).includes(category.Name);
-                  }).map((category, index) => {
-                    return (
-                      <TableCell key={`${category.Name}-${index} `}>
-                        {category.Value}
-                      </TableCell>
-                    );
-                  })
+
+                  checkCategories(item)
+                    .filter((category) => {
+                      console.log(
+                        "FILTERING -> ",
+                        category.Name,
+                        category.Value,
+                        " RESULT ",
+                        Array.from(currentColumns).includes(category.Name)
+                      );
+                      return Array.from(currentColumns).includes(category.Name);
+                    })
+                    .map((category, index) => {
+                      console.log("MAPPING -> ", category.Name, category.Value);
+                      return (
+                        <TableCell key={`${category.Name}-${index} `}>
+                          {category.Value}
+                        </TableCell>
+                      );
+                    })
                 }
                 {/* <TableCell>{item.Categories[0].Value}</TableCell>
               <TableCell>{item.Categories[1].Value}</TableCell> */}

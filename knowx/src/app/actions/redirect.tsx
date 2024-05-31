@@ -38,6 +38,10 @@ export async function navigateToPhase3() {
   await getFullSearch();
   redirect("/dashboard/phase3");
 }
+export async function backToPhase3() {
+  // await getFullSearch();
+  redirect("/dashboard/phase3");
+}
 export async function navigateToCompare() {
   redirect("/dashboard/compare");
 }

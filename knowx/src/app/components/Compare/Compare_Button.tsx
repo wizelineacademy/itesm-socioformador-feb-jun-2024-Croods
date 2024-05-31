@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Button } from "@nextui-org/react";
-import { navigateToPhase3 } from "@/app/actions/redirect";
+import { backToPhase3 } from "@/app/actions/redirect";
 
 export const Compare_Button = () => {
   return (
@@ -9,7 +9,7 @@ export const Compare_Button = () => {
       variant="flat"
       color="success"
       className="w-[200px] rounded-xl my-5 mx-auto p-5"
-      onClick={() => navigateToPhase3()}
+      onClick={() => backToPhase3()}
     >
       {"Back"}
     </Button>

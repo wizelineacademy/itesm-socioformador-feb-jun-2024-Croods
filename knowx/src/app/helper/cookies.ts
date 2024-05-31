@@ -7,6 +7,7 @@ import {
   ORIGINAL_CATEGORIES_KEY,
   COMPARES_KEY,
   COMPARE_DATA_KEY,
+  CURRENT_QUERY_KEY,
 } from "@/app/const/cookies";
 import { getFullSearch } from "../actions/search";
 import { Results } from "../interfaces/Phase3";
@@ -60,6 +61,9 @@ export function getSearchObjects() {
       cookies().get(ORIGINAL_SEARCH_VALUES_KEY)?.value.split(",") || [],
   };
 }
+export function getCurrentQuery() {
+  return cookies().get(CURRENT_QUERY_KEY)?.value;
+}
 export function getCategories() {
   const categories = cookies().get(CATEGORIES_KEY)?.value;
   // console.log("DOING THIS");
@@ -70,6 +74,7 @@ export function getCategories() {
 }
 
 export function getAllData(): Results {
+  console.log(cookies().get(COMPARE_DATA_KEY)?.value || "{}");
   return JSON.parse(cookies().get(COMPARE_DATA_KEY)?.value || "{}") as Results;
 }
 

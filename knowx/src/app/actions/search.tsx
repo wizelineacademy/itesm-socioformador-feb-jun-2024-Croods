@@ -9,10 +9,17 @@ import {
   ORIGINAL_CATEGORIES_KEY,
   CATEGORIES_KEY,
   COMPARE_DATA_KEY,
+  COMPARES_KEY,
 } from "../const/cookies";
-import { getSearchObjects, getCategories, setCookie } from "../helper/cookies";
+import {
+  getSearchObjects,
+  getCategories,
+  setCookie,
+  getCurrentQuery,
+} from "../helper/cookies";
 import { getServerSession } from "next-auth";
 import { example } from "../dashboard/phase3/ejemplo";
+import { Results } from "../interfaces/Phase3";
 
 export async function toggleSearchObject(obj: string) {
   const { searchObjects } = getSearchObjects();
@@ -55,6 +62,16 @@ export async function clearSearches() {
   setCookie(CURRENT_QUERY_KEY, "");
   setCookie(CATEGORIES_KEY, "");
   setCookie(ORIGINAL_CATEGORIES_KEY, "");
+  setCookie(COMPARE_DATA_KEY, "");
+  setCookie(COMPARES_KEY, "");
+
+  // export const SEARCH_VALUES_KEY = "searchValues";
+  // export const ORIGINAL_SEARCH_VALUES_KEY = "originalSearchValues";
+  // export const CATEGORIES_KEY = "categories";
+  // export const ORIGINAL_CATEGORIES_KEY = "originalCategories";
+  // export const CURRENT_QUERY_KEY = "currentQuery";
+  // export const COMPARES_KEY = "compares";
+  // export const COMPARE_DATA_KEY = "compareData";
 }
 
 export async function initialSearchAction(query: string) {
@@ -102,13 +119,31 @@ export async function categorySearchFunction(query: string) {
   return data;
 }
 
-export async function setFullSearch() {
-  setCookie(COMPARE_DATA_KEY, JSON.stringify(example));
-  return example;
-}
+// export async function setFullSearch() {
+//   setCookie(COMPARE_DATA_KEY, JSON.stringify(example));
+//   return example;
+// }
 export async function getFullSearch() {
-  setCookie(COMPARE_DATA_KEY, JSON.stringify(example));
-  return example;
+  const categories = getCategories().categories || [];
+  const searchObjects = getSearchObjects().searchObjects;
+  const currentQuery = getCurrentQuery();
+
+  const u = new URLSearchParams();
+
+  categories.forEach((category) => u.append("categories", category));
+  searchObjects.forEach((tool) => u.append("tools", tool));
+
+  if (currentQuery) {
+    u.append("topic", currentQuery);
+  }
+  const res = await fetch(`${process.env.API_ROOT_ROUTE}/search`, {
+    method: "POST",
+    body: u,
+  });
+  // console.log(await res.json());
+  const data: Results = await res.json();
+
+  setCookie(COMPARE_DATA_KEY, JSON.stringify(data));
 }
 
 export async function getUserIdFunc(
