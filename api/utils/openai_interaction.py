@@ -24,7 +24,8 @@ async def run_plx(initialPromt, objects, features):
                             return a dictionary a description of the tool and the answers to following features for EACH of the objects: {features}. If description is not included, be sure to ALWAYS INCLUDE DESCRIPTION.
                             If no information is found on a category, retun "N/A" on that key.
                             ALWAYS RETURN NAME as a Category and be sure to include the name of the object as a value for the Categories key inside results.
-                            Strictly return ONLY a dictionary with the following structure:""" + """
+                            THE AMOUNT OF CATEGORIES RETURNED SHOULD ALWAYS EQUAL TO THE AMOUNT OF OBJECTS IN Categories inside results.
+                            Strictly return ONLY a dictionary with the following structure NOTHING ELSE:""" + """
 
                             {
                                 categories: [Name, "", "", ""],
