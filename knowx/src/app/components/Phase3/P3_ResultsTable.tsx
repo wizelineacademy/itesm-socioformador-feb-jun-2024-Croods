@@ -27,16 +27,12 @@ import { toggleCompares } from "@/app/actions/compare";
 
 export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
   const [currentColumns, setCurrentColumns] = useState<Set<string>>(
-    results.categories != undefined
-      ? new Set([results.categories[0], results.categories[1]])
-      : new Set()
+    new Set([results.categories[0], results.categories[1]])
   );
   const [currentRows, setCurrentRows] = useState<Set<string>>(new Set());
 
   const checkItemCategories = (item: Service) => {
     let categories: { Name: string; Value: string }[] = [];
-    let hasName = false,
-      hasDescription = false;
     categories.push({ Name: "Name", Value: item.Name });
     categories.push({ Name: "Description", Value: item.Description });
     item.Categories.forEach((category) => {
@@ -44,7 +40,8 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
       if (category.Name === "Description") return;
       categories.push(category);
     });
-    setCurrentColumns(new Set([categories[0].Name, categories[1].Name]));
+    if (currentColumns.size == 0)
+      setCurrentColumns(new Set([categories[0].Name, categories[1].Name]));
     console.log("CATEGORIES -> ", categories);
     return categories;
   };
