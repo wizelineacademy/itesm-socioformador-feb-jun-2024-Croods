@@ -2,12 +2,16 @@
 import React from "react";
 import Image from "next/image";
 import { navigateToPhase2 } from "@/app/actions/redirect";
+import { Button } from "@nextui-org/react";
+import { useState } from "react";
 import Header from "@/app/components/Header";
 
 const P1_ResultsWrapper = (props: {
   children: JSX.Element[];
   query: string;
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     // <div className="flex flex-row gap-4 mt-4 flex-wrap w-full justify-around">
     <div className="flex bg-backgroundLight dark:bg-backgroundDark">
@@ -33,16 +37,23 @@ const P1_ResultsWrapper = (props: {
         <div className="h-[20rem] overflow-y-auto items-center justify-center p-3 pretty-scrollbar">
           <ul className="grid grid-cols-2 flex-wrap gap-8">{props.children}</ul>
         </div>
-        <div
-          className={`w-[200px] text-xl rounded-xl py-3 px-3 text-wrap text-ellipsis overflow-hidden bg-black dark:bg-backgroundLight dark:text-black hover:bg-purple-300 transition duration-100 ease-in-out mx-auto`}
+        <Button
+          isLoading={isLoading}
+          variant="bordered"
+          color="default"
+          className={`w-[200px] text-xl rounded-xl p-5 text-wrap text-black dark:text-white overflow-hidden mx-auto my-5 font-bold text-center`}
+          onClick={() => {
+            setIsLoading(true);
+            navigateToPhase2(props.query);
+          }}
         >
-          <div
+          {/* <div
             className="text-white text-xl font-bold text-center dark:text-black cursor-pointer"
             onClick={() => navigateToPhase2(props.query)}
-          >
-            Search
-          </div>
-        </div>
+          > */}
+          {isLoading ? "" : "Next"}
+          {/* </div> */}
+        </Button>
       </div>
     </div>
   );

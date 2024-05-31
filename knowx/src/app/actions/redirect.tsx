@@ -3,7 +3,7 @@
 
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth/next";
-import { categorySearchFunction } from "./search";
+import { categorySearchFunction, getFullSearch } from "./search";
 
 export async function checkSession(): Promise<Boolean> {
   // const { data: session } = useSession();
@@ -35,5 +35,9 @@ export async function navigateToHistory() {
   redirect("/history");
 }
 export async function navigateToPhase3() {
+  await getFullSearch();
   redirect("/dashboard/phase3");
+}
+export async function navigateToCompare() {
+  redirect("/dashboard/compare");
 }

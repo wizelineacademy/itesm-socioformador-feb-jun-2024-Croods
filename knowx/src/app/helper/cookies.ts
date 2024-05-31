@@ -5,7 +5,11 @@ import {
   ORIGINAL_SEARCH_VALUES_KEY,
   CATEGORIES_KEY,
   ORIGINAL_CATEGORIES_KEY,
+  COMPARES_KEY,
+  COMPARE_DATA_KEY,
 } from "@/app/const/cookies";
+import { getFullSearch } from "../actions/search";
+import { Results } from "../interfaces/Phase3";
 
 export function setCookie(key: string, value: string) {
   const cookieStore = cookies();
@@ -64,3 +68,13 @@ export function getCategories() {
     allObjects: cookies().get(ORIGINAL_CATEGORIES_KEY)?.value.split(",") || [],
   };
 }
+
+export function getAllData(): Results {
+  return JSON.parse(cookies().get(COMPARE_DATA_KEY)?.value || "{}") as Results;
+}
+
+export function getCompares() {
+  const compares = cookies().get(COMPARES_KEY)?.value;
+  return compares;
+}
+export function setCompares(value: string) {}

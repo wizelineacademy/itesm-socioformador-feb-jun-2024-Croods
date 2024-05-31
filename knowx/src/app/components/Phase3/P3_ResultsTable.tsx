@@ -18,27 +18,29 @@ import {
   ScrollShadow,
 } from "@nextui-org/react";
 
-import { useAsyncList } from "@react-stately/data";
-
-import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 import { useState, useEffect } from "react";
 
-import {
-  ResultsTableProps,
-  Service,
-  Results,
-  ServiceCategories,
-} from "@/app/interfaces/Phase3";
-import { use } from "chai";
-import { lutimesSync } from "fs";
+import { ResultsTableProps, Service } from "@/app/interfaces/Phase3";
+import { toggleCompares } from "@/app/actions/compare";
 
 export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
-  const [category1, setCategory1] = useState<number>(0);
-  const [category2, setCategory2] = useState<number>(1);
   const [currentColumns, setCurrentColumns] = useState<Set<string>>(
-    new Set([results.categories[category1], results.categories[category2]])
+    results.categories != undefined
+      ? new Set([results.categories[0], results.categories[1]])
+      : new Set()
   );
+  const [currentRows, setCurrentRows] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    const handleRowUpdate = () => {
+      toggleCompares(currentRows, results);
+      console.log("Doing");
+    };
+    // console.log(currentRows);
+    handleRowUpdate();
+  }, [currentRows]);
 
   return (
     <div>
@@ -47,10 +49,12 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
           <Button
             isIconOnly
             size="sm"
-            className="w-full flex justify-start items-center "
-            variant="light"
+            className="w-[200px] flex justify-between items-center p-5 my-5"
+            variant="flat"
+            color="default"
           >
             {"Columns"}
+            <ChevronDownIcon className="w-5 h-5" />
           </Button>
         </DropdownTrigger>
         <DropdownMenu
@@ -58,15 +62,21 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
           selectionMode="multiple"
           closeOnSelect={false}
           selectedKeys={currentColumns}
-          onSelectionChange={(keys) => setCurrentColumns(keys)}
+          onSelectionChange={(keys) => setCurrentColumns(keys as Set<string>)}
         >
-          {results.categories.map((category, index) => {
-            return (
-              <DropdownItem key={category} onClick={() => {}}>
-                {category}
-              </DropdownItem>
-            );
-          })}
+          {results.categories != undefined ? (
+            results.categories.map((category, index) => {
+              return (
+                <DropdownItem key={category} onClick={() => {}}>
+                  {category}
+                </DropdownItem>
+              );
+            })
+          ) : (
+            <DropdownItem key={"NO DATA"} onClick={() => {}}>
+              {"No Columns"}
+            </DropdownItem>
+          )}
           {/* <DropdownItem>
                   <div className="flex flex-row items-center gap-3"></div>
                 </DropdownItem> */}
@@ -76,11 +86,17 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
         <Table
           color={"primary"}
           selectionMode="multiple"
-          className="rounded-lg overflow-auto min-w-[90vw] h-full table-auto w-[90vw] dark:dark dark:pretty-scrollbar"
+          className="rounded-lg overflow-auto min-w-[80vw] h-full table-auto w-[80vw] dark:dark dark:pretty-scrollbar"
           aria-label="search history table"
+          onSelectionChange={(keys) => {
+            // setCurrentRows(key);
+            setCurrentRows(keys as Set<string>);
+            // console.log("HUH", currentRows);
+            // console.log(key);
+          }}
           // sortDescriptor={list.sortDescriptor}
           // onSortChange={list.sort}
-          onRowAction={(key) => null}
+          onRowAction={(key) => console.log("HUH?")}
         >
           <TableHeader key={"Header"} className="h-10">
             {results.categories
@@ -88,11 +104,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
                 return Array.from(currentColumns).includes(category);
               })
               .map((column, index) => {
-                return (
-                  <TableColumn key={column} allowsSorting>
-                    {column}
-                  </TableColumn>
-                );
+                return <TableColumn key={column}>{column}</TableColumn>;
               })}
           </TableHeader>
           <TableBody

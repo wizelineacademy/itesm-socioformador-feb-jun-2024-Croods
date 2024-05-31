@@ -30,7 +30,6 @@ import {
   Results,
   ServiceCategories,
 } from "@/app/interfaces/Phase3";
-import { use } from "chai";
 
 export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
   const [category1, setCategory1] = useState<number>(1);
@@ -99,7 +98,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
       <Table
         color={"primary"}
         selectionMode="multiple"
-        className="rounded-lg overflow-auto min-w-[90vw] h-full table-auto w-[90vw] dark:dark dark:pretty-scrollbar"
+        className="rounded-lg overflow-auto min-w-[80vw] h-full table-auto w-[90vw] dark:dark dark:pretty-scrollbar"
         aria-label="search history table"
         // sortDescriptor={list.sortDescriptor}
         // onSortChange={list.sort}

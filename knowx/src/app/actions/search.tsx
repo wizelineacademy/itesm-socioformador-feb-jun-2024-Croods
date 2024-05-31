@@ -8,9 +8,11 @@ import {
   CURRENT_QUERY_KEY,
   ORIGINAL_CATEGORIES_KEY,
   CATEGORIES_KEY,
+  COMPARE_DATA_KEY,
 } from "../const/cookies";
 import { getSearchObjects, getCategories, setCookie } from "../helper/cookies";
 import { getServerSession } from "next-auth";
+import { example } from "../dashboard/phase3/ejemplo";
 
 export async function toggleSearchObject(obj: string) {
   const { searchObjects } = getSearchObjects();
@@ -98,6 +100,15 @@ export async function categorySearchFunction(query: string) {
   });
 
   return data;
+}
+
+export async function setFullSearch() {
+  setCookie(COMPARE_DATA_KEY, JSON.stringify(example));
+  return example;
+}
+export async function getFullSearch() {
+  setCookie(COMPARE_DATA_KEY, JSON.stringify(example));
+  return example;
 }
 
 export async function getUserIdFunc(
