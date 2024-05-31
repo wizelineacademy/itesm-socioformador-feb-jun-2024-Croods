@@ -37,13 +37,13 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
     let categories: { Name: string; Value: string }[] = [];
     let hasName = false,
       hasDescription = false;
+    categories.push({ Name: "Name", Value: item.Name });
+    categories.push({ Name: "Description", Value: item.Description });
     item.Categories.forEach((category) => {
       if (category.Name === "Name") return;
       if (category.Name === "Description") return;
       categories.push(category);
     });
-    categories.push({ Name: "Name", Value: item.Name });
-    categories.push({ Name: "Description", Value: item.Description });
     console.log("CATEGORIES -> ", categories);
     return categories;
   };
