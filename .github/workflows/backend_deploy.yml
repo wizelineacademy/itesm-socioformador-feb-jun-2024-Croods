@@ -2,7 +2,7 @@ name: KnowX Backend Deploy
 on:
   push:
     branches:
-      - I004-UIFixes
+      - DEV
 
 jobs:
   deploy:
