@@ -23,7 +23,7 @@ export default async function Home() {
           <SearchHistoryList history={history || []} />
         </div>
       </Header>
-      <InfoComponent title="History">
+      <InfoComponent title="History" icon={2}>
         <>
           <p>
             The table below shows the history of your searches. You can click on
@@ -37,11 +37,15 @@ export default async function Home() {
           <br />
           <p>
             Click on{" "}
-            <EllipsisVerticalIcon className="inline-block h-5 w-5 text-default-300" />{" "}
-            to give feedback on the search results. Or click on{" "}
-            <TrashIcon className="inline-block h-5 w-5 text-default-300" /> to
-            delete the search log.
+            <EllipsisVerticalIcon className="inline-block h-5 w-5 text-blue-600" />{" "}
+            to give feedback on the search results.
           </p>
+          <br />
+          <p>
+            Click on <TrashIcon className="inline-block h-5 w-5 text-red-500" />{" "}
+            to delete the search from your history.
+          </p>
+          <br />
         </>
       </InfoComponent>
     </main>

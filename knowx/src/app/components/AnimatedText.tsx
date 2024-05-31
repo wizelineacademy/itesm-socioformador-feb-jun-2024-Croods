@@ -14,11 +14,12 @@ const AnimatedText = ({ text }: { text: string }) => {
           const dx = e.clientX - (rect.left + rect.width / 2)
           const dy = e.clientY - (rect.top + rect.height / 2)
           const distance = Math.sqrt(dx * dx + dy * dy)
-          const maxDistance = 150
+          const maxDistance = 80
           const proximity = Math.max(0, maxDistance - distance) / maxDistance
 
           letter.style.fontWeight = `${300 + proximity * 1000}`
           letter.style.fontVariationSettings = `"wdth" ${20 * proximity + 100}`
+          letter.style.color = `hsl(0, 0%, ${50 + proximity * 50}%)`
         }
       })
     }

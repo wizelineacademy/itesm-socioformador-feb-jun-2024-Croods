@@ -21,19 +21,29 @@ async def run_plx(initialPromt, objects, features):
             {
                 "role": "user",
                 "content": f"""We are talking about the following objects: {objects}. Based on what each of them are in the context of '{initialPromt}', what they offer and the given information, please 
-                            return a dictionary a description of the tool and the answers to following features for EACH of the objects: {features}. If description is not included, be sure to ALWAYS INCLUDE DESCRIPTION.
+                            return a dictionary, a description of the tool and the answers to following features for EACH of these features: {features}.
                             If no information is found on a category, retun "N/A" on that key.
-                            ALWAYS RETURN NAME as a Category and be sure to include the name of the object as a value for the Categories key inside results.
-                            Strictly return ONLY a dictionary with the following structure:""" + """
+                            THE AMOUNT OF CATEGORIES RETURNED SHOULD ALWAYS EQUAL TO THE AMOUNT OF OBJECTS IN Categories inside results.
+                            Strictly return ONLY a dictionary with the following structure NOTHING ELSE, your response must be able to be parsed from string to JSON. Don't include additional clarifications:""" + """
 
                             {
-                                categories: [Name, "", "", ""],
+                                categories: ["...", "...", "..."],
                                 results: [
                                     {
                                         Name: "",
                                         Description: "",
                                         Categories: [
-                                            { Name: "Name", Value: "..." },
+                                            { Name: "...", Value: "..." },
+                                            { Name: "...", Value: "..." },
+                                            { Name: "...", Value: "..." },
+                                            ...
+                                        ]
+                                    },
+                                    {
+                                        Name: "",
+                                        Description: "",
+                                        Categories: [
+                                            { Name: "...", Value: "..." },
                                             { Name: "...", Value: "..." },
                                             { Name: "...", Value: "..." },
                                             ...
@@ -41,6 +51,8 @@ async def run_plx(initialPromt, objects, features):
                                     }
                                 ]
                             }
+
+                            Strictly follow the previous structure. Don't leave out any atrtibutes, don't add any additional attributes.
                             """
             }
         ]

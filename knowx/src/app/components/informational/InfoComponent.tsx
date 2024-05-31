@@ -5,9 +5,11 @@ import { ReactElement, useState } from "react"
 
 export default function InfoComponent({
   title,
+  icon,
   children,
 }: {
   title: string
+  icon: number
   children: ReactElement
 }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -19,6 +21,7 @@ export default function InfoComponent({
         isOpen={isOpen}
         onOpenChange={() => setIsOpen(false)}
         title={title}
+        icon={icon}
         body={children}
       />
     </div>

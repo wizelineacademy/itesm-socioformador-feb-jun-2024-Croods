@@ -9,7 +9,7 @@ export default function InfoButton({ onClick }: { onClick: () => void }) {
       onClick={onClick}
       className="absolute bottom-0 right-0 m-3"
     >
-      <InformationCircleIcon className="h-7 w-7" />
+      <InformationCircleIcon className="h-8 w-8" />
     </Button>
   )
 }

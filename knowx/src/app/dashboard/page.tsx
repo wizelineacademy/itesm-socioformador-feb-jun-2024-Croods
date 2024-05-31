@@ -17,7 +17,7 @@ export default async function Home() {
           <InputBar />
         </div>
       </Header>
-      <InfoComponent title="Topic Search">
+      <InfoComponent title="Topic Search" icon={1}>
         <>
           <p>
             KnowX is a search engine that allows you to easily find information
