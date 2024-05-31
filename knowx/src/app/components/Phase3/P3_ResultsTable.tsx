@@ -44,6 +44,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
       if (category.Name === "Description") return;
       categories.push(category);
     });
+    setCurrentColumns(new Set([categories[0].Name, categories[1].Name]));
     console.log("CATEGORIES -> ", categories);
     return categories;
   };
