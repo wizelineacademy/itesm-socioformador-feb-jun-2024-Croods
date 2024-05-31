@@ -104,8 +104,9 @@ def get_sub_topics_prompt(givenObject):
     """
     prompts = [
         ("Top objects extractions", f"""We are talking about {givenObject}. Based on what it is, what it offers and the given information, please 
-        return the top results or objects that best fits this category. Strictly return ONLY a comma separated list WITH NO numeration with the different sub-topic/object names.
-        Try to extract as many objects as possible with a LIMIT of 10 results. If you can't find any, return an empty list"""),
+        return the top results or objects that ONLY FITS this category. Strictly return ONLY a comma separated list WITH NO numeration with the different sub-topic/object names.
+        Try to extract as many objects as possible with a LIMIT of 10 results. If you can't find any, return an empty list. DO NOT INCLUDE OBJECTS OUT OF THE GIVEN CATEGORY. 
+        ONLY INCLUDE WHAT IS ASKED FOR SUCH AS COMPANIES, BRANDS, TOOLS, ETC. DO NOT COMBINE OBJECTS FROM DIFFERENT CATEGORIES."""),
     ]
     
     return prompts
