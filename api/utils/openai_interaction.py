@@ -26,12 +26,13 @@ async def run_plx(initialPromt, objects, features):
                             Strictly return ONLY a dictionary with the following structure:""" + """
 
                             {
-                                categories: ["", "", ""],
+                                categories: [Name, "", "", ""],
                                 results: [
                                     {
                                         Name: "",
                                         Description: "",
                                         Categories: [
+                                            { Name: "Name", Value: "..." },
                                             { Name: "...", Value: "..." },
                                             { Name: "...", Value: "..." },
                                             ...
