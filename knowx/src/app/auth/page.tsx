@@ -5,6 +5,7 @@ import { signIn, useSession } from "next-auth/react"
 import { useState } from "react"
 import { redirect } from "next/navigation"
 import AnimatedText from "../components/AnimatedText"
+import InfoComponent from "../components/informational/InfoComponent"
 
 export default function Signup() {
   const { data: session } = useSession()
@@ -80,7 +81,7 @@ export default function Signup() {
   return (
     <main className="bg-backgroundLight dark:bg-backgroundDark">
       <div className="mx-auto flex h-screen max-w-6xl flex-wrap content-center justify-center px-6 text-gray-600">
-        <section className="absolute top-10 mb-10 flex w-full justify-center">
+        <section className="absolute top-10 mb-10 flex w-full flex-col items-center justify-center">
           <Image
             className="dark:invert"
             src={"/Logo.svg"}
@@ -89,12 +90,11 @@ export default function Signup() {
             height={60}
             priority
           />
-        </section>
-        <div className=" flex flex-col items-center">
           <div className="py-10 text-4xl">
             <AnimatedText text="KnowX" />
           </div>
-
+        </section>
+        <div className=" flex flex-col items-center">
           <div className="space-y-15 flex flex-col items-center justify-center rounded-[25px] bg-white p-8">
             <div className="flex flex-col items-center justify-center space-y-4">
               <input
@@ -159,6 +159,32 @@ export default function Signup() {
           </div>
         </div>
       </div>
+
+      <InfoComponent title="KnowX" icon={3}>
+        <>
+          <p>
+            KnowX is a web platform made to aid you in comparisons between
+            services and products.
+          </p>
+
+          <br />
+
+          <p>
+            KnowX uses various AI providers such as <b>OpenAI</b> and{" "}
+            <b>Perplexity</b> as well as custom made web-scrapers to provide you
+            with the most accurate and up-to-date information
+          </p>
+
+          <br />
+
+          <p>
+            Accounts are managed by <b>NextAuth</b> and are secured with OAuth
+            providers using encryption, so you can be sure your data is safe.
+          </p>
+
+          <br />
+        </>
+      </InfoComponent>
     </main>
   )
 }

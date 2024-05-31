@@ -1,5 +1,6 @@
 import Image from "next/image"
 import UserMenu from "./UserMenu"
+import KnowXLogo from "./KnowXLogo"
 
 export default function Header({
   isDashboard = true,
@@ -23,18 +24,7 @@ export default function Header({
       >
         {!title && <div className="invisible" />}
 
-        <Image
-          className={
-            !title
-              ? "absolute left-0 right-0 top-0 ml-auto mr-auto pt-3 dark:invert"
-              : "left-0 top-0 my-5 ml-8 dark:invert"
-          }
-          src={"/Logo.svg"}
-          alt="KnowX Logo"
-          width={50}
-          height={50}
-          priority
-        />
+        <KnowXLogo title={title} />
 
         {title && (
           <h1 className="absolute left-0 right-0 select-none text-center text-5xl font-bold text-backgroundDark dark:text-backgroundLight">
