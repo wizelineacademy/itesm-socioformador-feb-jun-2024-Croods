@@ -8,8 +8,16 @@ const InputBar = () => {
     <div className="relative w-5/6">
       <input
         name=""
+        placeholder="Search for a topic..."
         className="left-20 right-20 h-20 w-full rounded-lg bg-black px-8 text-lg text-white dark:bg-backgroundLight dark:text-black"
         onChange={(e) => (query = e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            clearSearches()
+            initialSearchAction(query)
+            navigate(query)
+          }
+        }}
       ></input>
       <button
         className="w-30 text-gray absolute right-0 h-20 rounded-lg px-4 text-lg"
