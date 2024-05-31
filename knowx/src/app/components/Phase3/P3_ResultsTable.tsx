@@ -33,7 +33,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
   );
   const [currentRows, setCurrentRows] = useState<Set<string>>(new Set());
 
-  const checkCategories = (item: Service) => {
+  const checkItemCategories = (item: Service) => {
     let categories: { Name: string; Value: string }[] = [];
     let hasName = false,
       hasDescription = false;
@@ -46,6 +46,19 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
     });
     setCurrentColumns(new Set([categories[0].Name, categories[1].Name]));
     console.log("CATEGORIES -> ", categories);
+    return categories;
+  };
+
+  const checkCategories = (): string[] => {
+    let categories: string[] = [];
+    if (results.categories != undefined) {
+      categories.push("Name");
+      categories.push("Description");
+      results.categories.forEach((category) => {
+        if (category != "Name" && category != "Description")
+          categories.push(category);
+      });
+    }
     return categories;
   };
 
@@ -80,8 +93,8 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
           selectedKeys={currentColumns}
           onSelectionChange={(keys) => setCurrentColumns(keys as Set<string>)}
         >
-          {results.categories != undefined ? (
-            results.categories.map((category, index) => {
+          {checkCategories() != undefined ? (
+            checkCategories().map((category, index) => {
               return (
                 <DropdownItem key={category} onClick={() => {}}>
                   {category}
@@ -115,7 +128,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
           onRowAction={(key) => console.log("HUH?")}
         >
           <TableHeader key={"Header"} className="h-10">
-            {results.categories
+            {checkCategories()
               .filter((category, index) => {
                 return Array.from(currentColumns).includes(category);
               })
@@ -135,7 +148,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
                   // <TableCell className="text-md">{item.Name}</TableCell>
                   // item.Categories = [...item.Categories, {Name: "Name", Value: item.Name}]
 
-                  checkCategories(item)
+                  checkItemCategories(item)
                     .filter((category) => {
                       console.log(
                         "FILTERING -> ",
