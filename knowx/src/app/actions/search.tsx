@@ -1,5 +1,6 @@
 "use server"
 import { getUserId, logSearch } from "../../../db/insertActions"
+
 import {
   logGeneratedTopics,
   logSelectedTopics,
@@ -8,6 +9,7 @@ import {
   logAddedCategories,
   logSearchResults,
 } from "../../../db/updateActions"
+
 import {
   ORIGINAL_SEARCH_VALUES_KEY,
   SEARCH_VALUES_KEY,
@@ -15,15 +17,22 @@ import {
   ORIGINAL_CATEGORIES_KEY,
   ADDED_CATEGORIES_KEY,
   CATEGORIES_KEY,
+
+  COMPARE_DATA_KEY,
+  COMPARES_KEY,
   CURRENT_SEARCH_ID_KEY,
-} from "../const/cookies"
+} from "../const/cookies";
+
 import {
   getSearchObjects,
   getCategories,
   setCookie,
   getCookie,
-} from "../helper/cookies"
-import { getServerSession } from "next-auth"
+  getCurrentQuery,
+} from "../helper/cookies";
+import { getServerSession } from "next-auth";
+import { example } from "../dashboard/phase3/ejemplo";
+import { Results } from "../interfaces/Phase3";
 
 export async function toggleSearchObject(obj: string) {
   const { searchObjects } = getSearchObjects()
@@ -85,13 +94,15 @@ export async function getSearchObjectsAction() {
 }
 
 export async function clearSearches() {
-  setCookie(SEARCH_VALUES_KEY, "")
-  setCookie(ORIGINAL_SEARCH_VALUES_KEY, "")
-  setCookie(CURRENT_QUERY_KEY, "")
-  setCookie(CATEGORIES_KEY, "")
-  setCookie(ADDED_CATEGORIES_KEY, "")
-  setCookie(ORIGINAL_CATEGORIES_KEY, "")
+  setCookie(SEARCH_VALUES_KEY, "");
+  setCookie(ORIGINAL_SEARCH_VALUES_KEY, "");
+  setCookie(CURRENT_QUERY_KEY, "");
+  setCookie(CATEGORIES_KEY, "");
+  setCookie(ORIGINAL_CATEGORIES_KEY, "");
+  setCookie(COMPARE_DATA_KEY, "");
+  setCookie(COMPARES_KEY, "");
   setCookie(CURRENT_SEARCH_ID_KEY, "")
+  setCookie(ADDED_CATEGORIES_KEY, "")
 }
 
 export async function initialSearchAction(query: string) {
@@ -158,6 +169,42 @@ export async function categorySearchFunction(query: string) {
   return data
 }
 
+// export async function setFullSearch() {
+//   setCookie(COMPARE_DATA_KEY, JSON.stringify(example));
+//   return example;
+// }
+export async function getFullSearch() {
+  const categories = getCategories().categories || [];
+  const searchObjects = getSearchObjects().searchObjects;
+  const currentQuery = getCurrentQuery();
+
+  const u = new URLSearchParams();
+
+  categories.forEach((category) => u.append("categories", category));
+  searchObjects.forEach((tool) => u.append("tools", tool));
+
+  if (currentQuery) {
+    u.append("topic", currentQuery);
+  }
+  const res = await fetch(`${process.env.API_ROOT_ROUTE}/search`, {
+    method: "POST",
+    body: u,
+  });
+  // console.log(await res.json());
+  const data: Results = await res.json();
+
+  setCookie(COMPARE_DATA_KEY, JSON.stringify(data));
+}
+
+export async function getUserIdFunc(
+  user: string | null | undefined,
+  query: string
+) {
+  getUserId({ newEmail: user || "" }).then(async (id) => {
+    await logSearch({ userId: id, search: query, feedback: false });
+  }); 
+}
+  
 export async function getFinalSearch() {
   // TODO: Implement final search
   // const res = await fetch(`${process.env.API_ROOT_ROUTE}/search/final`, {

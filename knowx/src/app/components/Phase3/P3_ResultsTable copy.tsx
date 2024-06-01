@@ -27,8 +27,7 @@ import {
   Service,
   Results,
   ServiceCategories,
-} from "@/app/interfaces/Phase3"
-import { use } from "chai"
+} from "@/app/interfaces/Phase3";
 
 export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
   const [category1, setCategory1] = useState<number>(1)
