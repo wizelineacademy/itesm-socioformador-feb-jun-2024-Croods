@@ -1,23 +1,23 @@
-"use client";
+"use client"
 
-import React from "react";
-import { Menu } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { useState } from "react";
-import { Results, ServiceCategories } from "@/app/interfaces/Phase3";
+import React from "react"
+import { Menu } from "@headlessui/react"
+import { ChevronDownIcon } from "@heroicons/react/20/solid"
+import { useState } from "react"
+import { Results, ServiceCategories } from "@/app/interfaces/Phase3"
 
 interface CardData {
-  title: string;
-  description: string;
-  [key: string]: string;
+  title: string
+  description: string
+  [key: string]: string
 }
 
 interface CardProps {
-  initialTitle: string;
-  initialDescription: string;
-  initialData: ServiceCategories[];
-  titles: string[];
-  allData: Results;
+  initialTitle: string
+  initialDescription: string
+  initialData: ServiceCategories[]
+  titles: string[]
+  allData: Results
 }
 
 export const Compare_Card = ({
@@ -27,30 +27,30 @@ export const Compare_Card = ({
   titles,
   allData,
 }: CardProps) => {
-  const [title, setTitle] = useState(initialTitle);
-  const [description, setDescription] = useState(initialDescription);
-  const [data, setData] = useState(initialData);
+  const [title, setTitle] = useState(initialTitle)
+  const [description, setDescription] = useState(initialDescription)
+  const [data, setData] = useState(initialData)
 
   const handleSelectTitle = (selectedTitle: string) => {
     const selectedData = allData.results.find(
-      (service) => service.Name === selectedTitle
-    );
-    setTitle(selectedTitle);
-    setDescription(selectedData?.Description || "undefined");
-    setData(selectedData?.Categories || []);
-  };
+      (service) => service.Name === selectedTitle,
+    )
+    setTitle(selectedTitle)
+    setDescription(selectedData?.Description || "undefined")
+    setData(selectedData?.Categories || [])
+  }
 
   return (
-    <div className="bg-white dark:bg-gray-800 border-2 rounded-3xl border-black shadow-xl p-10 w-96 h-[70vh] flex-shrink-0 overflow-y-scroll">
-      <Menu as="div" className="relative inline-block text-left w-full">
-        <Menu.Button className=" inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+    <div className="h-[70vh] w-96 flex-shrink-0 overflow-y-scroll rounded-3xl border-2 border-black bg-white p-10 shadow-xl dark:bg-gray-800">
+      <Menu as="div" className="relative inline-block w-full text-left">
+        <Menu.Button className=" inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50">
           <h2 className="text-2xl font-semibold text-black">{title}</h2>
           <ChevronDownIcon
-            className="mt-1 ml-auto h-7 w-7"
+            className="ml-auto mt-1 h-7 w-7"
             aria-hidden="true"
           />
         </Menu.Button>
-        <Menu.Items className="origin-top-center absolute left-1/2 transform -translate-x-1/2 mt-2 w-56 rounded-md shadow-lg bg-white ">
+        <Menu.Items className="origin-top-center absolute left-1/2 mt-2 w-56 -translate-x-1/2 transform rounded-md bg-white shadow-lg ">
           {titles.map((title, index) => (
             <Menu.Item key={index}>
               {({ active }) => (
@@ -68,20 +68,20 @@ export const Compare_Card = ({
           ))}
         </Menu.Items>
       </Menu>
-      <hr className="h-px my-8 bg-gray-600 border-2 dark:bg-gray-700" />
-      <p className="text-center mb-8 text-black">{description}</p>
+      <hr className="my-8 h-px border-2 bg-gray-600 dark:bg-gray-700" />
+      <p className="mb-8 text-center text-black">{description}</p>
       <ul className="space-y-3 text-black">
         {data.map(
           (category, index) =>
             category.Name !== "Description" &&
             category.Name !== "title" && (
               <li key={index} className="flex items-center">
-                <span className="block w-3 h-3 bg-black rounded-full mr-3"></span>{" "}
+                <span className="mr-3 block h-3 w-3 rounded-full bg-black"></span>{" "}
                 {`${category.Name}: ${category.Value}`}
               </li>
-            )
+            ),
         )}
       </ul>
     </div>
-  );
-};
+  )
+}

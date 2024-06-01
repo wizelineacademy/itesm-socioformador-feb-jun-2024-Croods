@@ -173,9 +173,9 @@ export async function categorySearchFunction(query: string) {
 //   return example;
 // }
 export async function getFullSearch() {
-  var MAX_TRYS = 5
-  var trys = 0
-  var data: Results[] = []
+  const MAX_TRYS = 5
+  let trys = 0
+  let data: Results[] = []
 
   const session = await getServerSession()
   const userId = await getUserId({ newEmail: session?.user?.email || "" })
@@ -231,8 +231,8 @@ export async function getFullSearch() {
       body: u,
     })
 
-    let regex = /\{.*\}/
-    let matched = regex.exec(await res.text())
+    const regex = /\{.*\}/
+    const matched = regex.exec(await res.text())
 
     if (matched) {
       try {

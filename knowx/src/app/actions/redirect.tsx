@@ -1,7 +1,7 @@
 "use server"
-import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth/next";
-import { categorySearchFunction, getFullSearch } from "./search";
+import { redirect } from "next/navigation"
+import { getServerSession } from "next-auth/next"
+import { categorySearchFunction, getFullSearch } from "./search"
 
 export async function checkSession(): Promise<boolean> {
   // const { data: session } = useSession();
@@ -36,8 +36,8 @@ export async function navigateToHistory() {
 }
 
 export async function navigateToPhase3() {
-  await getFullSearch();
-  redirect("/dashboard/phase3");
+  await getFullSearch()
+  redirect("/dashboard/phase3")
 }
 
 export async function navigateToHistoryLog(logId: string) {
@@ -46,9 +46,9 @@ export async function navigateToHistoryLog(logId: string) {
 
 export async function backToPhase3() {
   // await getFullSearch();
-  redirect("/dashboard/phase3");
+  redirect("/dashboard/phase3")
 }
 
 export async function navigateToCompare() {
-  redirect("/dashboard/compare");
+  redirect("/dashboard/compare")
 }

@@ -18,56 +18,59 @@ import {
   ScrollShadow,
 } from "@nextui-org/react"
 
-import { ChevronDownIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import {
+  ChevronDownIcon,
+  EllipsisVerticalIcon,
+} from "@heroicons/react/20/solid"
 import { useAsyncList } from "@react-stately/data"
 
 import { useState, useEffect } from "react"
 
-import { ResultsTableProps, Service } from "@/app/interfaces/Phase3";
-import { toggleCompares } from "@/app/actions/compare";
+import { ResultsTableProps, Service } from "@/app/interfaces/Phase3"
+import { toggleCompares } from "@/app/actions/compare"
 
 export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
   const [currentColumns, setCurrentColumns] = useState<Set<string>>(
-    new Set([results.categories[0], results.categories[1]])
-  );
-  const [currentRows, setCurrentRows] = useState<Set<string>>(new Set());
+    new Set([results.categories[0], results.categories[1]]),
+  )
+  const [currentRows, setCurrentRows] = useState<Set<string>>(new Set())
 
   const checkItemCategories = (item: Service) => {
-    let categories: { Name: string; Value: string }[] = [];
-    categories.push({ Name: "Name", Value: item.Name });
-    categories.push({ Name: "Description", Value: item.Description });
+    const categories: { Name: string; Value: string }[] = []
+    categories.push({ Name: "Name", Value: item.Name })
+    categories.push({ Name: "Description", Value: item.Description })
     item.Categories.forEach((category) => {
-      if (category.Name === "Name") return;
-      if (category.Name === "Description") return;
-      categories.push(category);
-    });
+      if (category.Name === "Name") return
+      if (category.Name === "Description") return
+      categories.push(category)
+    })
     if (currentColumns.size == 0)
-      setCurrentColumns(new Set([categories[0].Name, categories[1].Name]));
-    console.log("CATEGORIES -> ", categories);
-    return categories;
-  };
+      setCurrentColumns(new Set([categories[0].Name, categories[1].Name]))
+    console.log("CATEGORIES -> ", categories)
+    return categories
+  }
 
   const checkCategories = (): string[] => {
-    let categories: string[] = [];
+    const categories: string[] = []
     if (results.categories != undefined) {
-      categories.push("Name");
-      categories.push("Description");
+      categories.push("Name")
+      categories.push("Description")
       results.categories.forEach((category) => {
         if (category != "Name" && category != "Description")
-          categories.push(category);
-      });
+          categories.push(category)
+      })
     }
-    return categories;
-  };
+    return categories
+  }
 
   useEffect(() => {
     const handleRowUpdate = () => {
-      toggleCompares(currentRows, results);
-      console.log("Doing");
-    };
+      toggleCompares(currentRows, results)
+      console.log("Doing")
+    }
     // console.log(currentRows);
-    handleRowUpdate();
-  }, [currentRows]);
+    handleRowUpdate()
+  }, [currentRows])
 
   return (
     <div>
@@ -76,14 +79,14 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
           <Button
             isIconOnly
             size="sm"
-            className="w-[200px] flex justify-between items-center p-5 my-5"
+            className="my-5 flex w-[200px] items-center justify-between p-5"
             variant="flat"
             color="default"
             className="flex w-full items-center justify-start "
             variant="light"
           >
             {"Columns"}
-            <ChevronDownIcon className="w-5 h-5" />
+            <ChevronDownIcon className="h-5 w-5" />
           </Button>
         </DropdownTrigger>
         <DropdownMenu
@@ -99,7 +102,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
                 <DropdownItem key={category} onClick={() => {}}>
                   {category}
                 </DropdownItem>
-              );
+              )
             })
           ) : (
             <DropdownItem key={"NO DATA"} onClick={() => {}}>
@@ -119,7 +122,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
           aria-label="search history table"
           onSelectionChange={(keys) => {
             // setCurrentRows(key);
-            setCurrentRows(keys as Set<string>);
+            setCurrentRows(keys as Set<string>)
             // console.log("HUH", currentRows);
             // console.log(key);
           }}
@@ -133,7 +136,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
                 return Array.from(currentColumns).includes(category)
               })
               .map((column, index) => {
-                return <TableColumn key={column}>{column}</TableColumn>;
+                return <TableColumn key={column}>{column}</TableColumn>
               })}
           </TableHeader>
           <TableBody
@@ -154,17 +157,17 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
                         category.Name,
                         category.Value,
                         " RESULT ",
-                        Array.from(currentColumns).includes(category.Name)
-                      );
-                      return Array.from(currentColumns).includes(category.Name);
+                        Array.from(currentColumns).includes(category.Name),
+                      )
+                      return Array.from(currentColumns).includes(category.Name)
                     })
                     .map((category, index) => {
-                      console.log("MAPPING -> ", category.Name, category.Value);
+                      console.log("MAPPING -> ", category.Name, category.Value)
                       return (
                         <TableCell key={`${category.Name}-${index} `}>
                           {category.Value}
                         </TableCell>
-                      );
+                      )
                     })
                 }
                 {/* <TableCell>{item.Categories[0].Value}</TableCell>
