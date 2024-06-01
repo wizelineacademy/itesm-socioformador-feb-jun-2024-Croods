@@ -57,7 +57,7 @@ function MyDropdown({
             <Menu.Item>
               <div className="flex items-center text-start">
                 <BookmarkIcon
-                  className="ml-3 h-6 w-6 text-gray-600 "
+                  className="ml-3 h-6 w-6 text-gray-600"
                   aria-hidden="true"
                 />
                 <button

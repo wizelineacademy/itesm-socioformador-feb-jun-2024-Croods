@@ -17,7 +17,6 @@ export default async function Features() {
 
   return (
     <main className="bg-backgroundLight dark:bg-backgroundDark">
-      {/* <div className="mx-auto flex h-screen max-w-6xl flex-wrap content-center items-center justify-center px-6 text-gray-600"> */}
       <Header isDashboard={true} title="Select your Favorites">
         <div className="flex flex-col items-center justify-center text-center">
           <div className="pretty-scrollbar h-[20rem] content-center items-center justify-center overflow-y-scroll p-3">
@@ -36,7 +35,6 @@ export default async function Features() {
           <P2_NewCategory></P2_NewCategory>
         </div>
       </Header>
-      {/* </div> */}
     </main>
   )
 }

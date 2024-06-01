@@ -1,15 +1,14 @@
-"use client";
-import Image from "next/image";
-import { navigate } from "@/app/actions/redirect";
-import { initialSearchAction, clearSearches } from "@/app/actions/search";
-import { useState } from "react";
-import { Button } from "@nextui-org/react";
-import { is } from "drizzle-orm";
+"use client"
+import Image from "next/image"
+import { navigate } from "@/app/actions/redirect"
+import { initialSearchAction, clearSearches } from "@/app/actions/search"
+import { useState } from "react"
+import { Button } from "@nextui-org/react"
 const InputBar = () => {
-  let query: string = "";
+  let query: string = ""
 
-  const [isLoading, setIsLoading] = useState(false);
-    
+  const [isLoading, setIsLoading] = useState(false)
+
   return (
     <div className="relative w-5/6">
       <input
@@ -19,7 +18,7 @@ const InputBar = () => {
         onChange={(e) => (query = e.target.value)}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
-            setIsLoading(true);
+            setIsLoading(true)
             clearSearches()
             initialSearchAction(query)
             navigate(query)
@@ -28,19 +27,19 @@ const InputBar = () => {
       ></input>
       <Button
         isLoading={isLoading}
-        className="absolute h-20 w-30 rounded-none rounded-r-md px-5 right-0 border-none"
+        className="w-30 absolute right-0 h-20 rounded-none rounded-r-md border-none px-5 dark:dark"
         color="default"
         variant="faded"
         onClick={() => {
-          setIsLoading(true);
-          clearSearches();
-          initialSearchAction(query);
-          navigate(query);
+          setIsLoading(true)
+          clearSearches()
+          initialSearchAction(query)
+          navigate(query)
         }}
       >
         {!isLoading && (
           <Image
-            className="relative top-0 left-0 right-0"
+            className="relative left-0 right-0 top-0"
             src="/arrow-right.svg"
             alt="Search Arrow Right"
             width={40}
