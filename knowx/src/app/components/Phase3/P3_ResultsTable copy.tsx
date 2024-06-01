@@ -1,5 +1,5 @@
-"use client";
-import React from "react";
+"use client"
+import React from "react"
 import {
   Table,
   TableHeader,
@@ -7,7 +7,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
-} from "@nextui-org/table";
+} from "@nextui-org/table"
 import {
   Spinner,
   Dropdown,
@@ -16,13 +16,11 @@ import {
   DropdownTrigger,
   Button,
   ScrollShadow,
-} from "@nextui-org/react";
+} from "@nextui-org/react"
 
-import { useAsyncList } from "@react-stately/data";
+import { useAsyncList } from "@react-stately/data"
 
-import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-
-import { useState, useEffect } from "react";
+import { useState } from "react"
 
 import {
   ResultsTableProps,
@@ -32,15 +30,15 @@ import {
 } from "@/app/interfaces/Phase3";
 
 export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
-  const [category1, setCategory1] = useState<number>(1);
-  const [category2, setCategory2] = useState<number>(2);
-  const [resultsTable, setResultsTable] = useState<Service[]>(results.results);
+  const [category1, setCategory1] = useState<number>(1)
+  const [category2, setCategory2] = useState<number>(2)
+  const [resultsTable, setResultsTable] = useState<Service[]>(results.results)
 
   const changeTableResults = (category1r: number, category2r: number) => {
-    console.log("CATEGORY 1: ", category1r, " CATEGORY 2: ", category2r);
-    let newResults = results.results.map((service: Service) => {
-      console.log("SERVICE: ", service);
-      let newService = {
+    console.log("CATEGORY 1: ", category1r, " CATEGORY 2: ", category2r)
+    const newResults = results.results.map((service: Service) => {
+      console.log("SERVICE: ", service)
+      const newService = {
         Categories: [
           {
             Name: service.Categories[category1r].Name,
@@ -51,19 +49,19 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
             Value: service.Categories[category2r].Value,
           },
         ] as ServiceCategories[],
-      } as Service;
+      } as Service
 
       // newService.Categories = [
       //   service.Categories[category1],
       //   service.Categories[category2],
       // ];
 
-      return newService;
-    });
-    setResultsTable(newResults);
-    console.log(newResults);
-    return newResults;
-  };
+      return newService
+    })
+    setResultsTable(newResults)
+    console.log(newResults)
+    return newResults
+  }
 
   // useEffect(() => {
   //   console.log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
@@ -77,28 +75,28 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
   //   });
   // }, []);
 
-  let list = useAsyncList({
+  const list = useAsyncList({
     async load({ signal }) {
       return {
         items: results.results,
-      };
+      }
     },
     async sort({ items, sortDescriptor }) {
-      items = items as Service[];
-      console.log(results.results);
+      items = items as Service[]
+      console.log(results.results)
       return {
         items: results.results,
         // items: resuKClts.results,
-      };
+      }
     },
-  });
+  })
 
   return (
     <ScrollShadow hideScrollBar size={5}>
       <Table
         color={"primary"}
         selectionMode="multiple"
-        className="rounded-lg overflow-auto min-w-[80vw] h-full table-auto w-[90vw] dark:dark dark:pretty-scrollbar"
+        className="dark:pretty-scrollbar h-full w-[90vw] min-w-[90vw] table-auto overflow-auto rounded-lg dark:dark"
         aria-label="search history table"
         // sortDescriptor={list.sortDescriptor}
         // onSortChange={list.sort}
@@ -114,7 +112,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
                 <Button
                   isIconOnly
                   size="sm"
-                  className="w-full flex justify-start items-center "
+                  className="flex w-full items-center justify-start "
                   variant="light"
                 >
                   {results.categories[category1]}
@@ -126,16 +124,16 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
                     <DropdownItem
                       key={index}
                       onClick={() => {
-                        setCategory1(index);
-                        console.log("CATEGORY 1: ", category1);
-                        changeTableResults(index, category2);
+                        setCategory1(index)
+                        console.log("CATEGORY 1: ", category1)
+                        changeTableResults(index, category2)
                         // let results = changeTableResults(index, category2);
                         // setResultsTable(results);
                       }}
                     >
                       {category}
                     </DropdownItem>
-                  );
+                  )
                 })}
                 {/* <DropdownItem>
                   <div className="flex flex-row items-center gap-3"></div>
@@ -155,7 +153,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
           loadingContent={<Spinner label="Loading..." />}
         >
           {(item: Service) => (
-            <TableRow key={item.Name} className="select-none cursor-pointer">
+            <TableRow key={item.Name} className="cursor-pointer select-none">
               {
                 // <TableCell className="text-md">{item.Name}</TableCell>
                 // item.Categories = [...item.Categories, {Name: "Name", Value: item.Name}]
@@ -165,14 +163,14 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
                       results.categories[category1],
                       results.categories[category2],
                     ].includes(category.Name) || category.Name === "Name"
-                  );
+                  )
                 }).map((category, index) => {
-                  console.log("WHAT!", category, " INDEX ", index);
+                  console.log("WHAT!", category, " INDEX ", index)
                   return (
                     <TableCell key={`${category.Name}-${index} `}>
                       {category.Value}
                     </TableCell>
-                  );
+                  )
                 })
               }
               {/* <TableCell>{item.Categories[0].Value}</TableCell>
@@ -182,7 +180,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
         </TableBody>
       </Table>
     </ScrollShadow>
-  );
-};
+  )
+}
 
-export default P3_ResultsTable;
+export default P3_ResultsTable

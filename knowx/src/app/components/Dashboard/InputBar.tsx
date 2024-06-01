@@ -9,13 +9,22 @@ const InputBar = () => {
   let query: string = "";
 
   const [isLoading, setIsLoading] = useState(false);
-
+    
   return (
-    <div className="w-5/6 relative">
+    <div className="relative w-5/6">
       <input
         name=""
-        className="bg-black dark:bg-backgroundLight left-20 right-20 h-20 w-full rounded-lg text-white dark:text-black px-8 text-lg"
+        placeholder="Search for a topic..."
+        className="left-20 right-20 h-20 w-full rounded-lg bg-black px-8 text-lg text-white dark:bg-backgroundLight dark:text-black"
         onChange={(e) => (query = e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            setIsLoading(true);
+            clearSearches()
+            initialSearchAction(query)
+            navigate(query)
+          }
+        }}
       ></input>
       <Button
         isLoading={isLoading}
@@ -41,7 +50,7 @@ const InputBar = () => {
         )}
       </Button>
     </div>
-  );
-};
+  )
+}
 
-export default InputBar;
+export default InputBar

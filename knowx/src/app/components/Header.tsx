@@ -1,44 +1,44 @@
-import Image from "next/image";
-import UserMenu from "./UserMenu";
+import Image from "next/image"
+import UserMenu from "./UserMenu"
+import KnowXLogo from "./KnowXLogo"
 
 export default function Header({
   isDashboard = true,
   title,
+  userMenuShowBoth = false,
+  children,
 }: {
-  isDashboard: boolean;
-  title?: string;
+  isDashboard: boolean
+  title?: string
+  userMenuShowBoth?: boolean
+  children?: React.ReactNode
 }) {
   return (
-    <header
-      className={
-        !title
-          ? "fixed top-0 left-0 right-0 py-3 flex justify-center items-center"
-          : "fixed top-0 left-0 right-0 py-8 flex justify-center items-center"
-      }
-    >
-      <Image
+    <div className="mx-auto flex h-screen flex-wrap content-baseline justify-center text-gray-600">
+      <header
         className={
           !title
-            ? "dark:invert relative top-0 left-0 right-0"
-            : "dark:invert absolute top-0 left-0 my-5 ml-8"
+            ? "relative left-0 right-0 top-0 flex h-fit w-full items-center justify-between py-3 pb-20"
+            : "left-0 right-0 top-0 flex h-fit w-full items-center justify-between pb-8"
         }
-        src={"/Logo.svg"}
-        alt="KnowX Logo"
-        width={50}
-        height={50}
-        priority
-      />
+      >
+        {!title && <div className="invisible" />}
 
-      {title && (
-        <h1 className="text-5xl font-bold text-center text-backgroundDark dark:text-backgroundLight">
-          {title}
-        </h1>
-      )}
+        <KnowXLogo title={title} />
 
-      <UserMenu
-        className={!title ? "absolute right-0 mr-3" : "absolute right-0 mr-5"}
-        isDashboard={isDashboard}
-      />
-    </header>
-  );
+        {title && (
+          <h1 className="absolute left-0 right-0 select-none text-center text-5xl font-bold text-backgroundDark dark:text-backgroundLight">
+            {title}
+          </h1>
+        )}
+
+        <UserMenu
+          className={!title ? "right-0 mr-3" : "right-0 mr-5"}
+          isDashboard={isDashboard}
+          showBoth={userMenuShowBoth}
+        />
+      </header>
+      {children}
+    </div>
+  )
 }

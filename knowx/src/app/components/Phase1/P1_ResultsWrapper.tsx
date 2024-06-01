@@ -7,8 +7,8 @@ import { useState } from "react";
 import Header from "@/app/components/Header";
 
 const P1_ResultsWrapper = (props: {
-  children: JSX.Element[];
-  query: string;
+  children: JSX.Element[]
+  query: string
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -56,7 +56,7 @@ const P1_ResultsWrapper = (props: {
         </Button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default P1_ResultsWrapper;
+export default P1_ResultsWrapper

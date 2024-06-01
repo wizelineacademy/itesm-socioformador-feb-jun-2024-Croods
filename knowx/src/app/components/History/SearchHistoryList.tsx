@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import {
   Table,
   TableHeader,
@@ -6,7 +6,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
-} from "@nextui-org/table";
+} from "@nextui-org/table"
 import {
   Spinner,
   Dropdown,
@@ -14,82 +14,133 @@ import {
   DropdownItem,
   DropdownTrigger,
   Button,
-} from "@nextui-org/react";
-import BubbleText from "./BubbleText";
-import { useAsyncList } from "@react-stately/data";
-import { useState } from "react";
-import { SimpleHistoryType } from "@/app/interfaces";
+} from "@nextui-org/react"
+import BubbleText from "./BubbleText"
+import { useAsyncList } from "@react-stately/data"
+import { useState } from "react"
+import { SimpleHistoryType } from "@/app/interfaces"
 import {
   HandThumbUpIcon,
   HandThumbDownIcon,
   TrashIcon,
   EllipsisVerticalIcon,
-} from "@heroicons/react/20/solid";
+} from "@heroicons/react/20/solid"
 
-import { deleteSearchLogAction } from "@/app/actions/dbActions";
+import {
+  deleteSearchLogAction,
+  logGoodSearchAction,
+  logBadSearchAction,
+} from "@/app/actions/dbActions"
+
+import { navigateToHistoryLog } from "@/app/actions/redirect"
 
 const dateFormatter = (date: Date) => {
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const year = date.getFullYear();
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const year = date.getFullYear()
 
-  return `${month}/${day}/${year}`;
-};
+  return `${month}/${day}/${year}`
+}
 
 const timeFormatter = (date: Date) => {
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
+  const hours = date.getHours()
+  const minutes = date.getMinutes()
 
-  return `${hours}:${minutes}`;
-};
+  if (minutes < 10) {
+    return `${hours}:0${minutes}`
+  }
 
-const openItem = (itemId: number) => {
-  alert(`You searched for ${itemId}`);
-};
+  return `${hours}:${minutes}`
+}
 
 export default function SearchHistoryList({
   history,
 }: {
-  history: SimpleHistoryType[] | [];
+  history: SimpleHistoryType[] | []
 }) {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false)
+  const [searchHistory, setSearchHistory] = useState(history || [])
+
+  const openItem = (itemId: number) => {
+    navigateToHistoryLog(itemId.toString())
+  }
 
   const deleteSearchLog = async (logId: number) => {
-    setIsLoading(true);
-    await deleteSearchLogAction(logId);
-    setIsLoading(false);
-  };
+    setIsLoading(true)
+    await deleteSearchLogAction(logId)
+    setSearchHistory((currentHistory) =>
+      currentHistory.filter((item) => item.id !== logId),
+    )
+    historyList.items = searchHistory
+    setIsLoading(false)
+  }
 
-  let historyList = useAsyncList({
-    async load({ signal }) {
-      setIsLoading(false);
+  const logGoodSearch = async (logId: number) => {
+    await logGoodSearchAction(logId)
+
+    setSearchHistory((currentHistory) =>
+      currentHistory.map((item) =>
+        item.id === logId ? { ...item, feedback: 1 } : item,
+      ),
+    )
+  }
+
+  const logBadSearchInternal = async (logId: number) => {
+    await logBadSearchAction(logId)
+
+    setSearchHistory((currentHistory) =>
+      currentHistory.map((item) =>
+        item.id === logId ? { ...item, feedback: 0 } : item,
+      ),
+    )
+  }
+
+  const historyList = useAsyncList({
+    async load() {
+      setIsLoading(false)
 
       return {
-        items: history,
-      };
+        items: searchHistory,
+      }
     },
-    async sort({ items, sortDescriptor }) {
-      return {
-        items: items.sort((a: any, b: any) => {
-          if (sortDescriptor.column === "timestamp") {
+    async sort({ sortDescriptor }) {
+      setSearchHistory((prevHistory) =>
+        prevHistory.sort((a: SimpleHistoryType, b: SimpleHistoryType) => {
+          if (
+            sortDescriptor.column === "timestamp" &&
+            a.timestamp &&
+            b.timestamp
+          ) {
             return sortDescriptor.direction === "descending"
               ? a.timestamp.getDate() - b.timestamp.getDate()
-              : b.timestamp.getDate() - a.timestamp.getDate();
-          } else if (sortDescriptor.column === "searchValue") {
+              : b.timestamp.getDate() - a.timestamp.getDate()
+          } else if (
+            sortDescriptor.column === "searchValue" &&
+            a.search &&
+            b.search
+          ) {
             return sortDescriptor.direction === "descending"
               ? a.search.localeCompare(b.search)
-              : b.search.localeCompare(a.search);
-          } else if (sortDescriptor.column === "time") {
+              : b.search.localeCompare(a.search)
+          } else if (
+            sortDescriptor.column === "time" &&
+            a.timestamp &&
+            b.timestamp
+          ) {
             return sortDescriptor.direction === "descending"
               ? a.timestamp.getTime() - b.timestamp.getTime()
-              : b.timestamp.getTime() - a.timestamp.getTime();
+              : b.timestamp.getTime() - a.timestamp.getTime()
           }
 
-          return 0;
+          return 0
         }),
-      };
+      )
+
+      return {
+        items: searchHistory,
+      }
     },
-  });
+  })
 
   return (
     <Table
@@ -97,9 +148,9 @@ export default function SearchHistoryList({
       sortDescriptor={historyList.sortDescriptor}
       onSortChange={historyList.sort}
       selectionMode="single"
-      className="rounded-lg overflow-hidden min-w-full h-auto table-auto w-full dark:dark"
+      className="h-auto w-full min-w-full table-auto overflow-hidden rounded-lg dark:dark"
       aria-label="search history table"
-      onRowAction={(key) => openItem(Number(key))}
+      onRowAction={(key: number) => openItem(Number(key))}
     >
       <TableHeader className="h-10">
         <TableColumn key="searchValue" allowsSorting>
@@ -115,13 +166,13 @@ export default function SearchHistoryList({
       </TableHeader>
 
       <TableBody
-        items={historyList.items as SimpleHistoryType[]}
+        items={searchHistory}
         emptyContent={"No History"}
         loadingContent={<Spinner label="Loading..." />}
         isLoading={isLoading}
       >
         {(item: SimpleHistoryType) => (
-          <TableRow key={item.id} className="select-none cursor-pointer">
+          <TableRow key={item.id} className="cursor-pointer select-none">
             <TableCell className="text-md">{item.search}</TableCell>
             <TableCell>
               <BubbleText
@@ -134,25 +185,60 @@ export default function SearchHistoryList({
               />
             </TableCell>
             <TableCell>
-              <div className="relative flex justify-end items-center gap-2">
+              <div className="relative flex items-center justify-end gap-2">
                 <Dropdown className="dark:dark">
                   <DropdownTrigger>
-                    <Button isIconOnly size="sm" variant="light">
+                    <Button
+                      isIconOnly
+                      size="sm"
+                      variant="light"
+                      color="primary"
+                    >
                       <EllipsisVerticalIcon className="h-5 w-5 text-default-300" />
                     </Button>
                   </DropdownTrigger>
-                  <DropdownMenu>
-                    <DropdownItem>
-                      <div className="flex flex-row items-center gap-3">
+                  <DropdownMenu
+                    disabledKeys={
+                      item.feedback == 1
+                        ? ["thumbs-up"]
+                        : item.feedback == 0
+                          ? ["thumbs-down"]
+                          : []
+                    }
+                  >
+                    <DropdownItem
+                      key={"thumbs-up"}
+                      className={item.feedback == 1 ? "text-primary" : ""}
+                    >
+                      <button
+                        className="flex flex-row items-center gap-3"
+                        onClick={() =>
+                          item.feedback != 1 && logGoodSearch(item.id)
+                        }
+                        onKeyDown={() =>
+                          item.feedback != 1 && logGoodSearch(item.id)
+                        }
+                      >
                         <HandThumbUpIcon className="h-4 w-4" />
-                        Good Answer
-                      </div>
+                        <h1>Good Answer</h1>
+                      </button>
                     </DropdownItem>
-                    <DropdownItem>
-                      <div className="flex flex-row items-center gap-3">
+                    <DropdownItem
+                      key={"thumbs-down"}
+                      className={item.feedback == 0 ? "text-warning" : ""}
+                    >
+                      <button
+                        className="flex flex-row items-center gap-3"
+                        onClick={() =>
+                          item.feedback != 0 && logBadSearchInternal(item.id)
+                        }
+                        onKeyDown={() =>
+                          item.feedback != 0 && logBadSearchInternal(item.id)
+                        }
+                      >
                         <HandThumbDownIcon className="h-4 w-4" />
-                        Bad Answer
-                      </div>
+                        <h1>Bad Answer</h1>
+                      </button>
                     </DropdownItem>
                     <DropdownItem
                       className="text-danger"
@@ -172,5 +258,5 @@ export default function SearchHistoryList({
         )}
       </TableBody>
     </Table>
-  );
+  )
 }

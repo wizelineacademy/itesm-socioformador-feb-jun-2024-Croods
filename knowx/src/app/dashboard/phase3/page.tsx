@@ -41,5 +41,5 @@ export default async function Phase3() {
         <P3_CompareButton></P3_CompareButton>
       </div>
     </div>
-  );
+  )
 }

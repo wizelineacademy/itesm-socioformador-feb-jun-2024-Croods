@@ -1,0 +1,1 @@
+ALTER TABLE "search_log" ALTER COLUMN "feedback" DROP DEFAULT;

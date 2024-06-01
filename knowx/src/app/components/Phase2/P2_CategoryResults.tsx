@@ -1,11 +1,11 @@
-"use client";
-import React from "react";
+"use client"
+import React from "react"
 
 interface P2_CategoryResultsProps {
-  index: number;
-  isSelected: boolean;
-  feature: string;
-  toggleCategory: (feature: string) => void;
+  index: number
+  isSelected: boolean
+  feature: string
+  toggleCategory: (feature: string) => void
 }
 
 export const P2_CategoryResults = ({
@@ -17,14 +17,14 @@ export const P2_CategoryResults = ({
   return (
     <button
       key={index}
-      className={`text-xl rounded-xl py-3 px-8 text-wrap text-ellipsis overflow-hidden ${
+      className={`overflow-hidden text-ellipsis text-wrap rounded-xl px-8 py-3 text-xl ${
         isSelected
           ? "bg-purple-500 transition duration-100 ease-in-out"
-          : "bg-white hover:bg-purple-300 transition duration-100 ease-in-out"
+          : "bg-white transition duration-100 ease-in-out hover:bg-purple-300"
       }`}
       onClick={() => toggleCategory(feature)}
     >
-      <div className="text-black text-xl font-bold text-center">{feature}</div>
+      <div className="text-center text-xl font-bold text-black">{feature}</div>
     </button>
-  );
-};
+  )
+}

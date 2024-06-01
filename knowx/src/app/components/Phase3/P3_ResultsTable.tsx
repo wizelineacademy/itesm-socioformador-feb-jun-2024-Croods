@@ -1,5 +1,5 @@
-"use client";
-import React from "react";
+"use client"
+import React from "react"
 import {
   Table,
   TableHeader,
@@ -7,7 +7,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
-} from "@nextui-org/table";
+} from "@nextui-org/table"
 import {
   Spinner,
   Dropdown,
@@ -16,11 +16,12 @@ import {
   DropdownTrigger,
   Button,
   ScrollShadow,
-} from "@nextui-org/react";
+} from "@nextui-org/react"
 
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { ChevronDownIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import { useAsyncList } from "@react-stately/data"
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"
 
 import { ResultsTableProps, Service } from "@/app/interfaces/Phase3";
 import { toggleCompares } from "@/app/actions/compare";
@@ -78,6 +79,8 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
             className="w-[200px] flex justify-between items-center p-5 my-5"
             variant="flat"
             color="default"
+            className="flex w-full items-center justify-start "
+            variant="light"
           >
             {"Columns"}
             <ChevronDownIcon className="w-5 h-5" />
@@ -112,7 +115,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
         <Table
           color={"primary"}
           selectionMode="multiple"
-          className="rounded-lg overflow-auto min-w-[80vw] h-full table-auto w-[80vw] dark:dark dark:pretty-scrollbar"
+          className="dark:pretty-scrollbar h-full w-[90vw] min-w-[90vw] table-auto overflow-auto rounded-lg dark:dark"
           aria-label="search history table"
           onSelectionChange={(keys) => {
             // setCurrentRows(key);
@@ -127,7 +130,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
           <TableHeader key={"Header"} className="h-10">
             {checkCategories()
               .filter((category, index) => {
-                return Array.from(currentColumns).includes(category);
+                return Array.from(currentColumns).includes(category)
               })
               .map((column, index) => {
                 return <TableColumn key={column}>{column}</TableColumn>;
@@ -140,11 +143,10 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
             loadingContent={<Spinner label="Loading..." />}
           >
             {(item: Service) => (
-              <TableRow key={item.Name} className="select-none cursor-pointer">
+              <TableRow key={item.Name} className="cursor-pointer select-none">
                 {
                   // <TableCell className="text-md">{item.Name}</TableCell>
                   // item.Categories = [...item.Categories, {Name: "Name", Value: item.Name}]
-
                   checkItemCategories(item)
                     .filter((category) => {
                       console.log(
@@ -173,7 +175,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
         </Table>
       </ScrollShadow>
     </div>
-  );
-};
+  )
+}
 
-export default P3_ResultsTable;
+export default P3_ResultsTable

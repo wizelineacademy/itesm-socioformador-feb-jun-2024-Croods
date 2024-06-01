@@ -1,0 +1,1 @@
+ALTER TABLE "search_log" ADD COLUMN "addedCategories" text;
