@@ -18,11 +18,7 @@ import {
   ScrollShadow,
 } from "@nextui-org/react"
 
-import {
-  ChevronDownIcon,
-  EllipsisVerticalIcon,
-} from "@heroicons/react/20/solid"
-import { useAsyncList } from "@react-stately/data"
+import { ChevronDownIcon } from "@heroicons/react/20/solid"
 
 import { useState, useEffect } from "react"
 
@@ -65,10 +61,8 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
 
   useEffect(() => {
     const handleRowUpdate = () => {
-      toggleCompares(currentRows, results)
-      console.log("Doing")
+      toggleCompares(currentRows)
     }
-    // console.log(currentRows);
     handleRowUpdate()
   }, [currentRows])
 
@@ -82,8 +76,6 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
             className="my-5 flex w-[200px] items-center justify-between p-5"
             variant="flat"
             color="default"
-            className="flex w-full items-center justify-start "
-            variant="light"
           >
             {"Columns"}
             <ChevronDownIcon className="h-5 w-5" />
@@ -97,7 +89,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
           onSelectionChange={(keys) => setCurrentColumns(keys as Set<string>)}
         >
           {checkCategories() != undefined ? (
-            checkCategories().map((category, index) => {
+            checkCategories().map((category) => {
               return (
                 <DropdownItem key={category} onClick={() => {}}>
                   {category}
@@ -109,9 +101,6 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
               {"No Columns"}
             </DropdownItem>
           )}
-          {/* <DropdownItem>
-                  <div className="flex flex-row items-center gap-3"></div>
-                </DropdownItem> */}
         </DropdownMenu>
       </Dropdown>
       <ScrollShadow hideScrollBar size={5}>
@@ -120,22 +109,16 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
           selectionMode="multiple"
           className="dark:pretty-scrollbar h-full w-[90vw] min-w-[90vw] table-auto overflow-auto rounded-lg dark:dark"
           aria-label="search history table"
-          onSelectionChange={(keys) => {
-            // setCurrentRows(key);
+          onSelectionChange={(keys: Set<string>) => {
             setCurrentRows(keys as Set<string>)
-            // console.log("HUH", currentRows);
-            // console.log(key);
           }}
-          // sortDescriptor={list.sortDescriptor}
-          // onSortChange={list.sort}
-          onRowAction={(key) => console.log("HUH?")}
         >
           <TableHeader key={"Header"} className="h-10">
             {checkCategories()
-              .filter((category, index) => {
+              .filter((category) => {
                 return Array.from(currentColumns).includes(category)
               })
-              .map((column, index) => {
+              .map((column) => {
                 return <TableColumn key={column}>{column}</TableColumn>
               })}
           </TableHeader>
@@ -147,31 +130,25 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
           >
             {(item: Service) => (
               <TableRow key={item.Name} className="cursor-pointer select-none">
-                {
-                  // <TableCell className="text-md">{item.Name}</TableCell>
-                  // item.Categories = [...item.Categories, {Name: "Name", Value: item.Name}]
-                  checkItemCategories(item)
-                    .filter((category) => {
-                      console.log(
-                        "FILTERING -> ",
-                        category.Name,
-                        category.Value,
-                        " RESULT ",
-                        Array.from(currentColumns).includes(category.Name),
-                      )
-                      return Array.from(currentColumns).includes(category.Name)
-                    })
-                    .map((category, index) => {
-                      console.log("MAPPING -> ", category.Name, category.Value)
-                      return (
-                        <TableCell key={`${category.Name}-${index} `}>
-                          {category.Value}
-                        </TableCell>
-                      )
-                    })
-                }
-                {/* <TableCell>{item.Categories[0].Value}</TableCell>
-              <TableCell>{item.Categories[1].Value}</TableCell> */}
+                {checkItemCategories(item)
+                  .filter((category) => {
+                    console.log(
+                      "FILTERING -> ",
+                      category.Name,
+                      category.Value,
+                      " RESULT ",
+                      Array.from(currentColumns).includes(category.Name),
+                    )
+                    return Array.from(currentColumns).includes(category.Name)
+                  })
+                  .map((category, index) => {
+                    console.log("MAPPING -> ", category.Name, category.Value)
+                    return (
+                      <TableCell key={`${category.Name}-${index} `}>
+                        {category.Value}
+                      </TableCell>
+                    )
+                  })}
               </TableRow>
             )}
           </TableBody>

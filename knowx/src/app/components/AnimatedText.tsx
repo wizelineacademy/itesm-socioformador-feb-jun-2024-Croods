@@ -8,7 +8,7 @@ const AnimatedText = ({ text }: { text: string }) => {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      lettersRef.current.forEach((letter, index) => {
+      lettersRef.current.forEach((letter) => {
         if (letter) {
           const rect = letter.getBoundingClientRect()
           const dx = e.clientX - (rect.left + rect.width / 2)

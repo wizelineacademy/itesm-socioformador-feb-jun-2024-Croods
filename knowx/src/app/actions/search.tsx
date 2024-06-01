@@ -30,7 +30,6 @@ import {
   getCurrentQuery,
 } from "../helper/cookies"
 import { getServerSession } from "next-auth"
-import { example } from "../dashboard/phase3/ejemplo"
 import { Results } from "../interfaces/Phase3"
 
 export async function toggleSearchObject(obj: string) {

@@ -1,6 +1,5 @@
 "use client"
 import React from "react"
-import Image from "next/image"
 import { navigateToPhase2 } from "@/app/actions/redirect"
 import { Button } from "@nextui-org/react"
 import { useState } from "react"

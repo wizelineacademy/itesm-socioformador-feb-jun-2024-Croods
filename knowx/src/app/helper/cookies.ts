@@ -9,13 +9,11 @@ import {
   COMPARE_DATA_KEY,
   CURRENT_QUERY_KEY,
 } from "@/app/const/cookies"
-import { getFullSearch } from "../actions/search"
 import { Results } from "../interfaces/Phase3"
 
 export function setCookie(key: string, value: string) {
   const cookieStore = cookies()
   cookieStore.set(key, value, {
-    // expires: Date.now()
     path: "/",
     secure: true,
     sameSite: true,
@@ -86,4 +84,3 @@ export function getCompares() {
   const compares = cookies().get(COMPARES_KEY)?.value
   return compares
 }
-export function setCompares(value: string) {}

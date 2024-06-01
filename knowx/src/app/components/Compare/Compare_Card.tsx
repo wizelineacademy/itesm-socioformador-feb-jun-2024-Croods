@@ -6,11 +6,11 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid"
 import { useState } from "react"
 import { Results, ServiceCategories } from "@/app/interfaces/Phase3"
 
-interface CardData {
-  title: string
-  description: string
-  [key: string]: string
-}
+// interface CardData {
+//   title: string
+//   description: string
+//   [key: string]: string
+// }
 
 interface CardProps {
   initialTitle: string

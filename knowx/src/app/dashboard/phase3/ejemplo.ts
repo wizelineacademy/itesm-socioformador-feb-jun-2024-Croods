@@ -1,5 +1,3 @@
-import { Name } from "drizzle-orm"
-
 export const example = {
   categories: [
     "Name",

@@ -1,4 +1,3 @@
-import Image from "next/image"
 import UserMenu from "./UserMenu"
 import KnowXLogo from "./KnowXLogo"
 

@@ -3,9 +3,7 @@ import Header from "../../components/Header"
 import P3_ResultsTable from "@/app/components/Phase3/P3_ResultsTable"
 import P3_CompareButton from "@/app/components/Phase3/P3_CompareButton"
 import { Results } from "@/app/interfaces/Phase3"
-import { getFullSearch } from "@/app/actions/search"
 import { getAllData } from "@/app/helper/cookies"
-// import { example } from "./ejemplo";
 
 export default async function Phase3() {
   const allData = getAllData()
