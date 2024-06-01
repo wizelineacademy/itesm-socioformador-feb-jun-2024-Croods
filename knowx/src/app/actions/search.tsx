@@ -17,11 +17,10 @@ import {
   ORIGINAL_CATEGORIES_KEY,
   ADDED_CATEGORIES_KEY,
   CATEGORIES_KEY,
-
   COMPARE_DATA_KEY,
   COMPARES_KEY,
   CURRENT_SEARCH_ID_KEY,
-} from "../const/cookies";
+} from "../const/cookies"
 
 import {
   getSearchObjects,
@@ -29,10 +28,10 @@ import {
   setCookie,
   getCookie,
   getCurrentQuery,
-} from "../helper/cookies";
-import { getServerSession } from "next-auth";
-import { example } from "../dashboard/phase3/ejemplo";
-import { Results } from "../interfaces/Phase3";
+} from "../helper/cookies"
+import { getServerSession } from "next-auth"
+import { example } from "../dashboard/phase3/ejemplo"
+import { Results } from "../interfaces/Phase3"
 
 export async function toggleSearchObject(obj: string) {
   const { searchObjects } = getSearchObjects()
@@ -94,13 +93,13 @@ export async function getSearchObjectsAction() {
 }
 
 export async function clearSearches() {
-  setCookie(SEARCH_VALUES_KEY, "");
-  setCookie(ORIGINAL_SEARCH_VALUES_KEY, "");
-  setCookie(CURRENT_QUERY_KEY, "");
-  setCookie(CATEGORIES_KEY, "");
-  setCookie(ORIGINAL_CATEGORIES_KEY, "");
-  setCookie(COMPARE_DATA_KEY, "");
-  setCookie(COMPARES_KEY, "");
+  setCookie(SEARCH_VALUES_KEY, "")
+  setCookie(ORIGINAL_SEARCH_VALUES_KEY, "")
+  setCookie(CURRENT_QUERY_KEY, "")
+  setCookie(CATEGORIES_KEY, "")
+  setCookie(ORIGINAL_CATEGORIES_KEY, "")
+  setCookie(COMPARE_DATA_KEY, "")
+  setCookie(COMPARES_KEY, "")
   setCookie(CURRENT_SEARCH_ID_KEY, "")
   setCookie(ADDED_CATEGORIES_KEY, "")
 }
@@ -174,37 +173,100 @@ export async function categorySearchFunction(query: string) {
 //   return example;
 // }
 export async function getFullSearch() {
-  const categories = getCategories().categories || [];
-  const searchObjects = getSearchObjects().searchObjects;
-  const currentQuery = getCurrentQuery();
+  var MAX_TRYS = 5
+  var trys = 0
+  var data: Results[] = []
 
-  const u = new URLSearchParams();
+  const session = await getServerSession()
+  const userId = await getUserId({ newEmail: session?.user?.email || "" })
 
-  categories.forEach((category) => u.append("categories", category));
-  searchObjects.forEach((tool) => u.append("tools", tool));
+  // Log selected categories
+  const { categories, allObjects } = getCategories() || {
+    categories: [],
+    allObjects: [],
+  }
+  const addedCategories = getCookie(ADDED_CATEGORIES_KEY)?.split(",") || []
+
+  if (categories.length === 0) {
+    categories.push(...allObjects)
+  }
+
+  const filteredCategories = categories.filter(
+    (object) => !addedCategories.includes(object),
+  )
+
+  logSelectedCategories({
+    userId: userId,
+    searchId: parseInt(getCookie(CURRENT_SEARCH_ID_KEY) || ""),
+    selectedCategories: filteredCategories.join(", "),
+  })
+
+  // Log added categories
+  const finalAddedCategories = addedCategories.filter(
+    (object) => allObjects.includes(object) && categories.includes(object),
+  )
+
+  logAddedCategories({
+    userId: userId,
+    searchId: parseInt(getCookie(CURRENT_SEARCH_ID_KEY) || ""),
+    addedCategories: finalAddedCategories.join(", "),
+  })
+
+  // const categories = getCategories().categories || []
+  const searchObjects = getSearchObjects().searchObjects
+  const currentQuery = getCurrentQuery()
+
+  const u = new URLSearchParams()
+
+  categories.forEach((category) => u.append("categories", category))
+  searchObjects.forEach((tool) => u.append("tools", tool))
 
   if (currentQuery) {
-    u.append("topic", currentQuery);
+    u.append("topic", currentQuery)
   }
-  const res = await fetch(`${process.env.API_ROOT_ROUTE}/search`, {
-    method: "POST",
-    body: u,
-  });
-  // console.log(await res.json());
-  const data: Results = await res.json();
 
-  setCookie(COMPARE_DATA_KEY, JSON.stringify(data));
+  while (trys < MAX_TRYS && data.length === 0) {
+    const res = await fetch(`${process.env.API_ROOT_ROUTE}/search`, {
+      method: "POST",
+      body: u,
+    })
+
+    let regex = /\{.*\}/
+    let matched = regex.exec(await res.text())
+
+    if (matched) {
+      try {
+        console.log("TRY: ", trys)
+        data = JSON.parse(matched[0])
+      } catch (e) {
+        console.log("FAILED TO PARSE JSON: ", e)
+        data = []
+      }
+    } else {
+      data = []
+    }
+
+    trys++
+  }
+
+  setCookie(COMPARE_DATA_KEY, JSON.stringify(data))
+
+  logSearchResults({
+    userId: userId,
+    searchId: parseInt(getCookie(CURRENT_SEARCH_ID_KEY) || ""),
+    searchResults: JSON.stringify(data),
+  })
 }
 
 export async function getUserIdFunc(
   user: string | null | undefined,
-  query: string
+  query: string,
 ) {
   getUserId({ newEmail: user || "" }).then(async (id) => {
-    await logSearch({ userId: id, search: query, feedback: false });
-  }); 
+    await logSearch({ userId: id, search: query })
+  })
 }
-  
+
 export async function getFinalSearch() {
   // TODO: Implement final search
   // const res = await fetch(`${process.env.API_ROOT_ROUTE}/search/final`, {
