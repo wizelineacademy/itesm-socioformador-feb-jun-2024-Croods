@@ -50,7 +50,7 @@ export const Compare_Card = ({
             aria-hidden="true"
           />
         </Menu.Button>
-        <Menu.Items className="origin-top-center absolute left-1/2 mt-2 w-56 -translate-x-1/2 transform rounded-md bg-white shadow-lg ">
+        <Menu.Items className="origin-top-center absolute left-1/2 mt-2 w-56 -translate-x-1/2 transform rounded-md bg-white shadow-lg">
           {titles.map((title, index) => (
             <Menu.Item key={index}>
               {({ active }) => (
