@@ -6,12 +6,6 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid"
 import { useState } from "react"
 import { Results, ServiceCategories } from "@/app/interfaces/Phase3"
 
-// interface CardData {
-//   title: string
-//   description: string
-//   [key: string]: string
-// }
-
 interface CardProps {
   initialTitle: string
   initialDescription: string
@@ -54,15 +48,14 @@ export const Compare_Card = ({
           {titles.map((title, index) => (
             <Menu.Item key={index}>
               {({ active }) => (
-                <a
-                  href="#"
+                <button
                   onClick={() => handleSelectTitle(title)}
                   className={`${
                     active ? "bg-gray-100" : ""
-                  } block px-4 py-2 text-sm text-gray-700`}
+                  } block w-full px-4 py-2 text-left text-sm text-gray-700 hover:rounded-lg`}
                 >
                   {title}
-                </a>
+                </button>
               )}
             </Menu.Item>
           ))}
