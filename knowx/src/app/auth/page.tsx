@@ -115,6 +115,7 @@ export default function Signup() {
             <div className="mt-10 flex flex-col items-center justify-center space-y-4">
               <button
                 className="flex h-12 w-64 items-center justify-center rounded-lg border-2 border-[#0000001a] bg-[#24292f] px-4 py-3 text-lg text-white transition ease-in-out hover:bg-[#24292fcc]"
+                id="provider-button-github"
                 onClick={() => handleSignInGithub("github")}
               >
                 <Image
