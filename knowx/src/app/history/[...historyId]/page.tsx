@@ -10,7 +10,6 @@ import InfoComponent from "@/app/components/informational/InfoComponent"
 import { Results } from "@/app/interfaces/Phase3"
 import P3_ResultsTable from "@/app/components/Phase3/P3_ResultsTable"
 import P3_CompareButton from "@/app/components/Phase3/P3_CompareButton"
-import { loadResultsCookie } from "@/app/actions/search"
 import { Chip } from "@nextui-org/react"
 
 export default async function Home({
@@ -51,7 +50,10 @@ export default async function Home({
           {tableResults != undefined ? (
             <>
               <P3_ResultsTable incoming_results={tableResults} />
-              <P3_CompareButton isHistory={true} />
+              <P3_CompareButton
+                isHistory={true}
+                history={history.searchResults || ""}
+              />
             </>
           ) : (
             <Chip color="danger" className="m-5">

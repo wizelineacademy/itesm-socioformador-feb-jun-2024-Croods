@@ -266,6 +266,10 @@ export async function getUserIdFunc(
   })
 }
 
+export async function callLoadResultsCookie(data: string) {
+  await loadResultsCookie(data)
+}
+
 export async function loadResultsCookie(data: string) {
   setCookie(COMPARE_DATA_KEY, data)
 }

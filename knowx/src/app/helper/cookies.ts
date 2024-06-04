@@ -84,3 +84,7 @@ export function getCompares() {
   const compares = cookies().get(COMPARES_KEY)?.value
   return compares
 }
+
+export function loadResultsCookie(data: string) {
+  setCookie(COMPARE_DATA_KEY, data)
+}
