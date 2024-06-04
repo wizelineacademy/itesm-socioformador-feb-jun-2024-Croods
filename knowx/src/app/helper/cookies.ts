@@ -76,7 +76,7 @@ export function getCategories() {
 }
 
 export function getAllData(): Results {
-  console.log(cookies().get(COMPARE_DATA_KEY)?.value || "{}")
+  // console.log(cookies().get(COMPARE_DATA_KEY)?.value || "{}")
   return JSON.parse(cookies().get(COMPARE_DATA_KEY)?.value || "{}") as Results
 }
 

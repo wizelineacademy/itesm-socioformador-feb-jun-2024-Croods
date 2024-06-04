@@ -52,3 +52,7 @@ export async function backToPhase3() {
 export async function navigateToCompare() {
   redirect("/dashboard/compare")
 }
+
+export async function navigateToHistoryCompare() {
+  redirect("/history/compare")
+}

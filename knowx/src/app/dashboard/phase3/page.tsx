@@ -31,7 +31,9 @@ export default async function Phase3() {
           </div>
 
           {allData.categories != undefined ? (
-            <P3_ResultsTable results={allData as Results}></P3_ResultsTable>
+            <P3_ResultsTable
+              incoming_results={allData as Results}
+            ></P3_ResultsTable>
           ) : (
             <>NO DATA</>
           )}

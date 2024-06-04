@@ -266,44 +266,6 @@ export async function getUserIdFunc(
   })
 }
 
-export async function getFinalSearch() {
-  // TODO: Implement final search
-  // const res = await fetch(`${process.env.API_ROOT_ROUTE}/search/final`, {
-  //   method: "POST",
-  //   body: u,
-  // })
-
-  const session = await getServerSession()
-  const userId = await getUserId({ newEmail: session?.user?.email || "" })
-
-  // Log selected categories
-  const { categories, allObjects } = getCategories()
-  const addedCategories = getCookie(ADDED_CATEGORIES_KEY)?.split(",") || []
-
-  if (categories.length === 0) {
-    categories.push(...allObjects)
-  }
-
-  const filteredCategories = categories.filter(
-    (object) => !addedCategories.includes(object),
-  )
-
-  logSelectedCategories({
-    userId: userId,
-    searchId: parseInt(getCookie(CURRENT_SEARCH_ID_KEY) || ""),
-    selectedCategories: filteredCategories.join(", "),
-  })
-
-  // Log added categories
-  const finalAddedCategories = addedCategories.filter(
-    (object) => allObjects.includes(object) && categories.includes(object),
-  )
-
-  logAddedCategories({
-    userId: userId,
-    searchId: parseInt(getCookie(CURRENT_SEARCH_ID_KEY) || ""),
-    addedCategories: finalAddedCategories.join(", "),
-  })
-
-  // TODO: Log search results
+export async function loadResultsCookie(data: string) {
+  setCookie(COMPARE_DATA_KEY, data)
 }

@@ -108,7 +108,7 @@ export default function HistoryOverview({
         </Button>
       </ButtonGroup>
 
-      <div className="grid w-full grid-cols-4custom grid-rows-2 justify-center justify-items-center gap-4 px-8 dark:dark">
+      <div className="grid w-full grid-cols-4custom justify-center justify-items-center gap-4 px-8 dark:dark">
         <Card className="h-[300px] w-full max-w-[300px]">
           <CardHeader className="top-1 z-10 flex-row !items-start gap-1">
             <SparklesIcon className="mr-2 h-6 w-6 self-center fill-slate-500" />

@@ -7,6 +7,10 @@ import Loading from "./loading"
 import Header from "@/app/components/Header"
 import HistoryOverview from "@/app/components/History/HistoryOverview"
 import InfoComponent from "@/app/components/informational/InfoComponent"
+import { Results } from "@/app/interfaces/Phase3"
+import P3_ResultsTable from "@/app/components/Phase3/P3_ResultsTable"
+import P3_CompareButton from "@/app/components/Phase3/P3_CompareButton"
+import { loadResultsCookie } from "@/app/actions/search"
 import { Chip } from "@nextui-org/react"
 
 export default async function Home({
@@ -26,6 +30,14 @@ export default async function Home({
     notFound()
   }
 
+  let tableResults: Results | undefined = undefined
+
+  try {
+    tableResults = JSON.parse(history.searchResults ?? "")
+  } catch {
+    console.error("Error parsing search results")
+  }
+
   return (
     <Suspense fallback={<Loading />}>
       <main className="bg-backgroundLight dark:bg-backgroundDark">
@@ -35,6 +47,17 @@ export default async function Home({
           title="Search History"
         >
           <HistoryOverview history={history} />
+
+          {tableResults != undefined ? (
+            <>
+              <P3_ResultsTable incoming_results={tableResults} />
+              <P3_CompareButton isHistory={true} />
+            </>
+          ) : (
+            <Chip color="danger" className="m-5">
+              Error loading results
+            </Chip>
+          )}
         </Header>
 
         <InfoComponent title="History" icon={2}>

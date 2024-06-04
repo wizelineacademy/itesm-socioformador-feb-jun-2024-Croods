@@ -22,12 +22,16 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid"
 
 import { useState, useEffect } from "react"
 
-import { ResultsTableProps, Service } from "@/app/interfaces/Phase3"
+import { Service, Results } from "@/app/interfaces/Phase3"
 import { toggleCompares } from "@/app/actions/compare"
 
-export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
+export const P3_ResultsTable = ({
+  incoming_results,
+}: {
+  incoming_results: Results
+}) => {
   const [currentColumns, setCurrentColumns] = useState<Set<string>>(
-    new Set([results.categories[0], results.categories[1]]),
+    new Set([incoming_results.categories[0], incoming_results.categories[1]]),
   )
   const [currentRows, setCurrentRows] = useState<Set<string>>(new Set())
 
@@ -48,10 +52,10 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
 
   const checkCategories = (): string[] => {
     const categories: string[] = []
-    if (results.categories != undefined) {
+    if (incoming_results.categories != undefined) {
       categories.push("Name")
       categories.push("Description")
-      results.categories.forEach((category) => {
+      incoming_results.categories.forEach((category) => {
         if (category != "Name" && category != "Description")
           categories.push(category)
       })
@@ -123,7 +127,7 @@ export const P3_ResultsTable = ({ results }: ResultsTableProps) => {
               })}
           </TableHeader>
           <TableBody
-            items={results.results as Service[]}
+            items={incoming_results.results as Service[]}
             emptyContent={"No History"}
             className="pretty-scrollbar"
             loadingContent={<Spinner label="Loading..." />}
