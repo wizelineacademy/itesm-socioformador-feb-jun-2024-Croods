@@ -3,29 +3,30 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { navigate } from "@/app/actions/redirect";
 import { initialSearchAction, clearSearches } from "@/app/actions/search";
+import { SimpleHistoryType } from "@/app/interfaces";
 
-const InputBar = () => {
+const InputBar = ({ history }: { history: SimpleHistoryType[] | [] }) => {
   // Sample array of previous searches
-  const previousSearches = [
-    "apple",
-    "candy",
-    "bar",
-    "pineapple",
-    "oranges are green",
-    "grape",
-    "watermelon",
-  ];
+  // const previousSearches = [
+  //   "apple",
+  //   "candy",
+  //   "bar",
+  //   "pineapple",
+  //   "oranges are green",
+  //   "grape",
+  //   "watermelon",
+  // ];
 
   // State to manage the query and suggestions
   const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [suggestions, setSuggestions] = useState<SimpleHistoryType[]>(history);
 
   // Update suggestions based on the query
   useEffect(() => {
     if (query) {
       const queryWords = query.toLowerCase().split(" ");
-      const filteredSuggestions = previousSearches.filter((search) =>
-        queryWords.some((word) => search.toLowerCase().includes(word))
+      const filteredSuggestions = history.filter((search) =>
+        queryWords.some((word) => search.search?.toLowerCase().includes(word))
       );
       setSuggestions(filteredSuggestions);
     } else {
@@ -65,11 +66,11 @@ const InputBar = () => {
               key={index}
               className="p-2 hover:bg-gray-200 dark:hover:bg-gray-200 cursor-pointer"
               onClick={() => {
-                setQuery(suggestion);
+                setQuery(suggestion.search || "");
                 setSuggestions([]);
               }}
             >
-              {suggestion}
+              {suggestion.search}
             </li>
           ))}
         </ul>
