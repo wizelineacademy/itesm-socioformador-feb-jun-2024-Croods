@@ -1,17 +1,19 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
 "use client"
+import React, { useState, useEffect } from "react"
 import Image from "next/image"
 import { navigate } from "@/app/actions/redirect"
 import { initialSearchAction, clearSearches } from "@/app/actions/search"
-import { Button } from "@nextui-org/react"
-
-import React, { useState, useEffect } from "react"
 import { SimpleHistoryType } from "@/app/interfaces"
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  Button,
+} from "@nextui-org/react"
 
 const InputBar = ({ history }: { history: SimpleHistoryType[] | [] }) => {
-  //let query: string = ""
-  // State to manage the query and suggestions
   const [query, setQuery] = useState("")
   const [suggestions, setSuggestions] = useState<SimpleHistoryType[]>(history)
   const [isLoading, setIsLoading] = useState(false)
@@ -27,6 +29,28 @@ const InputBar = ({ history }: { history: SimpleHistoryType[] | [] }) => {
       setSuggestions([])
     }
   }, [query, history])
+
+  const content = (suggestion) => (
+    <PopoverContent className="w-[240px]">
+      <div className="w-full px-1 py-2">
+        <div className="mt-2 flex w-full flex-col gap-2">
+          <Button onClick={() => navigate("/history")}>Historial</Button>
+          <Button
+            onClick={() => {
+              setQuery(suggestion.search || "")
+              setSuggestions([])
+              setIsLoading(true)
+              clearSearches()
+              initialSearchAction(suggestion.search)
+              navigate(suggestion.search)
+            }}
+          >
+            Nueva busqueda
+          </Button>
+        </div>
+      </div>
+    </PopoverContent>
+  )
 
   return (
     <div className="relative w-5/6">
@@ -44,17 +68,6 @@ const InputBar = ({ history }: { history: SimpleHistoryType[] | [] }) => {
             navigate(query)
           }
         }}
-        /*
-        onChange={(e) => (query = e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            setIsLoading(true)
-            clearSearches()
-            initialSearchAction(query)
-            navigate(query)
-          }
-        }}
-        */
       ></input>
       <Button
         isLoading={isLoading}
@@ -84,17 +97,20 @@ const InputBar = ({ history }: { history: SimpleHistoryType[] | [] }) => {
       {history && history.length > 0 && suggestions.length > 0 && (
         <ul className="absolute mt-2 w-full rounded-lg bg-white text-white shadow-lg dark:bg-backgroundLight dark:text-black">
           {suggestions.map((suggestion, index) => (
-            <li
+            <Popover
               key={index}
-              className="cursor-pointer p-2 hover:bg-gray-200 dark:hover:bg-gray-200"
-              onClick={() => {
-                setQuery(suggestion.search || "")
-                setSuggestions([])
-              }}
-              aria-hidden="true"
+              showArrow
+              offset={10}
+              placement="bottom"
+              backdrop={"blur"}
             >
-              {suggestion.search}
-            </li>
+              <PopoverTrigger>
+                <li className="cursor-pointer p-2 hover:bg-gray-200 dark:hover:bg-gray-200">
+                  {suggestion.search}
+                </li>
+              </PopoverTrigger>
+              {content(suggestion)}
+            </Popover>
           ))}
         </ul>
       )}
