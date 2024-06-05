@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 
 "use client"
 import React, { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { navigate } from "@/app/actions/redirect"
 import { initialSearchAction, clearSearches } from "@/app/actions/search"
@@ -30,11 +32,19 @@ const InputBar = ({ history }: { history: SimpleHistoryType[] | [] }) => {
     }
   }, [query, history])
 
-  const content = (suggestion) => (
+  const router = useRouter()
+
+  const content = (suggestion: any) => (
     <PopoverContent className="w-[240px]">
       <div className="w-full px-1 py-2">
         <div className="mt-2 flex w-full flex-col gap-2">
-          <Button onClick={() => navigate("/history")}>Historial</Button>
+          <Button
+            type="button"
+            onClick={() => router.push(`/history/${suggestion.id}`)}
+            aria-hidden="true"
+          >
+            Historial
+          </Button>
           <Button
             onClick={() => {
               setQuery(suggestion.search || "")
@@ -44,6 +54,7 @@ const InputBar = ({ history }: { history: SimpleHistoryType[] | [] }) => {
               initialSearchAction(suggestion.search)
               navigate(suggestion.search)
             }}
+            aria-hidden="true"
           >
             Nueva busqueda
           </Button>
@@ -105,8 +116,11 @@ const InputBar = ({ history }: { history: SimpleHistoryType[] | [] }) => {
               backdrop={"blur"}
             >
               <PopoverTrigger>
-                <li className="cursor-pointer p-2 hover:bg-gray-200 dark:hover:bg-gray-200">
-                  {suggestion.search}
+                <li className="flex cursor-pointer items-center justify-between p-2 hover:bg-gray-200 dark:hover:bg-gray-200">
+                  <span>{suggestion.search}</span>
+                  <span className="text-gray-400">
+                    {suggestion.timestamp?.toLocaleString()}
+                  </span>
                 </li>
               </PopoverTrigger>
               {content(suggestion)}
