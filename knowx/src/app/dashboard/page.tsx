@@ -5,16 +5,28 @@ import { redirect } from "next/navigation"
 import Header from "../components/Header"
 import InfoComponent from "../components/informational/InfoComponent"
 
+import { getServerSession } from "next-auth"
+import { getUserId } from "../../../db/insertActions"
+import { SimpleHistoryType } from "../interfaces"
+import { getSimpleUserHistory } from "../../../db/getActions"
+
 export default async function Home() {
   if (!(await checkSession())) {
     redirect("/auth")
   }
 
+  const session = await getServerSession()
+  const userId = await getUserId({ newEmail: session?.user?.email || "" })
+  const history: SimpleHistoryType[] =
+    (await getSimpleUserHistory({
+      userId: userId,
+    })) || []
+
   return (
     <main className="bg-backgroundLight dark:bg-backgroundDark">
       <Header isDashboard={true}>
         <div className="relative flex h-[70%] w-5/6 max-w-6xl items-center justify-center">
-          <InputBar />
+          <InputBar history={history} />
         </div>
       </Header>
       <InfoComponent title="Topic Search" icon={1}>
