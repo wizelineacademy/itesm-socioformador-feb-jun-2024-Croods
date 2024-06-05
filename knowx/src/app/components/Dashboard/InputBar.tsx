@@ -17,14 +17,18 @@ import {
 
 const InputBar = ({ history }: { history: SimpleHistoryType[] | [] }) => {
   const [query, setQuery] = useState("")
-  const [suggestions, setSuggestions] = useState<SimpleHistoryType[]>(history)
+  const [suggestions, setSuggestions] = useState<SimpleHistoryType[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (query && history && history.length > 0) {
-      const queryWords = query.toLowerCase().split(" ")
+      const queryWords = query.toLowerCase().trim().split(" ")
       const filteredSuggestions = history.filter((search) =>
-        queryWords.some((word) => search.search?.toLowerCase().includes(word)),
+        queryWords.some((word) =>
+          search.search
+            ?.split(" ")
+            .some((s) => s.toLowerCase().trim().startsWith(word)),
+        ),
       )
       setSuggestions(filteredSuggestions)
     } else {
