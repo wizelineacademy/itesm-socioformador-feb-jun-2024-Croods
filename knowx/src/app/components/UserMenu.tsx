@@ -107,6 +107,7 @@ export default function UserMenu({
 
   return (
     <div
+      id="UserMenu"
       className={`flex cursor-pointer items-center justify-between ${className}`}
     >
       <div className="relative flex items-center rounded-lg bg-[#4040401a] p-3 dark:bg-[#d9d9d91a]">

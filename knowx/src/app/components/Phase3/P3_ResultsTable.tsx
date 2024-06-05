@@ -46,7 +46,6 @@ export const P3_ResultsTable = ({
     })
     if (currentColumns.size == 0)
       setCurrentColumns(new Set([categories[0].Name, categories[1].Name]))
-    console.log("CATEGORIES -> ", categories)
     return categories
   }
 
@@ -136,17 +135,9 @@ export const P3_ResultsTable = ({
               <TableRow key={item.Name} className="cursor-pointer select-none">
                 {checkItemCategories(item)
                   .filter((category) => {
-                    console.log(
-                      "FILTERING -> ",
-                      category.Name,
-                      category.Value,
-                      " RESULT ",
-                      Array.from(currentColumns).includes(category.Name),
-                    )
                     return Array.from(currentColumns).includes(category.Name)
                   })
                   .map((category, index) => {
-                    console.log("MAPPING -> ", category.Name, category.Value)
                     return (
                       <TableCell key={`${category.Name}-${index} `}>
                         {category.Value}

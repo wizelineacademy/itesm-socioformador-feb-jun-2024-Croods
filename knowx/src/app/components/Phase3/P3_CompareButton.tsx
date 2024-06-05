@@ -21,8 +21,12 @@ const P3_CompareButton = ({
       color="success"
       className="mx-auto my-5 w-[200px] rounded-xl p-5"
       onClick={() => {
-        !isHistory ? navigateToCompare() : loadResultsCookie(history),
-          navigateToHistoryCompare()
+        !isHistory
+          ? navigateToCompare()
+          : setTimeout(() => {
+              loadResultsCookie(history)
+              navigateToHistoryCompare()
+            }, 500)
       }}
     >
       Compare

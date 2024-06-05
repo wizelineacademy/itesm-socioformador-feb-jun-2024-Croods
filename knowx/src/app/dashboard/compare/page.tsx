@@ -28,7 +28,7 @@ export default async function Compare() {
             ))}
         </div>
 
-        <Compare_Button />
+        <Compare_Button isHistory={false} />
       </Header>
     </main>
   )

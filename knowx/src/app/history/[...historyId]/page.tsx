@@ -48,13 +48,13 @@ export default async function Home({
           <HistoryOverview history={history} />
 
           {tableResults != undefined ? (
-            <>
+            <div className="mb-9 flex flex-col items-center">
               <P3_ResultsTable incoming_results={tableResults} />
               <P3_CompareButton
                 isHistory={true}
                 history={history.searchResults || ""}
               />
-            </>
+            </div>
           ) : (
             <Chip color="danger" className="m-5">
               Error loading results

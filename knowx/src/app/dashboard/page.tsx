@@ -11,7 +11,7 @@ export default async function Home() {
   }
 
   return (
-    <main className="bg-backgroundLight dark:bg-backgroundDark">
+    <main id="dashboard" className="bg-backgroundLight dark:bg-backgroundDark">
       <Header isDashboard={true}>
         <div className="relative flex h-[70%] w-5/6 max-w-6xl items-center justify-center">
           <InputBar />

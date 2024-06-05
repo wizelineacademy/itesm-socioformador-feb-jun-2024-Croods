@@ -235,10 +235,8 @@ export async function getFullSearch() {
 
     if (matched) {
       try {
-        console.log("TRY: ", trys)
         data = JSON.parse(matched[0])
       } catch (e) {
-        console.log("FAILED TO PARSE JSON: ", e)
         data = []
       }
     } else {
