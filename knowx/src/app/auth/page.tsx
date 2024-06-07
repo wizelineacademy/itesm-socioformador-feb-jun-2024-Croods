@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation"
 import { signIn, useSession } from "next-auth/react"
 import { useState } from "react"
 import { redirect } from "next/navigation"
-import AnimatedText from "../components/AnimatedText"
-import InfoComponent from "../components/informational/InfoComponent"
+import AnimatedText from "@/components/AnimatedText"
+import InfoComponent from "@/components/informational/InfoComponent"
 
 export default function Signup() {
   const { data: session } = useSession()

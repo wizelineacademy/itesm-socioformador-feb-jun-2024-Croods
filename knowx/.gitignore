@@ -42,3 +42,6 @@ next-env.d.ts
 
 # local files
 secretCreate.txt
+
+coverage
+html

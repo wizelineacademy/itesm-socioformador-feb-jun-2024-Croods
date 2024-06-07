@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import OverflowHiddenBody from "../components/OverflowHiddenBody"
+import OverflowHiddenBody from "@/components/OverflowHiddenBody"
 
 export const metadata: Metadata = {
   title: "KnowX - History",

@@ -1,4 +1,4 @@
-import { getUserId, logSearch } from "../../../../db/insertActions"
+import { getUserId, logSearch } from "@/db/insertActions"
 
 export async function POST(request: Request) {
   const { topic } = await request.json()

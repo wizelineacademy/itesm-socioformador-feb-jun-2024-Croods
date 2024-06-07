@@ -1,14 +1,14 @@
 /* src/app/dashboard/page.tsx */
-import { checkSession } from "@/app/actions/redirect"
-import InputBar from "@/app/components/Dashboard/InputBar"
+import { checkSession } from "@/actions/redirect"
+import InputBar from "@/components/Dashboard/InputBar"
 import { redirect } from "next/navigation"
-import Header from "../components/Header"
-import InfoComponent from "../components/informational/InfoComponent"
+import Header from "@/components/Header"
+import InfoComponent from "@/components/informational/InfoComponent"
 
 import { getServerSession } from "next-auth"
-import { getUserId } from "../../../db/insertActions"
-import { SimpleHistoryType } from "../interfaces"
-import { getSimpleUserHistory } from "../../../db/getActions"
+import { getUserId } from "../../db/insertActions"
+import { SimpleHistoryType } from "../../interfaces"
+import { getSimpleUserHistory } from "../../db/getActions"
 
 export default async function Home() {
   if (!(await checkSession())) {

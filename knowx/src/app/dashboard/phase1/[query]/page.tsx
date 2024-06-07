@@ -1,9 +1,9 @@
 /* src/app/dashboard/page.tsx */
 // import { useState, useEffect } from "react";
-import { checkSession } from "@/app/actions/redirect"
-import P1_SearchResult from "../../../components/Phase1/P1_SearchResult"
-import P1_ResultsWrapper from "@/app/components/Phase1/P1_ResultsWrapper"
-import { getSearchObjectsAction } from "@/app/actions/search"
+import { checkSession } from "@/actions/redirect"
+import P1_SearchResult from "@/components/Phase1/P1_SearchResult"
+import P1_ResultsWrapper from "@/components/Phase1/P1_ResultsWrapper"
+import { getSearchObjectsAction } from "@/actions/search"
 import { redirect } from "next/navigation"
 
 export default async function Home({ params }: { params: { query: string } }) {

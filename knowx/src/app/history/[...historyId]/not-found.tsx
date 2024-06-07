@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { FaceFrownIcon } from "@heroicons/react/24/outline"
-import Header from "@/app/components/Header"
+import Header from "@/components/Header"
 
 export default function NotFound() {
   return (
