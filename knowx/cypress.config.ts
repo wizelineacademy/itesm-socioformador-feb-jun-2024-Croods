@@ -25,5 +25,6 @@ export default defineConfig({
     GITHUB_PASSWORD: process.env.EMAIL_SERVER_PASSWORD,
     COOKIE_NAME: "next-auth.session-token",
     SITE_NAME: process.env.NEXTAUTH_URL,
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   },
 })

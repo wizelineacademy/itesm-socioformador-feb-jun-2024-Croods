@@ -16,7 +16,9 @@ export default async function Home() {
   }
 
   const session = await getServerSession()
-  const userId = await getUserId({ newEmail: session?.user?.email || "" })
+  const userId = await getUserId({
+    newEmail: session?.user?.email || "",
+  })
   const history: SimpleHistoryType[] =
     (await getSimpleUserHistory({
       userId: userId,

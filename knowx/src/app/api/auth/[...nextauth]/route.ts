@@ -35,6 +35,9 @@ const authOptions: NextAuthOptions = {
       from: process.env.EMAIL_FROM,
     }),
   ],
+  jwt: {
+    secret: process.env.NEXTAUTH_SECRET,
+  },
   session: {
     strategy: "jwt",
   },
