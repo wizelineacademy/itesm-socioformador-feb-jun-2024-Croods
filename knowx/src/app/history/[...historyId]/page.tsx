@@ -1,15 +1,15 @@
-import { getFullUserHistory } from "../../../../db/getActions"
+import { getFullUserHistory } from "../../../db/getActions"
 import { getServerSession } from "next-auth"
-import { getUserId } from "../../../../db/insertActions"
+import { getUserId } from "../../../db/insertActions"
 import { notFound } from "next/navigation"
 import { Suspense } from "react"
 import Loading from "./loading"
-import Header from "@/app/components/Header"
-import HistoryOverview from "@/app/components/History/HistoryOverview"
-import InfoComponent from "@/app/components/informational/InfoComponent"
-import { Results } from "@/app/interfaces/Phase3"
-import P3_ResultsTable from "@/app/components/Phase3/P3_ResultsTable"
-import P3_CompareButton from "@/app/components/Phase3/P3_CompareButton"
+import Header from "@/components/Header"
+import HistoryOverview from "@/components/History/HistoryOverview"
+import InfoComponent from "@/components/informational/InfoComponent"
+import { Results } from "@/interfaces/Phase3"
+import P3_ResultsTable from "@/components/Phase3/P3_ResultsTable"
+import P3_CompareButton from "@/components/Phase3/P3_CompareButton"
 import { Chip } from "@nextui-org/react"
 
 export default async function Home({
@@ -48,13 +48,13 @@ export default async function Home({
           <HistoryOverview history={history} />
 
           {tableResults != undefined ? (
-            <>
+            <div className="mb-9 flex flex-col items-center">
               <P3_ResultsTable incoming_results={tableResults} />
               <P3_CompareButton
                 isHistory={true}
                 history={history.searchResults || ""}
               />
-            </>
+            </div>
           ) : (
             <Chip color="danger" className="m-5">
               Error loading results

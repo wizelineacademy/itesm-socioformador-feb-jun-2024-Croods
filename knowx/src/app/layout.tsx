@@ -1,9 +1,9 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { getServerSession } from "next-auth"
-import SessionProvider from "./components/SessionProvider"
+import SessionProvider from "@/components/SessionProvider"
 import { ThemeProvider } from "next-themes"
-import OverflowHiddenBody from "./components/OverflowHiddenBody"
+import OverflowHiddenBody from "@/components/OverflowHiddenBody"
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"] })

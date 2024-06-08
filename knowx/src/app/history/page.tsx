@@ -1,20 +1,28 @@
-import { getUserId } from "../../../db/insertActions"
+import { getUserId } from "../../db/insertActions"
 import { getServerSession } from "next-auth"
-import { getSimpleUserHistory } from "../../../db/getActions"
-import SearchHistoryList from "../components/History/SearchHistoryList"
-import { SimpleHistoryType } from "@/app/interfaces"
-import Header from "../components/Header"
-import InfoComponent from "../components/informational/InfoComponent"
+import { getSimpleUserHistory } from "../../db/getActions"
+import SearchHistoryList from "@/components/History/SearchHistoryList"
+import { SimpleHistoryType } from "@/interfaces"
+import Header from "@/components/Header"
+import InfoComponent from "@/components/informational/InfoComponent"
 import EllipsisVerticalIcon from "@heroicons/react/20/solid/EllipsisVerticalIcon"
 import TrashIcon from "@heroicons/react/20/solid/TrashIcon"
+import { checkSession } from "@/actions/redirect"
+import { redirect } from "next/navigation"
 
 export default async function Home() {
-  const session = await getServerSession()
-  const userId = await getUserId({ newEmail: session?.user?.email || "" })
-  const history: SimpleHistoryType[] =
-    (await getSimpleUserHistory({
-      userId: userId,
-    })) || []
+  let history: SimpleHistoryType[] = []
+
+  if (!(await checkSession())) {
+    redirect("/auth")
+  } else {
+    const session = await getServerSession()
+    const userId = await getUserId({ newEmail: session?.user?.email || "" })
+    history =
+      (await getSimpleUserHistory({
+        userId: userId,
+      })) || []
+  }
 
   return (
     <main className="bg-backgroundLight dark:bg-backgroundDark">

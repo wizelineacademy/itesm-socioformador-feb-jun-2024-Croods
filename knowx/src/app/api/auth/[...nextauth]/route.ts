@@ -4,8 +4,8 @@ import GoogleProvider from "next-auth/providers/google"
 import SlackProvider from "next-auth/providers/slack"
 import EmailProvider from "next-auth/providers/email"
 import { DrizzleAdapter } from "@auth/drizzle-adapter"
-import { handleLogin } from "../../../../../db/insertActions"
-import { db } from "../../../../../db/schema"
+import { handleLogin } from "../../../../db/insertActions"
+import { db } from "../../../../db/schema"
 import type { Adapter } from "next-auth/adapters"
 
 const authOptions: NextAuthOptions = {
@@ -35,6 +35,9 @@ const authOptions: NextAuthOptions = {
       from: process.env.EMAIL_FROM,
     }),
   ],
+  jwt: {
+    secret: process.env.NEXTAUTH_SECRET,
+  },
   session: {
     strategy: "jwt",
   },

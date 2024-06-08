@@ -1,14 +1,14 @@
 /* src/app/dashboard/page.tsx */
-import { checkSession } from "@/app/actions/redirect"
-import InputBar from "@/app/components/Dashboard/InputBar"
+import { checkSession } from "@/actions/redirect"
+import InputBar from "@/components/Dashboard/InputBar"
 import { redirect } from "next/navigation"
-import Header from "../components/Header"
-import InfoComponent from "../components/informational/InfoComponent"
+import Header from "@/components/Header"
+import InfoComponent from "@/components/informational/InfoComponent"
 
 import { getServerSession } from "next-auth"
-import { getUserId } from "../../../db/insertActions"
-import { SimpleHistoryType } from "../interfaces"
-import { getSimpleUserHistory } from "../../../db/getActions"
+import { getUserId } from "../../db/insertActions"
+import { SimpleHistoryType } from "../../interfaces"
+import { getSimpleUserHistory } from "../../db/getActions"
 
 export default async function Home() {
   if (!(await checkSession())) {
@@ -16,14 +16,16 @@ export default async function Home() {
   }
 
   const session = await getServerSession()
-  const userId = await getUserId({ newEmail: session?.user?.email || "" })
+  const userId = await getUserId({
+    newEmail: session?.user?.email || "",
+  })
   const history: SimpleHistoryType[] =
     (await getSimpleUserHistory({
       userId: userId,
     })) || []
 
   return (
-    <main className="bg-backgroundLight dark:bg-backgroundDark">
+    <main id="dashboard" className="bg-backgroundLight dark:bg-backgroundDark">
       <Header isDashboard={true}>
         <div className="relative flex h-[70%] w-5/6 max-w-6xl items-center justify-center">
           <InputBar history={history} />

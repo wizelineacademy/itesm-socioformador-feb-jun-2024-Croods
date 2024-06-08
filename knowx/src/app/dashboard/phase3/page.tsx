@@ -1,9 +1,9 @@
 import Image from "next/image"
-import Header from "../../components/Header"
-import P3_ResultsTable from "@/app/components/Phase3/P3_ResultsTable"
-import P3_CompareButton from "@/app/components/Phase3/P3_CompareButton"
-import { Results } from "@/app/interfaces/Phase3"
-import { getAllData } from "@/app/helper/cookies"
+import Header from "@/components/Header"
+import P3_ResultsTable from "@/components/Phase3/P3_ResultsTable"
+import P3_CompareButton from "@/components/Phase3/P3_CompareButton"
+import { Results } from "@/interfaces/Phase3"
+import { getAllData } from "@/helper/cookies"
 
 export default async function Phase3() {
   const allData = getAllData()

@@ -1,11 +1,11 @@
 // "use client";
-import { toggleCategory } from "@/app/actions/search"
-import { getCategories } from "@/app/helper/cookies"
-import P2_NewCategory from "@/app/components/Phase2/P2_NewCategory"
-import { checkSession } from "@/app/actions/redirect"
+import { toggleCategory } from "@/actions/search"
+import { getCategories } from "@/helper/cookies"
+import P2_NewCategory from "@/components/Phase2/P2_NewCategory"
+import { checkSession } from "@/actions/redirect"
 import { redirect } from "next/navigation"
-import Header from "@/app/components/Header"
-import { P2_CategoryResults } from "@/app/components/Phase2/P2_CategoryResults"
+import Header from "@/components/Header"
+import { P2_CategoryResults } from "@/components/Phase2/P2_CategoryResults"
 
 export default async function Features() {
   if (!(await checkSession())) {

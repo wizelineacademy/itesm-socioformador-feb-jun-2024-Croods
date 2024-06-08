@@ -1,9 +1,9 @@
-import { Compare_Card } from "@/app/components/Compare/Compare_Card"
-import Header from "@/app/components/Header"
-import { getTitles } from "@/app/actions/compare"
-import { Results } from "@/app/interfaces/Phase3"
-import { getAllData, getCompares } from "@/app/helper/cookies"
-import { Compare_Button } from "@/app/components/Compare/Compare_Button"
+import { Compare_Card } from "@/components/Compare/Compare_Card"
+import Header from "@/components/Header"
+import { getTitles } from "@/actions/compare"
+import { Results } from "@/interfaces/Phase3"
+import { getAllData, getCompares } from "@/helper/cookies"
+import { Compare_Button } from "@/components/Compare/Compare_Button"
 
 export default async function Compare() {
   const data = getAllData() as Results
@@ -28,7 +28,7 @@ export default async function Compare() {
             ))}
         </div>
 
-        <Compare_Button />
+        <Compare_Button isHistory={false} />
       </Header>
     </main>
   )
