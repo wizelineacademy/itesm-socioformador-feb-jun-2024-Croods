@@ -1,3 +1,5 @@
+// Diego Gutiérrez - A01284841
+
 import { test, expect, vi } from "vitest"
 import { screen, render, within } from "@testing-library/react"
 import { mockHistory } from "../mocks/mock"
@@ -12,7 +14,6 @@ test("Search History List Correct Render Test", async () => {
 
   expect(screen.getByText("test2")).toBeVisible()
   expect(screen.getByText("1/1/2021")).toBeVisible()
-
   expect(screen.getByText("test3")).toBeVisible()
   expect(screen.getByText("1/2/2021")).toBeVisible()
 })

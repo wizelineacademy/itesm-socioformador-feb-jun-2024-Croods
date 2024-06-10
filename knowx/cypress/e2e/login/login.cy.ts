@@ -1,4 +1,4 @@
-// E2E login/sign up tests (Diego Gutiérrez A01284841)
+// E2E login/redirect tests (Diego Gutiérrez A01284841)
 
 describe("Auth Redirect", () => {
   it("passes", () => {
@@ -16,10 +16,6 @@ describe("Auth Redirect", () => {
 })
 
 describe("Authorization Check", () => {
-  // beforeEach(() => {
-  //   cy.rewriteHeaders()
-  // })
-
   it("passes", () => {
     cy.visit("http://localhost:3000/auth")
     cy.login()
