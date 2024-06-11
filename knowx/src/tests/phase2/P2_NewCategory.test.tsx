@@ -24,6 +24,7 @@ test("P2_NewCategory renders correctly", () => {
   expect(button).toBeVisible()
 })
 
+// made by Sofia
 test("P2_NewCategory handles input change", () => {
   render(<P2_NewCategory />)
 
