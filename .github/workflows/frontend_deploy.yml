@@ -92,7 +92,7 @@ jobs:
 
       - name: Install SST
         run: |
-          wget https://github.com/sst/ion/releases/download/v0.0.298/sst-linux-amd64.deb
+          wget https://github.com/sst/ion/releases/download/v0.0.288/sst-linux-amd64.deb
           sudo dpkg -i sst-linux-amd64.deb
           sst version
         working-directory: knowx
