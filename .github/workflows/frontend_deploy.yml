@@ -123,7 +123,9 @@ jobs:
 
       - name: Deploy
         id: deploy
-        run: sst deploy
+        run: |
+          sst deploy > deployment_output.txt
+          echo "deployment_output_path=deployment_output.txt" >> $GITHUB_OUTPUT
         working-directory: knowx
 
       - name: Extract URL from Deployment Output
