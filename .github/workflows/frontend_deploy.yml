@@ -66,6 +66,7 @@ jobs:
   deploy:
     # needs: test
     name: "Deploy to AWS"
+    environment: dev
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -86,20 +87,20 @@ jobs:
           sst version
       - name: Copy Secrets
         run: |
-          sst secret set APIRootRoute $API_ROOT_ROUTE
-          sst secret set DBUrl $DB_URL
-          sst secret set NextAuthUrl $NEXTAUTH_URL
-          sst secret set NextAuthSecret $NEXTAUTH_SECRET
-          sst secret set GithubId $GITHUB_ID
-          sst secret set GithubSecret $GITHUB_SECRET
-          sst secret set GoogleClientId $GOOGLE_CLIENT_ID
-          sst secret set GoogleClientSecret $GOOGLE_CLIENT_SECRET
-          sst secret set EmailServerHost $EMAIL_SERVER_HOST
-          sst secret set EmailServerPort $EMAIL_SERVER_PORT
-          sst secret set EmailServerUser $EMAIL_SERVER_USER
-          sst secret set EmailServerPassword $EMAIL_SERVER_PASSWORD
-          sst secret set EmailFrom $EMAIL_FROM
-          sst secret set SendgridApiKey $SENDGRID_API_KEY
+          sst secret set APIRootRoute $API_ROOT_ROUTE --stage dev
+          sst secret set DBUrl $DB_URL --stage dev
+          sst secret set NextAuthUrl $NEXTAUTH_URL --stage dev
+          sst secret set NextAuthSecret $NEXTAUTH_SECRET --stage dev
+          sst secret set GithubId $GITHUB_ID --stage dev
+          sst secret set GithubSecret $GITHUB_SECRET --stage dev
+          sst secret set GoogleClientId $GOOGLE_CLIENT_ID --stage dev
+          sst secret set GoogleClientSecret $GOOGLE_CLIENT_SECRET --stage dev
+          sst secret set EmailServerHost $EMAIL_SERVER_HOST --stage dev
+          sst secret set EmailServerPort $EMAIL_SERVER_PORT --stage dev
+          sst secret set EmailServerUser $EMAIL_SERVER_USER --stage dev
+          sst secret set EmailServerPassword $EMAIL_SERVER_PASSWORD --stage dev
+          sst secret set EmailFrom $EMAIL_FROM --stage dev
+          sst secret set SendgridApiKey $SENDGRID_API_KEY --stage dev
         working-directory: knowx
         env:
           API_ROOT_ROUTE: ${{ secrets.API_ROOT_ROUTE }}
@@ -124,7 +125,7 @@ jobs:
       - name: Deploy
         id: deploy
         run: |
-          sst deploy > deployment_output.txt
+          sst deploy --stage dev > deployment_output.txt
           echo "deployment_output_path=deployment_output.txt" >> $GITHUB_OUTPUT
         working-directory: knowx
 
