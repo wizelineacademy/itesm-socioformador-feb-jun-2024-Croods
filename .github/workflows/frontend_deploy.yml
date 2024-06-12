@@ -2,7 +2,7 @@ name: KnowX Frontend Deploy
 on:
   push:
     branches:
-      - main
+      - tests-Diego
 
 permissions:
   actions: write
@@ -80,15 +80,15 @@ jobs:
           role-duration-seconds: 1200
           aws-region: us-east-1
 
-      - name: Caller Identity
-        run: aws sts get-caller-identity
+      # - name: Caller Identity
+      #   run: aws sts get-caller-identity
 
-      - name: Setup AWS
-        run: |
-          sudo mkdir ~/.aws
-          sudo chmod 777 ~/.aws
-          sudo printf "[default]\nregion = us-east-1" > ~/.aws/config.txt
-          sudo printf "[default]\naws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}\naws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}" > ~/.aws/credentials.txt
+      # - name: Setup AWS
+      #   run: |
+      #     sudo mkdir ~/.aws
+      #     sudo chmod 777 ~/.aws
+      #     sudo printf "[default]\nregion = us-east-1" > ~/.aws/config.txt
+      #     sudo printf "[default]\naws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}\naws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}" > ~/.aws/credentials.txt
 
       - name: Install SST
         run: |
@@ -128,9 +128,6 @@ jobs:
           EMAIL_SERVER_PASSWORD: ${{ secrets.EMAIL_SERVER_PASSWORD }}
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
-
-      # - name: Run tmate
-      #   uses: mxschmitt/action-tmate@v2
 
       - name: Copy Secrets
         run: |
