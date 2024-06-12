@@ -29,8 +29,8 @@ test("Search History List Actions Render Test", async () => {
     within(row).getAllByRole("button")[0].click()
   })
 
-  expect(screen.getByTitle("Good Answer")).not.toHaveClass("text-primary")
-  expect(screen.getByTitle("Bad Answer")).toHaveClass("text-warning")
+  expect(screen.getAllByRole("menuitem")[0]).not.toHaveClass("text-primary")
+  expect(screen.getAllByRole("menuitem")[1]).toHaveClass("text-warning")
 
   act(() => {
     screen
@@ -48,8 +48,8 @@ test("Search History List Actions Render Test", async () => {
     within(row).getAllByRole("button")[0].click()
   })
 
-  expect(screen.getAllByTitle("Good Answer")[1]).toHaveClass("text-primary")
-  expect(screen.getAllByTitle("Bad Answer")[1]).not.toHaveClass("text-warning")
+  expect(screen.getAllByRole("menuitem")[0]).toHaveClass("text-primary")
+  expect(screen.getAllByRole("menuitem")[1]).not.toHaveClass("text-warning")
 })
 
 const mockLink = vi.fn()

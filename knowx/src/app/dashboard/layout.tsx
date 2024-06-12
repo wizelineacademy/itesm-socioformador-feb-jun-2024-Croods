@@ -13,7 +13,9 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <OverflowHiddenBody>{children}</OverflowHiddenBody>
+      <body>
+        <OverflowHiddenBody>{children}</OverflowHiddenBody>
+      </body>
     </html>
   )
 }

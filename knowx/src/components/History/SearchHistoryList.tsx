@@ -208,7 +208,7 @@ export default function SearchHistoryList({
                   >
                     <DropdownItem
                       key={"thumbs-up"}
-                      title="Good Answer"
+                      id="GoodAnswer"
                       className={item.feedback == 1 ? "text-primary" : ""}
                     >
                       <button
@@ -226,7 +226,7 @@ export default function SearchHistoryList({
                     </DropdownItem>
                     <DropdownItem
                       key={"thumbs-down"}
-                      title="Bad Answer"
+                      id="BadAnswer"
                       className={item.feedback == 0 ? "text-warning" : ""}
                     >
                       <button

@@ -9,6 +9,8 @@ import EllipsisVerticalIcon from "@heroicons/react/20/solid/EllipsisVerticalIcon
 import TrashIcon from "@heroicons/react/20/solid/TrashIcon"
 import { checkSession } from "@/actions/redirect"
 import { redirect } from "next/navigation"
+import { Suspense } from "react"
+import Loading from "./loading"
 
 export default async function Home() {
   let history: SimpleHistoryType[] = []
@@ -28,7 +30,9 @@ export default async function Home() {
     <main className="bg-backgroundLight dark:bg-backgroundDark">
       <Header isDashboard={false} title="Search History">
         <div className="flex w-2/3">
-          <SearchHistoryList history={history || []} />
+          <Suspense fallback={<Loading />}>
+            <SearchHistoryList history={history || []} />
+          </Suspense>
         </div>
       </Header>
       <InfoComponent title="History" icon={2}>

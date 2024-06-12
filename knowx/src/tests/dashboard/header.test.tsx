@@ -58,13 +58,11 @@ test("Header Correct Redirect Test", async () => {
   expect(mockLink).toHaveBeenCalledWith("/dashboard")
 
   // Test for the user menu redirect to history
-  act(() => {
-    fireEvent.click(screen.getByTitle("dropdown-btn-icon"))
-  })
+  fireEvent.click(screen.getByTitle("dropdown-btn-icon"))
 
-  act(() => {
-    fireEvent.click(screen.getByText("History"))
-  })
+  // act(() => {
+  fireEvent.click(screen.getByText("History"))
+  // })
 
   expect(mockLink).toHaveBeenCalledWith("/history")
 })
