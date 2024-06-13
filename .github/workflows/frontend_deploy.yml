@@ -75,6 +75,13 @@ jobs:
           CYPRESS_SITE_NAME: ${{ secrets.NEXTAUTH_URL }}
           CYPRESS_NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
 
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
       - name: Send Deploy Failure Message
         if: failure()
         run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=💥 Front Testing Failed"
