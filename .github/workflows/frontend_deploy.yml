@@ -51,6 +51,7 @@ jobs:
         with:
           build: npm run build
           start: npm run dev
+          browser: chrome
           wait-on: "http://localhost:3000"
           working-directory: knowx
 
