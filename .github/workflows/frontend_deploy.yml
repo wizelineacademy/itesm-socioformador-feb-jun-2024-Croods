@@ -46,15 +46,19 @@ jobs:
           envkey_SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
           directory: knowx
 
+      - name: Run Server
+        run: npm run dev
+        working-directory: knowx
+
       - name: Run Tests
         uses: cypress-io/github-action@v6
         with:
-          build: npm run build
-          start: npm run dev
           browser: chrome
-          headed: true
+          headless: true
           wait-on: "http://localhost:3000"
           working-directory: knowx
+        env:
+          CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
 
       - name: Upload screenshots
         uses: actions/upload-artifact@v4
