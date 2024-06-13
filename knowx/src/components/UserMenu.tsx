@@ -22,7 +22,8 @@ function MyDropdown({
     <Menu>
       <Menu.Button title="dropdown-btn">
         <ChevronDownIcon
-          className="-mr-1 ml-2 h-7 w-7 text-gray-600 "
+          className="-mr-1 ml-2 h-7 w-7 text-gray-600"
+          id="dropdown-btn-icon"
           title="dropdown-btn-icon"
           aria-hidden="true"
         />

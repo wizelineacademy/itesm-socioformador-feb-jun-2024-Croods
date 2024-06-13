@@ -191,6 +191,7 @@ export default function SearchHistoryList({
                     <Button
                       isIconOnly
                       size="sm"
+                      id="action-btn-icon"
                       variant="light"
                       color="primary"
                     >
@@ -245,6 +246,7 @@ export default function SearchHistoryList({
                     <DropdownItem
                       className="text-danger"
                       color="danger"
+                      id="DeleteButton"
                       onClick={() => deleteSearchLog(item.id)}
                     >
                       <div className="flex flex-row items-center gap-3">
