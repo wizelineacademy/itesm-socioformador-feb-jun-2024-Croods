@@ -51,8 +51,8 @@ jobs:
         with:
           build: npm run build
           start: npm run dev
-          working-directory: knowx
           wait-on: "http://localhost:3000"
+          working-directory: knowx
 
       - name: Upload screenshots
         uses: actions/upload-artifact@v4
@@ -72,6 +72,7 @@ jobs:
 
   unit-tests:
     name: "Frontend Unit Tests"
+    needs: test-e2e
     runs-on: ubuntu-latest
     defaults:
       run:
