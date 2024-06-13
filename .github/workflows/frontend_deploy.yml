@@ -67,6 +67,13 @@ jobs:
         with:
           build: npm run build
           start: npm start
+          working-directory: knowx
+        env:
+          CYPRESS_GITHUB_USERNAME: ${{ secrets.EMAIL_SERVER_USER }}
+          CYPRESS_GITHUB_PASSWORD: ${{ secrets.EMAIL_SERVER_PASSWORD }}
+          CYPRESS_COOKIE_NAME: "next-auth.session-token"
+          CYPRESS_SITE_NAME: ${{ secrets.NEXTAUTH_URL }}
+          CYPRESS_NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
 
       - name: Send Deploy Failure Message
         if: failure()
