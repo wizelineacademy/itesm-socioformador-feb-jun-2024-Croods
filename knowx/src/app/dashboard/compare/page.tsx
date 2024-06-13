@@ -1,3 +1,4 @@
+//src/components/compare/page.tsx
 import { Compare_Card } from "@/components/Compare/Compare_Card"
 import Header from "@/components/Header"
 import { getTitles } from "@/actions/compare"
