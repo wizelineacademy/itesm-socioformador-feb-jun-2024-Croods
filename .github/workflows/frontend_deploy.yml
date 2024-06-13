@@ -12,7 +12,6 @@ permissions:
 jobs:
   test-e2e:
     name: "Frontend E2E Tests"
-    environment: prod
     runs-on: ubuntu-latest
     env:
       API_ROOT_ROUTE: ${{ secrets.API_ROOT_ROUTE }}

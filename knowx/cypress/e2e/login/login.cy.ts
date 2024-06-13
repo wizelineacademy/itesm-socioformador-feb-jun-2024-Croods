@@ -19,7 +19,7 @@ describe("Authorization Check", () => {
   it("passes", () => {
     cy.visit("http://localhost:3000/auth")
     cy.login()
-    cy.visit("http://localhost:3000/auth").wait(1000)
+    cy.visit("http://localhost:3000/auth")
     cy.url().should("eq", "http://localhost:3000/dashboard")
   })
 })
