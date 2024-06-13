@@ -10,12 +10,12 @@ test("Search History List Correct Render Test", async () => {
   render(<SearchHistoryList history={mockHistory} />)
 
   expect(screen.getByText("test")).toBeVisible()
-  expect(screen.getByText("12/31/2020")).toBeVisible()
+  expect(screen.getByText("1/1/2021")).toBeVisible()
 
   expect(screen.getByText("test2")).toBeVisible()
-  expect(screen.getByText("1/1/2021")).toBeVisible()
-  expect(screen.getByText("test3")).toBeVisible()
   expect(screen.getByText("1/2/2021")).toBeVisible()
+  expect(screen.getByText("test3")).toBeVisible()
+  expect(screen.getByText("1/3/2021")).toBeVisible()
 })
 
 test("Search History List Actions Render Test", async () => {

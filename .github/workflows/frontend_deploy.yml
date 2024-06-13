@@ -80,7 +80,7 @@ jobs:
         if: failure()
         with:
           name: cypress-screenshots
-          path: cypress/screenshots
+          path: /home/runner/work/itesm-socioformador-feb-jun-2024-Croods/itesm-socioformador-feb-jun-2024-Croods/knowx/cypress/screenshots
 
       - name: Send Deploy Failure Message
         if: failure()
