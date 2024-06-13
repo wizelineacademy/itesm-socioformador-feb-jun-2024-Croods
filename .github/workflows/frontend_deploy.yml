@@ -31,7 +31,7 @@ jobs:
         uses: SpicyPizza/create-envfile@v2.0
         with:
           envkey_API_ROOT_ROUTE: ${{ secrets.API_ROOT_ROUTE }}
-          envkey_DB_URL: ${{ secrets.DB_URL }}
+          envkey_DB_URL: ${{ secrets.DEV_DB_URL }}
           envkey_NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
           envkey_NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           envkey_GITHUB_ID: ${{ secrets.NEXTAUTH_GITHUB_ID }}
