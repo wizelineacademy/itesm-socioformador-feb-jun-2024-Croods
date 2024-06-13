@@ -47,7 +47,7 @@ jobs:
           directory: knowx
 
       - name: Run Server
-        run: npm run dev
+        run: npm run dev &
         working-directory: knowx
 
       - name: Run Tests
