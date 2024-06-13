@@ -13,21 +13,6 @@ jobs:
   test-e2e:
     name: "Frontend E2E Tests"
     runs-on: ubuntu-latest
-    env:
-      API_ROOT_ROUTE: ${{ secrets.API_ROOT_ROUTE }}
-      DB_URL: ${{ secrets.DB_URL }}
-      NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
-      NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-      GITHUB_ID: ${{ secrets.NEXTAUTH_GITHUB_ID }}
-      GITHUB_SECRET: ${{ secrets.NEXTAUTH_GITHUB_SECRET }}
-      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-      EMAIL_SERVER_HOST: ${{ secrets.EMAIL_SERVER_HOST }}
-      EMAIL_SERVER_PORT: ${{ secrets.EMAIL_SERVER_PORT }}
-      EMAIL_SERVER_USER: ${{ secrets.EMAIL_SERVER_USER }}
-      EMAIL_SERVER_PASSWORD: ${{ secrets.EMAIL_SERVER_PASSWORD }}
-      EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
-      SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -68,26 +53,6 @@ jobs:
           start: npm run dev
           working-directory: knowx
           wait-on: "http://localhost:3000"
-        # env:
-        #   CYPRESS_GITHUB_USERNAME: ${{ secrets.EMAIL_SERVER_USER }}
-        #   CYPRESS_GITHUB_PASSWORD: ${{ secrets.EMAIL_SERVER_PASSWORD }}
-        #   CYPRESS_COOKIE_NAME: "next-auth.session-token"
-        #   CYPRESS_SITE_NAME: ${{ secrets.NEXTAUTH_URL }}
-        #   CYPRESS_NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-        #   API_ROOT_ROUTE: ${{ secrets.API_ROOT_ROUTE }}
-        #   DB_URL: ${{ secrets.DB_URL }}
-        #   NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
-        #   NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-        #   GITHUB_ID: ${{ secrets.NEXTAUTH_GITHUB_ID }}
-        #   GITHUB_SECRET: ${{ secrets.NEXTAUTH_GITHUB_SECRET }}
-        #   GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-        #   GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-        #   EMAIL_SERVER_HOST: ${{ secrets.EMAIL_SERVER_HOST }}
-        #   EMAIL_SERVER_PORT: ${{ secrets.EMAIL_SERVER_PORT }}
-        #   EMAIL_SERVER_USER: ${{ secrets.EMAIL_SERVER_USER }}
-        #   EMAIL_SERVER_PASSWORD: ${{ secrets.EMAIL_SERVER_PASSWORD }}
-        #   EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
-        #   SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
 
       - name: Upload screenshots
         uses: actions/upload-artifact@v4
