@@ -1,6 +1,6 @@
 // src/tests/history/HistoryOverview.test.tsx
 
-// made by Sofia
+// Vitest (Sofía Cantú A01571120)
 import { render, screen } from "@testing-library/react"
 import HistoryOverview from "@/components/History/HistoryOverview"
 import { vi } from "vitest"
