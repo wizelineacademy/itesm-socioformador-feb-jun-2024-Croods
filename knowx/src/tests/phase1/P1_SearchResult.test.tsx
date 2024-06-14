@@ -1,5 +1,4 @@
-// made by ozner
-
+// Vitest (Ozner Leyva A01742377)
 import { render, screen, fireEvent } from "@testing-library/react"
 import { expect, test, vi } from "vitest"
 import P1_SearchResult from "@/components/Phase1/P1_SearchResult"
