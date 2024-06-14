@@ -1,6 +1,6 @@
 // src/tests/informational/InfoButton.test.tsx
 
-// made by Sofia
+// Vitest (Sofía Cantú A01571120)
 import { render, screen, fireEvent } from "@testing-library/react"
 import InfoButton from "@/components/informational/InfoButton"
 import { expect, vi } from "vitest"
