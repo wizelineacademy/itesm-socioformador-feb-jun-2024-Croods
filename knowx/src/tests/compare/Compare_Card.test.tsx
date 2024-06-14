@@ -1,6 +1,6 @@
 // src/tests/compare/Compare_Card.test.tsx
 
-// made by Sofia
+// Vitest (Sofía Cantú A01571120)
 import { render, screen, fireEvent } from "@testing-library/react"
 import { Compare_Card } from "@/components/Compare/Compare_Card"
 import { Results } from "@/interfaces/Phase3"
