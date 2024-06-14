@@ -6,7 +6,7 @@ import { CheckCircleIcon, ChevronDownIcon } from "@heroicons/react/20/solid"
 import { useState } from "react"
 import { Results, ServiceCategories } from "@/interfaces/Phase3"
 
-interface CardProps {
+export interface CardProps {
   initialTitle: string
   initialDescription: string
   initialData: ServiceCategories[]
