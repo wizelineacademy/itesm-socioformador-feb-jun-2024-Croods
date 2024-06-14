@@ -29,6 +29,7 @@ const P1_ResultsWrapper = (props: {
             isLoading={isLoading}
             variant="bordered"
             color="default"
+            title="searchButton"
             className={`mx-auto my-5 w-[200px] overflow-hidden text-wrap rounded-xl p-5 text-center text-xl font-bold text-black dark:text-white`}
             onClick={() => {
               setIsLoading(true)

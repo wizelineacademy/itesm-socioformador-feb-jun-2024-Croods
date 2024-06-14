@@ -89,6 +89,8 @@ const InputBar = ({ history }: { history: SimpleHistoryType[] | [] }) => {
         className="w-30 absolute right-0 h-20 rounded-none rounded-r-md border-none px-5 dark:dark"
         color="default"
         variant="faded"
+        id="searchButton"
+        title="searchButton"
         onClick={() => {
           setIsLoading(true)
           clearSearches()
@@ -102,6 +104,8 @@ const InputBar = ({ history }: { history: SimpleHistoryType[] | [] }) => {
             className="relative left-0 right-0 top-0"
             src="/arrow-right.svg"
             alt="Search Arrow Right"
+            id="searchArrowRight"
+            title="searchArrowRight"
             width={40}
             height={30}
             priority
