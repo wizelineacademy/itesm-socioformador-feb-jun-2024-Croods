@@ -71,6 +71,7 @@ const InputBar = ({ history }: { history: SimpleHistoryType[] | [] }) => {
     <div className="relative w-5/6">
       <input
         name="search"
+        id="searchInput"
         placeholder="Search for a topic..."
         className="left-20 right-20 h-20 w-full rounded-lg bg-black px-8 text-lg text-white dark:bg-backgroundLight dark:text-black"
         value={query}
@@ -85,7 +86,6 @@ const InputBar = ({ history }: { history: SimpleHistoryType[] | [] }) => {
         }}
       ></input>
       <Button
-        title="Search Button"
         isLoading={isLoading}
         className="w-30 absolute right-0 h-20 rounded-none rounded-r-md border-none px-5 dark:dark"
         color="default"

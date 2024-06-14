@@ -15,6 +15,7 @@ export const P2_DynamicButton = (props: P2_DynamicButtonProps) => {
     <Button
       isLoading={isLoading}
       title="submitButton"
+      id="submitButton"
       className="absolute right-0 aspect-square h-full rounded-full bg-white p-1 text-center text-4xl text-black"
       onClick={() => {
         setIsLoading(true)
