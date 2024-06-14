@@ -1,6 +1,6 @@
 // src/tests/compare/Compare_Button.test.tsx
 
-// made by Sofia
+// Vitest (Sofía Cantú A01571120)
 import { render, screen, fireEvent } from "@testing-library/react"
 import { Compare_Button } from "@/components/Compare/Compare_Button"
 import { useRouter } from "next/navigation"
