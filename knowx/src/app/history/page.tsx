@@ -28,13 +28,13 @@ export default async function Home() {
 
   return (
     <main className="bg-backgroundLight dark:bg-backgroundDark">
-      <Header isDashboard={false} title="Search History">
-        <div className="flex w-2/3">
-          <Suspense fallback={<Loading />}>
+      <Suspense fallback={<Loading />}>
+        <Header isDashboard={false} title="Search History">
+          <div className="flex w-2/3">
             <SearchHistoryList history={history || []} />
-          </Suspense>
-        </div>
-      </Header>
+          </div>
+        </Header>
+      </Suspense>
       <InfoComponent title="History" icon={2}>
         <>
           <p>

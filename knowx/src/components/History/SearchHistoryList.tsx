@@ -148,7 +148,7 @@ export default function SearchHistoryList({
       sortDescriptor={historyList.sortDescriptor}
       onSortChange={historyList.sort}
       selectionMode="single"
-      className="h-auto w-full min-w-full table-auto overflow-hidden rounded-lg dark:dark"
+      className="h-auto max-h-[70vh] w-full min-w-full table-auto overflow-hidden rounded-lg dark:dark"
       aria-label="search history table"
       onRowAction={(key: Key) => openItem(Number(key))}
     >
