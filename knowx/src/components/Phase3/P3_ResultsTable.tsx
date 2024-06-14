@@ -110,7 +110,7 @@ export const P3_ResultsTable = ({
         <Table
           color={"primary"}
           selectionMode="multiple"
-          className="dark:pretty-scrollbar 2x:min-w-[90vw] h-full w-[90vw] min-w-[60vw] max-w-[50vw] table-auto overflow-auto rounded-lg dark:dark"
+          className="dark:pretty-scrollbar 2x:min-w-[90vw] h-full w-[90vw] min-w-[60vw] max-w-[80vw] table-auto overflow-auto rounded-lg dark:dark"
           aria-label="search history table"
           onSelectionChange={(keys) => {
             setCurrentRows(keys as Set<string>)

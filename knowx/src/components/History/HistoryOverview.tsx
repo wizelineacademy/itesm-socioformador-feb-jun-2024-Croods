@@ -44,8 +44,10 @@ const transformToArray = (data: string) => {
 
 export default function HistoryOverview({
   history,
+  children,
 }: {
   history: FullHistoryType
+  children?: React.ReactNode
 }) {
   const [searchHistory, setSearchHistory] = useState<FullHistoryType>(history)
 
@@ -84,7 +86,7 @@ export default function HistoryOverview({
         </Chip>
       )}
 
-      <ButtonGroup className="absolute bottom-0 mb-5 dark:dark">
+      <ButtonGroup className="absolute bottom-0 left-5 mb-5 dark:dark">
         <Button
           isIconOnly
           color="default"
@@ -278,6 +280,8 @@ export default function HistoryOverview({
           )}
         </Card>
       </div>
+
+      {children}
     </div>
   )
 }
