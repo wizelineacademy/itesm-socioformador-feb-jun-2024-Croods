@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - tests-Diego
+      - main
 
 permissions:
   actions: write
@@ -38,6 +39,8 @@ jobs:
           envkey_GITHUB_SECRET: ${{ secrets.NEXTAUTH_GITHUB_SECRET }}
           envkey_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           envkey_GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          envkey_SLACK_CLIENT_ID: ${{ secrets.SLACK_CLIENT_ID }}
+          envkey_SLACK_CLIENT_SECRET: ${{ secrets.SLACK_CLIENT_SECRET }}
           envkey_EMAIL_SERVER_HOST: ${{ secrets.EMAIL_SERVER_HOST }}
           envkey_EMAIL_SERVER_PORT: ${{ secrets.EMAIL_SERVER_PORT }}
           envkey_EMAIL_SERVER_USER: ${{ secrets.EMAIL_SERVER_USER }}
@@ -98,102 +101,10 @@ jobs:
       - name: run tests
         run: npm run test:ci
 
-      # - name: Upload coverage reports to Codecov
-      #   uses: codecov/codecov-action@v4.0.1
-      #   with:
-      #     token: ${{ secrets.CODECOV_TOKEN }}
-      #     fail_ci_if_error: true
-
-  deploy-dev:
+  deploy:
     needs: [test-e2e, unit-tests]
-    name: "Deploy to AWS - DEV"
-    environment: dev
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Cofigure AWS
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region: us-east-1
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-      - name: Install SST
-        run: |
-          ls
-          wget https://github.com/sst/ion/releases/download/v0.0.193/sst-linux-amd64.deb
-          sudo dpkg -i sst-linux-amd64.deb
-          sst version
-      - name: Copy Secrets
-        run: |
-          sst secret set APIRootRoute $API_ROOT_ROUTE --stage dev
-          sst secret set DBUrl $DB_URL --stage dev
-          sst secret set NextAuthUrl $NEXTAUTH_URL --stage dev
-          sst secret set NextAuthSecret $NEXTAUTH_SECRET --stage dev
-          sst secret set GithubId $GITHUB_ID --stage dev
-          sst secret set GithubSecret $GITHUB_SECRET --stage dev
-          sst secret set GoogleClientId $GOOGLE_CLIENT_ID --stage dev
-          sst secret set GoogleClientSecret $GOOGLE_CLIENT_SECRET --stage dev
-          sst secret set EmailServerHost $EMAIL_SERVER_HOST --stage dev
-          sst secret set EmailServerPort $EMAIL_SERVER_PORT --stage dev
-          sst secret set EmailServerUser $EMAIL_SERVER_USER --stage dev
-          sst secret set EmailServerPassword $EMAIL_SERVER_PASSWORD --stage dev
-          sst secret set EmailFrom $EMAIL_FROM --stage dev
-          sst secret set SendgridApiKey $SENDGRID_API_KEY --stage dev
-        working-directory: knowx
-        env:
-          API_ROOT_ROUTE: ${{ secrets.API_ROOT_ROUTE }}
-          DB_URL: ${{ secrets.DB_URL }}
-          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
-          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-          GITHUB_ID: ${{ secrets.NEXTAUTH_GITHUB_ID }}
-          GITHUB_SECRET: ${{ secrets.NEXTAUTH_GITHUB_SECRET }}
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          EMAIL_SERVER_HOST: ${{ secrets.EMAIL_SERVER_HOST }}
-          EMAIL_SERVER_PORT: ${{ secrets.EMAIL_SERVER_PORT }}
-          EMAIL_SERVER_USER: ${{ secrets.EMAIL_SERVER_USER }}
-          EMAIL_SERVER_PASSWORD: ${{ secrets.EMAIL_SERVER_PASSWORD }}
-          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
-          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
-
-      - name: NPM install
-        run: npm install
-        working-directory: knowx
-
-      - name: Deploy
-        id: deploy
-        run: |
-          sst deploy --stage dev > deployment_output.txt
-          echo "deployment_output_path=deployment_output.txt" >> $GITHUB_OUTPUT
-        working-directory: knowx
-
-      - name: Extract URL from Deployment Output
-        id: extract_url
-        run: |
-          output=$(cat ${{ steps.deploy.outputs.deployment_output_path }})
-          urls=$(echo "$output" | grep -oE 'https?://[^ ]+')
-          last_url=$(echo "$urls" | tail -n1)
-          echo "url=$last_url" >> $GITHUB_OUTPUT
-        working-directory: knowx
-
-      - name: Send Deploy Failure Message
-        if: failure()
-        run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚨 Frontend Deploy Failed"
-
-      - name: Send Deploy Success Message
-        if: success()
-        run: |
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=✅ Frontend DEV Deploy Successful"
-          url=${{ steps.extract_url.outputs.url }}
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployment DEV URL: $url"
-
-  deploy-prod:
-    needs: [test-e2e, unit-tests, deploy-dev]
     name: "Deploy to AWS - PRODUCTION"
-    environment: dev
+    environment: prod
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -222,6 +133,8 @@ jobs:
           sst secret set GithubSecret $GITHUB_SECRET --stage prod
           sst secret set GoogleClientId $GOOGLE_CLIENT_ID --stage prod
           sst secret set GoogleClientSecret $GOOGLE_CLIENT_SECRET --stage prod
+          sst secret set SlackClientId $SLACK_CLIENT_ID --stage prod
+          sst secret set SlackClientSecret $SLACK_CLIENT_SECRET --stage prod
           sst secret set EmailServerHost $EMAIL_SERVER_HOST --stage prod
           sst secret set EmailServerPort $EMAIL_SERVER_PORT --stage prod
           sst secret set EmailServerUser $EMAIL_SERVER_USER --stage prod
@@ -238,6 +151,8 @@ jobs:
           GITHUB_SECRET: ${{ secrets.NEXTAUTH_GITHUB_SECRET }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          SLACK_CLIENT_ID: ${{ secrets.SLACK_CLIENT_ID }}
+          SLACK_CLIENT_SECRET: ${{ secrets.SLACK_CLIENT_SECRET }}
           EMAIL_SERVER_HOST: ${{ secrets.EMAIL_SERVER_HOST }}
           EMAIL_SERVER_PORT: ${{ secrets.EMAIL_SERVER_PORT }}
           EMAIL_SERVER_USER: ${{ secrets.EMAIL_SERVER_USER }}

@@ -2,6 +2,7 @@ name: KnowX Backend Deploy
 on:
   push:
     branches:
+      - main
       - DEV
 
 jobs:
