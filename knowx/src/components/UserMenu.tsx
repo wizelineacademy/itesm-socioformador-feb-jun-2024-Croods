@@ -20,9 +20,11 @@ function MyDropdown({
 }) {
   return (
     <Menu>
-      <Menu.Button>
+      <Menu.Button title="dropdown-btn">
         <ChevronDownIcon
-          className="-mr-1 ml-2 h-7 w-7 text-gray-600 "
+          className="-mr-1 ml-2 h-7 w-7 text-gray-600"
+          id="dropdown-btn-icon"
+          title="dropdown-btn-icon"
           aria-hidden="true"
         />
       </Menu.Button>
@@ -61,6 +63,7 @@ function MyDropdown({
                   aria-hidden="true"
                 />
                 <button
+                  title="History Button"
                   onClick={() => navigateToHistory()}
                   className="w-full rounded-lg p-3  text-left text-gray-600"
                 >
@@ -108,6 +111,7 @@ export default function UserMenu({
   return (
     <div
       id="UserMenu"
+      title="User Menu"
       className={`flex cursor-pointer items-center justify-between ${className}`}
     >
       <div className="relative flex items-center rounded-lg bg-[#4040401a] p-3 dark:bg-[#d9d9d91a]">

@@ -148,7 +148,7 @@ export default function SearchHistoryList({
       sortDescriptor={historyList.sortDescriptor}
       onSortChange={historyList.sort}
       selectionMode="single"
-      className="h-auto w-full min-w-full table-auto overflow-hidden rounded-lg dark:dark"
+      className="h-auto max-h-[70vh] w-full min-w-full table-auto overflow-hidden rounded-lg dark:dark"
       aria-label="search history table"
       onRowAction={(key: Key) => openItem(Number(key))}
     >
@@ -191,6 +191,7 @@ export default function SearchHistoryList({
                     <Button
                       isIconOnly
                       size="sm"
+                      id="action-btn-icon"
                       variant="light"
                       color="primary"
                     >
@@ -208,7 +209,7 @@ export default function SearchHistoryList({
                   >
                     <DropdownItem
                       key={"thumbs-up"}
-                      title="Good Answer"
+                      id="GoodAnswer"
                       className={item.feedback == 1 ? "text-primary" : ""}
                     >
                       <button
@@ -226,7 +227,7 @@ export default function SearchHistoryList({
                     </DropdownItem>
                     <DropdownItem
                       key={"thumbs-down"}
-                      title="Bad Answer"
+                      id="BadAnswer"
                       className={item.feedback == 0 ? "text-warning" : ""}
                     >
                       <button
@@ -245,6 +246,7 @@ export default function SearchHistoryList({
                     <DropdownItem
                       className="text-danger"
                       color="danger"
+                      id="DeleteButton"
                       onClick={() => deleteSearchLog(item.id)}
                     >
                       <div className="flex flex-row items-center gap-3">

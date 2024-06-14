@@ -44,9 +44,7 @@ export default function InformationalModal({
 
             {title}
           </ModalHeader>
-          <ModalBody>
-            <p>{body}</p>
-          </ModalBody>
+          <ModalBody>{body}</ModalBody>
         </>
       </ModalContent>
     </Modal>

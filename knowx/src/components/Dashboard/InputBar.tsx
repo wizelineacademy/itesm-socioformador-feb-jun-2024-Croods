@@ -86,6 +86,7 @@ const InputBar = ({ history }: { history: SimpleHistoryType[] | [] }) => {
         }}
       ></input>
       <Button
+        title="Search Button"
         isLoading={isLoading}
         className="w-30 absolute right-0 h-20 rounded-none rounded-r-md border-none px-5 dark:dark"
         color="default"

@@ -174,7 +174,17 @@ export async function categorySearchFunction(query: string) {
 export async function getFullSearch() {
   const MAX_TRYS = 5
   let trys = 0
-  let data: Results[] = []
+  let data: Results = {
+    results: [
+      {
+        Name: "",
+        Description: "",
+        Categories: [],
+      },
+    ],
+    categories: [],
+  }
+  let validJSON: boolean = false
 
   const session = await getServerSession()
   const userId = await getUserId({ newEmail: session?.user?.email || "" })
@@ -224,7 +234,7 @@ export async function getFullSearch() {
     u.append("topic", currentQuery)
   }
 
-  while (trys < MAX_TRYS && data.length === 0) {
+  while (trys < MAX_TRYS && data.categories.length === 0 && !validJSON) {
     const res = await fetch(`${process.env.API_ROOT_ROUTE}/search`, {
       method: "POST",
       body: u,
@@ -236,11 +246,42 @@ export async function getFullSearch() {
     if (matched) {
       try {
         data = JSON.parse(matched[0])
+
+        const categoriesFound = data.categories
+
+        if (!categoriesFound.includes("Description")) {
+          categoriesFound.concat(["Description"])
+        }
+
+        validJSON = true
+
+        data!.results[0].Categories.forEach((category) => {
+          if (!categoriesFound.includes(category.Name)) {
+            validJSON = false
+            data = {
+              results: [
+                {
+                  Name: "",
+                  Description: "",
+                  Categories: [],
+                },
+              ],
+              categories: [],
+            }
+          }
+        })
       } catch (e) {
-        data = []
+        data = {
+          results: [
+            {
+              Name: "",
+              Description: "",
+              Categories: [],
+            },
+          ],
+          categories: [],
+        }
       }
-    } else {
-      data = []
     }
 
     trys++
@@ -248,7 +289,7 @@ export async function getFullSearch() {
 
   setCookie(COMPARE_DATA_KEY, JSON.stringify(data))
 
-  logSearchResults({
+  await logSearchResults({
     userId: userId,
     searchId: parseInt(getCookie(CURRENT_SEARCH_ID_KEY) || ""),
     searchResults: JSON.stringify(data),

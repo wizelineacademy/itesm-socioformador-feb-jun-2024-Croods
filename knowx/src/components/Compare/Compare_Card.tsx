@@ -2,9 +2,10 @@
 
 import React from "react"
 import { Menu } from "@headlessui/react"
-import { CheckCircleIcon, ChevronDownIcon } from "@heroicons/react/20/solid"
+import { ChevronDownIcon } from "@heroicons/react/20/solid"
 import { useState } from "react"
 import { Results, ServiceCategories } from "@/interfaces/Phase3"
+import { Chip } from "@nextui-org/react"
 
 export interface CardProps {
   initialTitle: string
@@ -61,10 +62,11 @@ export const Compare_Card = ({
           ))}
         </Menu.Items>
       </Menu>
-      <hr className="my-8 h-px border-2 bg-gray-600 dark:bg-gray-700" />
-      <p className="mb-8 text-center text-backgroundDark dark:text-backgroundLight">
+      <hr className="my-8 h-px rounded-lg border-2 bg-gray-600 dark:bg-gray-700" />
+      <p className="mb-8 text-center text-lg text-backgroundDark dark:text-backgroundLight">
         {description}
       </p>
+
       <ul className="space-y-4 text-backgroundDark dark:text-backgroundLight">
         {data.map(
           (category, index) =>
@@ -74,13 +76,15 @@ export const Compare_Card = ({
                 className="flex flex-row items-center"
                 key={`${category.Name}: ${category.Value}`}
               >
-                <CheckCircleIcon className="mr-3 h-5 w-5" />
+                {/* <CheckCircleIcon className="mr-3 h-5 w-5" /> */}
                 <li
                   key={index}
-                  className="flex items-center text-backgroundDark dark:text-backgroundLight"
+                  className="mb-2 flex w-full flex-col justify-between text-backgroundDark dark:text-backgroundLight"
                 >
-                  {" "}
-                  {`${category.Name}: ${category.Value}`}
+                  <Chip color="secondary" variant="flat">
+                    <p className="font-bold">{category.Name}</p>
+                  </Chip>
+                  <div className="ml-4 mt-2 opacity-90">{category.Value}</div>
                 </li>
               </div>
             ),

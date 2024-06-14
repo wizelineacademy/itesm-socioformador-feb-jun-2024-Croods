@@ -14,7 +14,7 @@ export const Compare_Button = ({
   return (
     <Button
       variant="flat"
-      color="success"
+      color="primary"
       className="mx-auto my-5 w-[200px] rounded-xl p-5"
       onClick={() => {
         !isHistory ? backToPhase3() : router.back()
