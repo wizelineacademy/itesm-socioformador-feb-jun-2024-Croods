@@ -3,7 +3,7 @@
 describe("Auth Redirect", () => {
   it("passes", () => {
     // Check if the user is redirected to the auth page when trying to access other pages
-    cy.visit("http://localhost:3000").wait(1000)
+    cy.visit("http://localhost:3000")
     cy.url().should("eq", "http://localhost:3000/auth")
 
     // Check if all routes redirect to the auth page
@@ -18,8 +18,11 @@ describe("Auth Redirect", () => {
 describe("Authorization Check", () => {
   it("passes", () => {
     cy.visit("http://localhost:3000/auth")
+    cy.wait(8000)
     cy.login()
-    cy.visit("http://localhost:3000/")
+    cy.wait(8000)
+    cy.visit("http://localhost:3000/dashboard")
+    cy.wait(8000)
     cy.url().should("eq", "http://localhost:3000/dashboard")
   })
 })

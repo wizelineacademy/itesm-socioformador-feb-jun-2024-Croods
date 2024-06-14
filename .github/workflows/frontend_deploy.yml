@@ -54,7 +54,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
-          headless: true
+          headed: true
           wait-on: "http://localhost:3000"
           working-directory: knowx
         env:

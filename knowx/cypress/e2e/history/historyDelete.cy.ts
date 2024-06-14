@@ -5,9 +5,11 @@ describe("History Loading", () => {
     // Prepare the database
     cy.request("http://localhost:3000/api/testing")
     cy.login()
+    cy.wait(8000)
     cy.visit("http://localhost:3000/")
     cy.get("#dropdown-btn-icon").click()
     cy.get("button").contains("History").click()
+    cy.wait(10000)
 
     // Check that the history is loaded
     cy.get("table").should("exist")
