@@ -21,6 +21,7 @@ describe("Prueba de almacenamiento de dislike en base de datos para historial", 
     cy.get("td").should("contain", "test3")
     // Select bad answer
     cy.get('button[title="action-btn-icon-1"]').click()
+    cy.wait(5000)
     cy.get("#BadAnswer").should("not.have.class", "pointer-events-none")
     cy.get("#BadAnswer").click()
     // Reload window
@@ -28,6 +29,7 @@ describe("Prueba de almacenamiento de dislike en base de datos para historial", 
     cy.wait(10000)
     // Check that item is still disliked
     cy.get('button[title="action-btn-icon-1"]').click()
+    cy.wait(5000)
     cy.get("#BadAnswer").should("have.class", "pointer-events-none")
   })
 })
