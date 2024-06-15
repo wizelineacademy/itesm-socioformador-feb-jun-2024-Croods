@@ -7,6 +7,7 @@ describe("History Loading", () => {
     cy.login()
     cy.wait(8000)
     cy.visit("http://localhost:3000/")
+    cy.wait(8000)
     cy.get("#dropdown-btn-icon").click()
     cy.get("button").contains("History").click()
     cy.wait(10000)

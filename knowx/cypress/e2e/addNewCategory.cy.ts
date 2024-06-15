@@ -7,6 +7,7 @@ describe("Make a Search", () => {
     cy.login()
     cy.wait(8000)
     cy.visit("http://localhost:3000/dashboard")
+    cy.wait(8000)
 
     // Asegura que el input sea visible antes de interactuar con él
     cy.get('input[placeholder="Search for a topic..."]', { timeout: 10000 })

@@ -7,6 +7,7 @@ describe("View History", () => {
     cy.login()
     cy.wait(8000)
     cy.visit("http://localhost:3000/history")
+    cy.wait(8000)
 
     // Verifica que la tabla esté visible
     cy.get("table[aria-label='search history table']").should("be.visible")
