@@ -1,0 +1,100 @@
+{
+  "finalAnswer": {
+    "Netflix": {
+      "Description": "Netflix is a streaming service that offers a wide variety of TV shows, movies, documentaries, and anime, along with award-winning Netflix originals.",
+      "Price": "$7 and up",
+      "Content Library": "Extensive",
+      "Streaming Quality": "Up to 4K",
+      "Offline Viewing": "Yes",
+      "Supported Devices": "Most devices",
+      "Family Sharing": "Yes, up to 4 screens",
+      "Ad-Free Experience": "Yes, except for Basic with Ads tier"
+    },
+    "Disney Plus": {
+      "Description": "Disney Plus is a streaming service that offers content from Disney, Pixar, Marvel, Star Wars, National Geographic, and more, including exclusive original series and films.",
+      "Price": "$8 and up",
+      "Content Library": "Extensive"
+    },
+    "HBO Max": {
+      "Description": "HBO Max includes all your HBO favorites plus blockbuster movies, series, and exclusive Max Originals.",
+      "Price": "$15 and up",
+      "Content Library": "Extensive",
+      "Streaming Quality": "Up to 4K",
+      "Offline Viewing": "Yes",
+      "Supported Devices": "Most devices",
+      "Family Sharing": "Yes, up to 3 screens",
+      "Ad-Free Experience": "Yes"
+    },
+    "Amazon Prime Video": {
+      "Description": "Amazon Prime Video offers a wide selection of movies, TV shows, and Prime Originals.",
+      "Price": "$9 and up",
+      "Content Library": "Extensive",
+      "Streaming Quality": "Up to 4K",
+      "Offline Viewing": "Yes",
+      "Supported Devices": "Most devices",
+      "Family Sharing": "Yes, up to 3 screens",
+      "Ad-Free Experience": "Yes"
+    },
+    "Hulu": {
+      "Description": "Hulu streams thousands of shows and movies, including original programming, current episodes, past seasons, hit movies, and more.",
+      "Price": "$6 and up",
+      "Content Library": "Extensive",
+      "Streaming Quality": "Up to 4K",
+      "Offline Viewing": "No",
+      "Supported Devices": "Most devices",
+      "Family Sharing": "Yes, up to 2 screens",
+      "Ad-Free Experience": "No"
+    },
+    "Peacock": {
+      "Description": "Peacock delivers a wide array of live and on-demand content from NBCUniversal, including shows, movies, and sports.",
+      "Price": "Free and up",
+      "Content Library": "Moderate",
+      "Streaming Quality": "Up to 1080p",
+      "Offline Viewing": "No",
+      "Supported Devices": "Most devices",
+      "Family Sharing": "Yes, up to 3 screens",
+      "Ad-Free Experience": "No"
+    },
+    "Apple TV+": {
+      "Description": "Apple TV+ features Apple Originals — award-winning series, compelling dramas, groundbreaking documentaries, kids’ entertainment, comedies, and more.",
+      "Price": "$5 and up",
+      "Content Library": "Moderate",
+      "Streaming Quality": "Up to 4K",
+      "Offline Viewing": "Yes",
+      "Supported Devices": "Apple devices and most smart TVs",
+      "Family Sharing": "Yes, up to 6 screens",
+      "Ad-Free Experience": "Yes"
+    },
+    "Paramount+": {
+      "Description": "Paramount+ includes shows from CBS, Nickelodeon, MTV, BET, Comedy Central, and movies from Paramount Pictures.",
+      "Price": "$5 and up",
+      "Content Library": "Moderate",
+      "Streaming Quality": "Up to 4K",
+      "Offline Viewing": "Yes",
+      "Supported Devices": "Most devices",
+      "Family Sharing": "Yes, up to 2 screens",
+      "Ad-Free Experience": "No"
+    },
+    "YouTube Premium": {
+      "Description": "YouTube Premium offers an ad-free experience across all of YouTube, with additional features and access to YouTube Music.",
+      "Price": "$12 and up",
+      "Content Library": "Extensive",
+      "Streaming Quality": "Varies",
+      "Offline Viewing": "Yes",
+      "Supported Devices": "Most devices",
+      "Family Sharing": "Yes, up to 5 screens",
+      "Ad-Free Experience": "Yes"
+    },
+    "Crunchyroll": {
+      "Description": "Crunchyroll is the world’s most popular anime brand, delivering a vast library of anime titles directly to your screen.",
+      "Price": "$8 and up",
+      "Content Library": "Extensive",
+      "Streaming Quality": "Up to 1080p",
+      "Offline Viewing": "Yes",
+      "Supported Devices": "Most devices",
+      "Family Sharing": "Yes, up to 4 screens",
+      "Ad-Free Experience": "Yes"
+    }
+  },
+  "selectedSoftware": ["Netflix", "Disney Plus", "HBO Max"]
+}

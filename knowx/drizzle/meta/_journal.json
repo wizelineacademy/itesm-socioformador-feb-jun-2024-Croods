@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1716318832715,
+      "tag": "0000_dusty_mockingbird",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1716339663635,
+      "tag": "0001_sleepy_violations",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1716339692039,
+      "tag": "0002_medical_virginia_dare",
+      "breakpoints": true
+    }
+  ]
+}
