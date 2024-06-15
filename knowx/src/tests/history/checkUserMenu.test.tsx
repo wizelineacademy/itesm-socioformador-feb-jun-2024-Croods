@@ -21,7 +21,7 @@ test("Check User Menu on Dashboard", async () => {
   )
 
   act(() => {
-    screen.getByRole("button", { name: "" }).click()
+    screen.getByRole("button", { name: "dropdown-btn" }).click()
   })
 
   expect(screen.getByText("History")).toBeVisible()
@@ -43,7 +43,7 @@ test("Check User Menu on History", async () => {
   )
 
   act(() => {
-    screen.getByRole("button", { name: "" }).click()
+    screen.getByRole("button", { name: "dropdown-btn" }).click()
   })
 
   expect(screen.getByText("Dashboard")).toBeVisible()

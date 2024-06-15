@@ -66,7 +66,7 @@ test("Input Bar Correct Redirect Test", async () => {
 
   // Click on the search button
   act(() => {
-    screen.getByTitle("Search Button").click()
+    screen.getByTitle("searchButton").click()
   })
 
   // Check if the navigate function was called with the correct argument
@@ -83,7 +83,7 @@ test("Input Bar Correct Redirect Test 2", async () => {
 
   // Click on the search button
   act(() => {
-    screen.getByTitle("Search Button").click()
+    screen.getByTitle("searchButton").click()
   })
 
   // Check if the navigate function was called with the correct argument

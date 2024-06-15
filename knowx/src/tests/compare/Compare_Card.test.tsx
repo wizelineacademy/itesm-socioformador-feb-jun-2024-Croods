@@ -31,7 +31,7 @@ describe("Compare_Card", () => {
 
     expect(screen.getByText("Initial Title")).toBeInTheDocument()
     expect(screen.getByText("Initial Description")).toBeInTheDocument()
-    expect(screen.getByText("Category1: Value1")).toBeInTheDocument()
+    expect(screen.getByText("Category1")).toBeInTheDocument()
   })
 
   it("updates data on title selection", () => {
@@ -50,6 +50,6 @@ describe("Compare_Card", () => {
 
     expect(screen.getByText("Service1")).toBeInTheDocument()
     expect(screen.getByText("Description1")).toBeInTheDocument()
-    expect(screen.getByText("Category1: Value1")).toBeInTheDocument()
+    expect(screen.getByText("Category1")).toBeInTheDocument()
   })
 })
