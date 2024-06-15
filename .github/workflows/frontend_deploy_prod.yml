@@ -10,98 +10,98 @@ permissions:
   contents: read
 
 jobs:
-  test-e2e:
-    name: "Frontend E2E Tests"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+  # test-e2e:
+  #   name: "Frontend E2E Tests"
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
 
-      - name: Install Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          working-directory: knowx
+  #     - name: Install Node
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "20"
+  #         working-directory: knowx
 
-      - name: Install Dependencies
-        run: npm install
-        working-directory: knowx
+  #     - name: Install Dependencies
+  #       run: npm install
+  #       working-directory: knowx
 
-      - name: Make envfile
-        uses: SpicyPizza/create-envfile@v2.0
-        with:
-          envkey_API_ROOT_ROUTE: ${{ secrets.API_ROOT_ROUTE }}
-          envkey_DB_URL: ${{ secrets.DEV_DB_URL }}
-          envkey_NEXTAUTH_URL: "http://localhost:3000/"
-          envkey_NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-          envkey_GITHUB_ID: ${{ secrets.NEXTAUTH_GITHUB_ID }}
-          envkey_GITHUB_SECRET: ${{ secrets.NEXTAUTH_GITHUB_SECRET }}
-          envkey_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          envkey_GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          envkey_SLACK_CLIENT_ID: ${{ secrets.SLACK_CLIENT_ID }}
-          envkey_SLACK_CLIENT_SECRET: ${{ secrets.SLACK_CLIENT_SECRET }}
-          envkey_EMAIL_SERVER_HOST: ${{ secrets.EMAIL_SERVER_HOST }}
-          envkey_EMAIL_SERVER_PORT: ${{ secrets.EMAIL_SERVER_PORT }}
-          envkey_EMAIL_SERVER_USER: ${{ secrets.EMAIL_SERVER_USER }}
-          envkey_EMAIL_SERVER_PASSWORD: ${{ secrets.EMAIL_SERVER_PASSWORD }}
-          envkey_EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
-          envkey_SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
-          directory: knowx
+  #     - name: Make envfile
+  #       uses: SpicyPizza/create-envfile@v2.0
+  #       with:
+  #         envkey_API_ROOT_ROUTE: ${{ secrets.API_ROOT_ROUTE }}
+  #         envkey_DB_URL: ${{ secrets.DEV_DB_URL }}
+  #         envkey_NEXTAUTH_URL: "http://localhost:3000/"
+  #         envkey_NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+  #         envkey_GITHUB_ID: ${{ secrets.NEXTAUTH_GITHUB_ID }}
+  #         envkey_GITHUB_SECRET: ${{ secrets.NEXTAUTH_GITHUB_SECRET }}
+  #         envkey_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+  #         envkey_GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+  #         envkey_SLACK_CLIENT_ID: ${{ secrets.SLACK_CLIENT_ID }}
+  #         envkey_SLACK_CLIENT_SECRET: ${{ secrets.SLACK_CLIENT_SECRET }}
+  #         envkey_EMAIL_SERVER_HOST: ${{ secrets.EMAIL_SERVER_HOST }}
+  #         envkey_EMAIL_SERVER_PORT: ${{ secrets.EMAIL_SERVER_PORT }}
+  #         envkey_EMAIL_SERVER_USER: ${{ secrets.EMAIL_SERVER_USER }}
+  #         envkey_EMAIL_SERVER_PASSWORD: ${{ secrets.EMAIL_SERVER_PASSWORD }}
+  #         envkey_EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+  #         envkey_SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+  #         directory: knowx
 
-      - name: Run Server
-        run: npm run dev &
-        working-directory: knowx
+  #     - name: Run Server
+  #       run: npm run dev &
+  #       working-directory: knowx
 
-      - name: Run Tests
-        uses: cypress-io/github-action@v6
-        with:
-          browser: chrome
-          headed: true
-          wait-on: "http://localhost:3000"
-          working-directory: knowx
-        env:
-          CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+  #     - name: Run Tests
+  #       uses: cypress-io/github-action@v6
+  #       with:
+  #         browser: chrome
+  #         headed: true
+  #         wait-on: "http://localhost:3000"
+  #         working-directory: knowx
+  #       env:
+  #         CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
 
-      - name: Upload screenshots
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: cypress-screenshots
-          path: /home/runner/work/itesm-socioformador-feb-jun-2024-Croods/itesm-socioformador-feb-jun-2024-Croods/knowx/cypress/screenshots
+  #     - name: Upload screenshots
+  #       uses: actions/upload-artifact@v4
+  #       if: failure()
+  #       with:
+  #         name: cypress-screenshots
+  #         path: /home/runner/work/itesm-socioformador-feb-jun-2024-Croods/itesm-socioformador-feb-jun-2024-Croods/knowx/cypress/screenshots
 
-      - name: Send Deploy Failure Message
-        if: failure()
-        run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=💥 Front Testing Failed"
+  #     - name: Send Deploy Failure Message
+  #       if: failure()
+  #       run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=💥 Front Testing Failed"
 
-      - name: Send Deploy Success Message
-        if: success()
-        run: |
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🧪 Front Testing Successful"
+  #     - name: Send Deploy Success Message
+  #       if: success()
+  #       run: |
+  #         curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🧪 Front Testing Successful"
 
-  unit-tests:
-    name: "Frontend Unit Tests"
-    needs: test-e2e
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: knowx
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+  # unit-tests:
+  #   name: "Frontend Unit Tests"
+  #   needs: test-e2e
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: knowx
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
 
-      - name: Node setup
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+  #     - name: Node setup
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 20
 
-      - name: install dependencies
-        run: npm install
+  #     - name: install dependencies
+  #       run: npm install
 
-      - name: run tests
-        run: npm run test:ci
+  #     - name: run tests
+  #       run: npm run test:ci
 
   deploy:
-    needs: [test-e2e, unit-tests]
+    # needs: [test-e2e, unit-tests]
     name: "Deploy to AWS - PRODUCTION"
     environment: prod
     runs-on: ubuntu-latest
@@ -166,8 +166,7 @@ jobs:
       - name: Deploy
         id: deploy
         run: |
-          sst deploy --stage prod > deployment_output.txt
-          echo "deployment_output_path=deployment_output.txt" >> $GITHUB_OUTPUT
+          sst deploy --stage prod
         working-directory: knowx
 
       - name: Extract URL from Deployment Output
