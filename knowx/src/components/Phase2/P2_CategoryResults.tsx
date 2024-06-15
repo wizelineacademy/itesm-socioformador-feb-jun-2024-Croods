@@ -24,7 +24,12 @@ export const P2_CategoryResults = ({
       }`}
       onClick={() => toggleCategory(feature)}
     >
-      <div className="text-center text-xl font-bold text-black">{feature}</div>
+      <div
+        id="categoryButton"
+        className="text-center text-xl font-bold text-black"
+      >
+        {feature}
+      </div>
     </button>
   )
 }

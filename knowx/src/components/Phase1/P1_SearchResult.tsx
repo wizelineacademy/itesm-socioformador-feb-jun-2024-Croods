@@ -15,7 +15,10 @@ const P1_SearchResult = (props: P1_SearchResultProps) => {
       onClick={() => toggleSearchObject(props.content)}
       onKeyDown={() => toggleSearchObject(props.content)}
     >
-      <div className="text-center text-xl font-bold text-white dark:text-black">
+      <div
+        id="searchResult"
+        className="text-center text-xl font-bold text-white dark:text-black"
+      >
         {props.content}
       </div>
     </button>

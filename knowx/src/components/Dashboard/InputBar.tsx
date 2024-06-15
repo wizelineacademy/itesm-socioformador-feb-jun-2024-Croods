@@ -71,6 +71,7 @@ const InputBar = ({ history }: { history: SimpleHistoryType[] | [] }) => {
     <div className="relative w-5/6">
       <input
         name="search"
+        id="searchInput"
         placeholder="Search for a topic..."
         className="left-20 right-20 h-20 w-full rounded-lg bg-black px-8 text-lg text-white dark:bg-backgroundLight dark:text-black"
         value={query}
@@ -85,11 +86,12 @@ const InputBar = ({ history }: { history: SimpleHistoryType[] | [] }) => {
         }}
       ></input>
       <Button
-        title="Search Button"
         isLoading={isLoading}
         className="w-30 absolute right-0 h-20 rounded-none rounded-r-md border-none px-5 dark:dark"
         color="default"
         variant="faded"
+        id="searchButton"
+        title="searchButton"
         onClick={() => {
           setIsLoading(true)
           clearSearches()
@@ -103,6 +105,8 @@ const InputBar = ({ history }: { history: SimpleHistoryType[] | [] }) => {
             className="relative left-0 right-0 top-0"
             src="/arrow-right.svg"
             alt="Search Arrow Right"
+            id="searchArrowRight"
+            title="searchArrowRight"
             width={40}
             height={30}
             priority

@@ -153,7 +153,7 @@ export default function SearchHistoryList({
       onRowAction={(key: Key) => openItem(Number(key))}
     >
       <TableHeader className="h-10">
-        <TableColumn key="searchValue" allowsSorting>
+        <TableColumn key="searchValue" id="searchValueFilter" allowsSorting>
           SEARCH VALUE
         </TableColumn>
         <TableColumn key="timestamp" allowsSorting>
@@ -173,7 +173,9 @@ export default function SearchHistoryList({
       >
         {(item: SimpleHistoryType) => (
           <TableRow key={item.id} className="cursor-pointer select-none">
-            <TableCell className="text-md">{item.search}</TableCell>
+            <TableCell className="text-md" id={`item-${item.id}`}>
+              {item.search}
+            </TableCell>
             <TableCell>
               <BubbleText
                 text={item.timestamp ? dateFormatter(item.timestamp) : ""}
@@ -191,7 +193,8 @@ export default function SearchHistoryList({
                     <Button
                       isIconOnly
                       size="sm"
-                      id="action-btn-icon"
+                      id={`action-btn-icon`}
+                      title={`action-btn-icon-${item.id}`}
                       variant="light"
                       color="primary"
                     >

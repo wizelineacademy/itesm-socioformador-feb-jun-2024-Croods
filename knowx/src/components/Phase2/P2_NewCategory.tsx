@@ -29,6 +29,7 @@ const P2_NewCategory = () => {
                 navigateToPhase3()
               }
         }
+        goingBack={newFeature != ""}
       >
         {newFeature !== "" ? <PlusIcon /> : <MagnifyingGlassIcon />}
       </P2_DynamicButton>

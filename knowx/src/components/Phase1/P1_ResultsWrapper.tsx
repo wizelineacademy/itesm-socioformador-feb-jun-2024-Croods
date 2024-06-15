@@ -21,7 +21,7 @@ const P1_ResultsWrapper = (props: {
             </h1>
           </div>
           <div className="pretty-scrollbar h-[20rem] items-center justify-center overflow-y-auto p-3">
-            <ul className="grid grid-cols-2 flex-wrap gap-8">
+            <ul id="item-list" className="grid grid-cols-2 flex-wrap gap-8">
               {props.children}
             </ul>
           </div>
@@ -29,6 +29,8 @@ const P1_ResultsWrapper = (props: {
             isLoading={isLoading}
             variant="bordered"
             color="default"
+            id="submitButton"
+            title="searchButton"
             className={`mx-auto my-5 w-[200px] overflow-hidden text-wrap rounded-xl p-5 text-center text-xl font-bold text-black dark:text-white`}
             onClick={() => {
               setIsLoading(true)
