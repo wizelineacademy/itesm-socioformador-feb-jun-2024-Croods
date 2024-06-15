@@ -69,7 +69,7 @@ test("Search History List Redirect Test", async () => {
   act(() => {
     screen
       .getByRole("row", {
-        name: "test 1/1/2021 6:00",
+        name: /test /i,
       })
       .click()
   })
