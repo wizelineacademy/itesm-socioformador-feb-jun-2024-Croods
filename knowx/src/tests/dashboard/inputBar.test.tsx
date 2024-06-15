@@ -36,11 +36,9 @@ test("Input Bar Correct History Test", async () => {
   render(<InputBar history={mockHistory} />)
 
   // Type in the input bar the word "test"
-  // act(() => {
   fireEvent.change(screen.getByRole("textbox"), {
     target: { value: "test" },
   })
-  // })
 
   // Check if the suggestions are displayed
   expect(screen.getByText("test")).toBeVisible()
@@ -48,11 +46,9 @@ test("Input Bar Correct History Test", async () => {
   expect(screen.getByText("test3")).toBeVisible()
 
   // Check if the suggestions are not displayed
-  // act(() => {
   fireEvent.change(screen.getByRole("textbox"), {
     target: { value: "" },
   })
-  // })
 
   // Check if the suggestions are not displayed when nothing is typed in
   expect(screen.queryByText("test")).toBeNull()
@@ -64,11 +60,9 @@ test("Input Bar Correct Redirect Test", async () => {
   render(<InputBar history={mockHistory} />)
 
   // Type in the input bar the word "test"
-  // act(() => {
   fireEvent.change(screen.getByRole("textbox"), {
     target: { value: "test" },
   })
-  // })
 
   // Click on the search button
   act(() => {
@@ -83,11 +77,9 @@ test("Input Bar Correct Redirect Test 2", async () => {
   render(<InputBar history={mockHistory} />)
 
   // Type in the input bar the word "test"
-  // act(() => {
   fireEvent.change(screen.getByRole("textbox"), {
     target: { value: "this is a search" },
   })
-  // })
 
   // Click on the search button
   act(() => {
