@@ -43,6 +43,7 @@ const InputBar = ({ history }: { history: SimpleHistoryType[] | [] }) => {
       <div className="w-full px-1 py-2">
         <div className="mt-2 flex w-full flex-col gap-2">
           <Button
+            name="historial"
             type="button"
             onClick={() => router.push(`/history/${suggestion.id}`)}
             aria-hidden="true"

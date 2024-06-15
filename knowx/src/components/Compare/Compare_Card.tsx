@@ -7,7 +7,7 @@ import { useState } from "react"
 import { Results, ServiceCategories } from "@/interfaces/Phase3"
 import { Chip } from "@nextui-org/react"
 
-interface CardProps {
+export interface CardProps {
   initialTitle: string
   initialDescription: string
   initialData: ServiceCategories[]
