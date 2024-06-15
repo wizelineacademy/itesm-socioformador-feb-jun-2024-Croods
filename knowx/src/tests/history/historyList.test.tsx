@@ -9,6 +9,7 @@ import SearchHistoryList from "@/components/History/SearchHistoryList"
 test("Search History List Correct Render Test", async () => {
   render(<SearchHistoryList history={mockHistory} />)
 
+  // Check that the correct elements are rendered based on the mock data
   expect(screen.getByText("test")).toBeVisible()
   expect(screen.getByText("1/1/2021")).toBeVisible()
 
@@ -29,6 +30,7 @@ test("Search History List Actions Render Test", async () => {
     within(row).getAllByRole("button")[0].click()
   })
 
+  // Check that the "bad answer" button is now with the correct class
   expect(screen.getAllByRole("menuitem")[0]).not.toHaveClass("text-primary")
   expect(screen.getAllByRole("menuitem")[1]).toHaveClass("text-warning")
 
@@ -48,6 +50,7 @@ test("Search History List Actions Render Test", async () => {
     within(row).getAllByRole("button")[0].click()
   })
 
+  // Check that the "good answer" button is now with the correct class
   expect(screen.getAllByRole("menuitem")[0]).toHaveClass("text-primary")
   expect(screen.getAllByRole("menuitem")[1]).not.toHaveClass("text-warning")
 })

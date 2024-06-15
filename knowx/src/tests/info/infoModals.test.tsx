@@ -41,6 +41,7 @@ test("Info Component Action Test", async () => {
     screen.getByRole("button").click()
   })
 
+  // Check if the correct elements are rendered
   expect(screen.getByText("Info Component")).toBeDefined()
   expect(screen.getByText("This is a test 1")).toBeDefined()
   expect(screen.getByText("This is a test 2")).toBeDefined()
@@ -49,6 +50,7 @@ test("Info Component Action Test", async () => {
     screen.getAllByRole("button")[0].click()
   })
 
+  // Check the elements are not rendered after the button is clicked
   expect(screen.queryByText("Info Component")).not.toBeVisible()
   expect(screen.queryByText("This is a test 1")).not.toBeVisible()
   expect(screen.queryByText("This is a test 2")).not.toBeVisible()

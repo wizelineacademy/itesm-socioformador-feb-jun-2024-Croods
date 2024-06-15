@@ -21,6 +21,7 @@ test("Header Correct Render Test", async () => {
     </SessionProvider>,
   )
 
+  // Check if the correct elements are rendered for the header
   expect(screen.getByText("Test User")).toBeInTheDocument()
   expect(screen.getByAltText("KnowX Logo")).toBeVisible()
   expect(screen.getByTitle("User Menu")).toBeVisible()
@@ -28,6 +29,7 @@ test("Header Correct Render Test", async () => {
 
 const mockLink = vi.fn()
 
+// Mock the redirect functions used by the header
 vi.mock("@/actions/redirect", () => ({
   navigateToDashboard: () => {
     mockLink("/dashboard")
@@ -59,6 +61,7 @@ test("Header Correct Redirect Test", async () => {
 
   expect(mockLink).toHaveBeenCalledWith("/dashboard")
 
+  // Test for the user menu redirect to history
   fireEvent.click(screen.getByTitle("dropdown-btn-icon"))
 
   fireEvent.click(screen.getByText("History"))
