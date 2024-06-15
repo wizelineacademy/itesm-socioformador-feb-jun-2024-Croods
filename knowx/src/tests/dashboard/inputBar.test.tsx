@@ -1,3 +1,5 @@
+// Diego Gutiérrez - A01284841
+
 import InputBar from "@/components/Dashboard/InputBar"
 import { test, expect, vi } from "vitest"
 import { screen, render, fireEvent } from "@testing-library/react"

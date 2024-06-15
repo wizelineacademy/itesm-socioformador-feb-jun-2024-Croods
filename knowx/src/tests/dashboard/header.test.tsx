@@ -1,3 +1,5 @@
+// Diego Gutiérrez - A01284841
+
 import Header from "@/components/Header"
 import { test, expect } from "vitest"
 import { screen, render, fireEvent } from "@testing-library/react"

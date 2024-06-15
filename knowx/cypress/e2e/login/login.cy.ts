@@ -9,9 +9,6 @@ describe("Auth Redirect", () => {
     // Check if all routes redirect to the auth page
     cy.visit("http://localhost:3000/dashboard").wait(1000)
     cy.url().should("eq", "http://localhost:3000/auth")
-
-    // cy.visit("http://localhost:3000/history").wait(1000)
-    // cy.url().should("eq", "http://localhost:3000/auth")
   })
 })
 
