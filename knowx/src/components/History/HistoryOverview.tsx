@@ -90,6 +90,7 @@ export default function HistoryOverview({
         <Button
           isIconOnly
           color="default"
+          id="GoodAnswer"
           className={searchHistory.feedback == 1 ? "text-primary" : ""}
           disabled={searchHistory.feedback == 1}
           onClick={() => logGoodSearch(searchHistory.id)}
@@ -99,6 +100,7 @@ export default function HistoryOverview({
 
         <Button
           isIconOnly
+          id="BadAnswer"
           color="default"
           className={searchHistory.feedback == 0 ? "text-warning" : ""}
           disabled={searchHistory.feedback == 0}
