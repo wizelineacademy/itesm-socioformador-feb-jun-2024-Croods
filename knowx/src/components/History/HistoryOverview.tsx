@@ -1,3 +1,4 @@
+//src/components/History/HistoyOverview.tsx
 "use client"
 import { FullHistoryType } from "@/interfaces"
 import { Card, CardHeader, CardBody, Chip, Divider } from "@nextui-org/react"
