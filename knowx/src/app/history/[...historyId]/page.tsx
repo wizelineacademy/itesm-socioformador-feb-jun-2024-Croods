@@ -45,21 +45,23 @@ export default async function Home({
           userMenuShowBoth={true}
           title="Search History"
         >
-          <HistoryOverview history={history} />
-
-          {tableResults != undefined ? (
-            <div className="mb-9 flex flex-col items-center">
-              <P3_ResultsTable incoming_results={tableResults} />
-              <P3_CompareButton
-                isHistory={true}
-                history={history.searchResults || ""}
-              />
-            </div>
-          ) : (
-            <Chip color="danger" className="m-5">
-              Error loading results
-            </Chip>
-          )}
+          <div className="flex flex-col items-center">
+            <HistoryOverview history={history}>
+              {tableResults != undefined ? (
+                <div className="z-10 mb-9 flex flex-col items-center">
+                  <P3_ResultsTable incoming_results={tableResults} />
+                  <P3_CompareButton
+                    isHistory={true}
+                    history={history.searchResults || ""}
+                  />
+                </div>
+              ) : (
+                <Chip color="danger" className="m-5">
+                  Error loading results
+                </Chip>
+              )}
+            </HistoryOverview>
+          </div>
         </Header>
 
         <InfoComponent title="History" icon={2}>

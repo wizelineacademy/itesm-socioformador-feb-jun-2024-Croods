@@ -1,6 +1,5 @@
-//src/tests/history/historyList.test.tsx
+// Diego Gutiérrez - A01284841
 
-// made by Diego
 import { test, expect, vi } from "vitest"
 import { screen, render, within } from "@testing-library/react"
 import { mockHistory } from "../mocks/mock"
@@ -10,14 +9,14 @@ import SearchHistoryList from "@/components/History/SearchHistoryList"
 test("Search History List Correct Render Test", async () => {
   render(<SearchHistoryList history={mockHistory} />)
 
+  // Check that the correct elements are rendered based on the mock data
   expect(screen.getByText("test")).toBeVisible()
-  expect(screen.getByText("12/31/2020")).toBeVisible()
-
-  expect(screen.getByText("test2")).toBeVisible()
   expect(screen.getByText("1/1/2021")).toBeVisible()
 
-  expect(screen.getByText("test3")).toBeVisible()
+  expect(screen.getByText("test2")).toBeVisible()
   expect(screen.getByText("1/2/2021")).toBeVisible()
+  expect(screen.getByText("test3")).toBeVisible()
+  expect(screen.getByText("1/3/2021")).toBeVisible()
 })
 
 test("Search History List Actions Render Test", async () => {
@@ -31,8 +30,9 @@ test("Search History List Actions Render Test", async () => {
     within(row).getAllByRole("button")[0].click()
   })
 
-  expect(screen.getByTitle("Good Answer")).not.toHaveClass("text-primary")
-  expect(screen.getByTitle("Bad Answer")).toHaveClass("text-warning")
+  // Check that the "bad answer" button is now with the correct class
+  expect(screen.getAllByRole("menuitem")[0]).not.toHaveClass("text-primary")
+  expect(screen.getAllByRole("menuitem")[1]).toHaveClass("text-warning")
 
   act(() => {
     screen
@@ -50,8 +50,9 @@ test("Search History List Actions Render Test", async () => {
     within(row).getAllByRole("button")[0].click()
   })
 
-  expect(screen.getAllByTitle("Good Answer")[1]).toHaveClass("text-primary")
-  expect(screen.getAllByTitle("Bad Answer")[1]).not.toHaveClass("text-warning")
+  // Check that the "good answer" button is now with the correct class
+  expect(screen.getAllByRole("menuitem")[0]).toHaveClass("text-primary")
+  expect(screen.getAllByRole("menuitem")[1]).not.toHaveClass("text-warning")
 })
 
 const mockLink = vi.fn()

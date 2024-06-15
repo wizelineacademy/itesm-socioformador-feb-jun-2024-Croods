@@ -2,7 +2,13 @@
 "use client"
 import { FullHistoryType } from "@/interfaces"
 import { Card, CardHeader, CardBody, Chip, Divider } from "@nextui-org/react"
-import { Button, ButtonGroup } from "@nextui-org/react"
+import {
+  Button,
+  ButtonGroup,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@nextui-org/react"
 import {
   SparklesIcon,
   BookmarkIcon,
@@ -39,8 +45,10 @@ const transformToArray = (data: string) => {
 
 export default function HistoryOverview({
   history,
+  children,
 }: {
   history: FullHistoryType
+  children?: React.ReactNode
 }) {
   const [searchHistory, setSearchHistory] = useState<FullHistoryType>(history)
 
@@ -79,7 +87,7 @@ export default function HistoryOverview({
         </Chip>
       )}
 
-      <ButtonGroup className="absolute bottom-0 mb-5 dark:dark">
+      <ButtonGroup className="absolute bottom-0 left-5 mb-5 dark:dark">
         <Button
           isIconOnly
           color="default"
@@ -100,13 +108,27 @@ export default function HistoryOverview({
           <HandThumbDownIcon className="h-5 w-5" />
         </Button>
 
-        <Button
-          isIconOnly
-          color="danger"
-          onClick={() => deleteSearchLog(searchHistory.id)}
-        >
-          <TrashIcon className="h-5 w-5" />
-        </Button>
+        <Popover className="dark:dark">
+          <PopoverTrigger>
+            <Button isIconOnly color="danger">
+              <TrashIcon className="h-5 w-5" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <div className="m-1 flex flex-col gap-1">
+              <Button className="!rounded-lg" color="default">
+                Cancel
+              </Button>
+              <Button
+                className="!rounded-lg"
+                color="danger"
+                onClick={() => deleteSearchLog(searchHistory.id)}
+              >
+                Delete
+              </Button>
+            </div>
+          </PopoverContent>
+        </Popover>
       </ButtonGroup>
 
       <div className="grid w-full grid-cols-4custom justify-center justify-items-center gap-4 px-8 dark:dark">
@@ -117,7 +139,8 @@ export default function HistoryOverview({
               Topics Generated
             </h4>
           </CardHeader>
-          {searchHistory.generatedTopics && (
+
+          {searchHistory.generatedTopics ? (
             <CardBody>
               <div>
                 {transformToArray(searchHistory.generatedTopics).map(
@@ -134,17 +157,24 @@ export default function HistoryOverview({
                 )}
               </div>
             </CardBody>
+          ) : (
+            <CardBody>
+              <Chip variant="dot" color="danger">
+                No data
+              </Chip>
+            </CardBody>
           )}
         </Card>
 
-        {searchHistory.selectedTopics && (
-          <Card className="h-[300px] w-full max-w-[300px]">
-            <CardHeader className="top-1 z-10 flex-row !items-start gap-1">
-              <BookmarkIcon className="mr-2 h-5 w-5 self-center fill-slate-500" />
-              <h4 className="text-large font-bold text-backgroundDark dark:text-white">
-                Topics Selected
-              </h4>
-            </CardHeader>
+        <Card className="h-[300px] w-full max-w-[300px]">
+          <CardHeader className="top-1 z-10 flex-row !items-start gap-1">
+            <BookmarkIcon className="mr-2 h-5 w-5 self-center fill-slate-500" />
+            <h4 className="text-large font-bold text-backgroundDark dark:text-white">
+              Topics Selected
+            </h4>
+          </CardHeader>
+
+          {searchHistory.selectedTopics ? (
             <CardBody>
               <div>
                 {transformToArray(searchHistory.selectedTopics).map((topic) => (
@@ -159,19 +189,26 @@ export default function HistoryOverview({
                 ))}
               </div>
             </CardBody>
-          </Card>
-        )}
+          ) : (
+            <CardBody>
+              <Chip variant="dot" color="danger">
+                No data
+              </Chip>
+            </CardBody>
+          )}
+        </Card>
 
         <Divider orientation="vertical" className="mx-5" />
 
-        {searchHistory.generatedCategories && (
-          <Card className="h-[300px] w-full max-w-[300px]">
-            <CardHeader className="top-1 z-10 flex-row !items-start gap-1">
-              <SparklesIcon className="mr-2 h-6 w-6 self-center fill-slate-500" />
-              <h4 className="text-large font-bold text-backgroundDark dark:text-white">
-                Categories Generated
-              </h4>
-            </CardHeader>
+        <Card className="h-[300px] w-full max-w-[300px]">
+          <CardHeader className="top-1 z-10 flex-row !items-start gap-1">
+            <SparklesIcon className="mr-2 h-6 w-6 self-center fill-slate-500" />
+            <h4 className="text-large font-bold text-backgroundDark dark:text-white">
+              Categories Generated
+            </h4>
+          </CardHeader>
+
+          {searchHistory.generatedCategories ? (
             <CardBody>
               <div>
                 {transformToArray(searchHistory.generatedCategories).map(
@@ -188,18 +225,25 @@ export default function HistoryOverview({
                 )}
               </div>
             </CardBody>
-          </Card>
-        )}
+          ) : (
+            <CardBody>
+              <Chip variant="dot" color="danger">
+                No data
+              </Chip>
+            </CardBody>
+          )}
+        </Card>
 
-        {searchHistory.selectedCategories && (
-          <Card className="h-[300px] w-full max-w-[300px]">
-            <CardHeader className="top-1 z-10 flex-row !items-start gap-1">
-              <BookmarkIcon className="mr-2 h-5 w-5 self-center fill-slate-500" />
-              <h4 className="text-large font-bold text-backgroundDark dark:text-white">
-                Categories Selected
-              </h4>
-            </CardHeader>
-            <CardBody className="">
+        <Card className="h-[300px] w-full max-w-[300px]">
+          <CardHeader className="top-1 z-10 flex-row !items-start gap-1">
+            <BookmarkIcon className="mr-2 h-5 w-5 self-center fill-slate-500" />
+            <h4 className="text-large font-bold text-backgroundDark dark:text-white">
+              Categories Selected
+            </h4>
+          </CardHeader>
+
+          {searchHistory.selectedCategories ? (
+            <CardBody>
               <div>
                 {transformToArray(searchHistory.selectedCategories).map(
                   (topic) => (
@@ -228,9 +272,17 @@ export default function HistoryOverview({
                   )}
               </div>
             </CardBody>
-          </Card>
-        )}
+          ) : (
+            <CardBody>
+              <Chip variant="dot" color="danger">
+                No data
+              </Chip>
+            </CardBody>
+          )}
+        </Card>
       </div>
+
+      {children}
     </div>
   )
 }

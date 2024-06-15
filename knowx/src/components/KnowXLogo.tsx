@@ -15,7 +15,7 @@ export default function KnowXLogo({ title }: { title: string | undefined }) {
       alt="KnowX Logo"
       width={50}
       height={50}
-      priority
+      fetchPriority="high"
       onClick={() => navigateToDashboard()}
     />
   )
