@@ -80,7 +80,7 @@ jobs:
 
   unit-tests:
     name: "Frontend Unit Tests"
-    # needs: test-e2e
+    needs: test-e2e
     runs-on: ubuntu-latest
     defaults:
       run:
