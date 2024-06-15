@@ -1,3 +1,4 @@
+//Test for the render and redirect correct options on the UserMenu - Carolina González A01284948
 import { test, expect } from "vitest"
 import { screen, render } from "@testing-library/react"
 import Header from "@/components/Header"

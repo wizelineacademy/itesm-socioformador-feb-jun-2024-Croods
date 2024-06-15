@@ -1,4 +1,4 @@
-//E2E test for the Sign out functionality - Carolina González A01284948
+//E2E test for the Log out functionality - Carolina González A01284948
 describe("Sign out", () => {
   it("passes", () => {
     // Prepare the database

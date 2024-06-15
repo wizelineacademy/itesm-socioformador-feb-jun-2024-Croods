@@ -1,4 +1,4 @@
-//E2E test for the compare one card functionality - Carolina González A01284948
+//E2E test for the compare two cards functionality - Carolina González A01284948
 
 describe("Load three cards", () => {
   it("passes", () => {

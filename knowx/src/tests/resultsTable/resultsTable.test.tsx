@@ -1,3 +1,4 @@
+//Test for the render of a new column in the results table - Carolina González A01284948
 import { test, expect } from "vitest"
 import { screen, render } from "@testing-library/react"
 import { mockResultsTable } from "../mocks/mock"

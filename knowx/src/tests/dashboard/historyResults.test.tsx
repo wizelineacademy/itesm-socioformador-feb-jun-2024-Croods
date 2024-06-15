@@ -1,3 +1,4 @@
+//Test for the render and functionality of the history component - Carolina González A01284948
 import { test, expect, vi } from "vitest"
 import { screen, render } from "@testing-library/react"
 import { mockHistoryTest } from "../mocks/mock"

@@ -1,3 +1,4 @@
+//Test for the render of the list of titles - Carolina González A01284948
 import { test, expect } from "vitest"
 import { screen, render } from "@testing-library/react"
 import { mockCardProps } from "../mocks/mock"
