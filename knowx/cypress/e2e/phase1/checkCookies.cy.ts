@@ -21,21 +21,22 @@ describe("Check Cookies get defined", () => {
 
     cy.url().should("include", "/phase1/")
     cy.getCookie("originalSearchValues")
+      .wait(5000)
       .should("exist")
+      .wait(5000)
       .then((cookie) => {
         const parsedCookie: string = cookie!.value
-        cy.log(parsedCookie)
         originalSearchValues = parsedCookie.split("%2C")
-        cy.log(originalSearchValues[0])
       })
       .then(() => {
         // cy.wrap(originalSearchValues).should("deep.equal", ["test"])
-        cy.log(originalSearchValues[0])
         // Click on a suggestion
         cy.get("#searchResult").each((li) => {
           items.push(li.text())
+          // cy.wait(5000)
         })
         cy.get("#searchResult").first().click()
+        cy.wait(10000)
         cy.getCookie("searchValues").should(
           "have.property",
           "value",
